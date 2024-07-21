@@ -3,12 +3,10 @@ import "./Button.css"
 import React, { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  testId?: string;
   children?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({ 
-  testId,
   children, 
   className = '',
   type = 'button',
@@ -16,7 +14,6 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      data-test-id={testId}
       className={className}
       type={type}
       {...rest}

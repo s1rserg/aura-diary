@@ -7,12 +7,13 @@ interface InputProps {
   name: string;
   type: string;
   required: boolean;
-  value: string | number;
+  value?: string | number;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  dataTestId: string;
   placeholder?: string;
   min?: string;
   max?: string;
+  checked?: boolean;
+  id?: string
 }
 
 const Input: React.FC<InputProps> = ({
@@ -22,15 +23,14 @@ const Input: React.FC<InputProps> = ({
   required,
   value,
   onChange,
-  dataTestId,
   placeholder,
   min,
   max,
+  checked
 }) => (
   <label className="input">
     {label && <span className="input__heading">{label}</span>}
     <input
-      data-test-id={dataTestId}
       name={name}
       type={type}
       required={required}
@@ -40,6 +40,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       min={min}
       max={max}
+      checked={checked}
     />
   </label>
 );
