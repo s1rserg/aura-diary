@@ -89,12 +89,14 @@ body {
   line-height: 1.5;
   text-rendering: optimizespeed;
   background-color: var(--color-white);
+  width: 100vw;
 }
 
 main {
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
+  align-items: center;
 }
 
 img {
@@ -136,6 +138,11 @@ select {
   border-radius: 1px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin-top: 10px;
+}
+
+.button-2 {
+  background-color: var(--color-blue-400);
 }
 
 .button:hover {

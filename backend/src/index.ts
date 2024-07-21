@@ -1,6 +1,7 @@
 import express from 'express';
 import sequelize from './config/database';
 import authRoutes from './routes/authRoutes';
+import workoutsRoutes from './routes/workoutsRoutes';
 import dotenv from 'dotenv';
 const cors = require('cors');
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/auth', authRoutes);
+app.use('/workouts', workoutsRoutes);
 
 const PORT = process.env.PORT || 3000;
 
