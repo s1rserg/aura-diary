@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# environment variables
+.env
+
+# logs
+logs
+*.log
+npm-debug.log*
+
+# directories for saving coverage reports
+coverage/
+
+# miscellaneous
+.DS_Store
+
+# local sequelize configurations
+config/config.json
