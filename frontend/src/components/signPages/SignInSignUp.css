@@ -24,13 +24,13 @@
 
 .sign-up-form__link,
 .sign-in-form__link {
-  color: var(--color-blue-200);
+  color: var(--color-purple);
   transition: 0.1s color ease;
 }
 
 .sign-up-form__link:hover,
 .sign-in-form__link:hover {
-  color: var(--color-blue-300);
+  color: #663399;
 }
 
 .error-text {

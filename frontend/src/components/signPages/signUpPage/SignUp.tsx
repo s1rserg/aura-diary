@@ -74,14 +74,13 @@ const SignUp: React.FC = () => {
           onChange={handleChange}
         />
         {error && <small className="error-text">{error}</small>}
-        <Button data-test-id="auth-submit" className="button" type="submit">
+        <Button className="button" type="submit">
           Sign Up
         </Button>
       </AuthForm>
       <span>
         Already have an account?&nbsp;
         <Link
-          data-test-id="auth-sign-in-link"
           to="/sign-in"
           className="sign-up-form__link"
         >

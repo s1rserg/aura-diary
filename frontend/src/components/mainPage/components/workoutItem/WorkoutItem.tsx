@@ -61,9 +61,9 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
                   <strong>Times:</strong> {workout.times}
                 </p>
               </div>
-              <div>
-                <button className="button create-entry-button" onClick={() => handleEditClick(workout.id)}>Edit</button>
-                <button className="button create-entry-button" onClick={() => handleDeleteClick(workout.id)}>Delete</button>
+              <div className="edit-entry-buttons">
+                <button className="button edit-entry-button" onClick={() => handleEditClick(workout.id)}>Edit</button>
+                <button className="button edit-entry-button" onClick={() => handleDeleteClick(workout.id)}>Delete</button>
               </div>
             </li>
           ))}

@@ -2,6 +2,11 @@
     margin: 10px auto 0;
     font-family: "Comfortaa", sans-serif;
     width: 630px;
+    border-radius: 12px;
+}
+
+.react-calendar__tile{
+  border-radius: 4px;
 }
 
 .modal {
@@ -14,6 +19,7 @@
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    width: 40%;
   }
 
   .modal form{
@@ -54,17 +60,27 @@
   }
 
   .workout-count-1 {
-    background-color: #ffcccc;
+    background-color: #E6E6FA;
   }
   .workout-count-2 {
-    background-color: #ff9999;
+    background-color: #D8BFD8;
   }
   .workout-count-3 {
-    background-color: #ff6666;
+    background-color: #9370DB;
   }
   .workout-count-4 {
-    background-color: #ff3333;
+    background-color: #663399;
   }
   .workout-count-5 {
-    background-color: #ff0000;
+    background-color: #4B0082;
+  }
+
+  @media (max-width: 1000px) {
+    .calendar{
+      width: 99%;
+    }
+
+    .modal {
+      width: 90%;
+    }
   }
