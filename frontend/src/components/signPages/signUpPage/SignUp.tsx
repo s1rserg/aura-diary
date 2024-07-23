@@ -56,7 +56,6 @@ const SignUp: React.FC = () => {
           required
           value={formData.fullName}
           onChange={handleChange}
-          dataTestId="auth-full-name"
         />
         <Input
           label="Email"
@@ -65,7 +64,6 @@ const SignUp: React.FC = () => {
           required
           value={formData.email}
           onChange={handleChange}
-          dataTestId="auth-email"
         />
         <Input
           label="Password"
@@ -74,7 +72,6 @@ const SignUp: React.FC = () => {
           required
           value={formData.password}
           onChange={handleChange}
-          dataTestId="auth-password"
         />
         {error && <small className="error-text">{error}</small>}
         <Button data-test-id="auth-submit" className="button" type="submit">
