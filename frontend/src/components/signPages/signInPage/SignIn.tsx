@@ -51,7 +51,6 @@ const SignIn: React.FC = () => {
           required
           value={formData.email}
           onChange={handleChange}
-          dataTestId="auth-email"
         />
         <Input
           label="Password"
@@ -60,17 +59,15 @@ const SignIn: React.FC = () => {
           required
           value={formData.password}
           onChange={handleChange}
-          dataTestId="auth-password"
         />
         {error && <small className="error-text">{error}</small>}
-        <Button data-test-id="auth-submit" className="button" type="submit">
+        <Button  className="button" type="submit">
           Sign In
         </Button>
       </AuthForm>
       <span>
         Don't have an account?&nbsp;
         <Link
-          data-test-id="auth-sign-up-link"
           to="/sign-up"
           className="sign-in-form__link"
         >

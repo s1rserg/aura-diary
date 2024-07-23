@@ -13,7 +13,6 @@ interface WorkoutCalendarProps {
 const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({ onDateClick, workoutCounts }) => {
   const getTileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === 'month') {
-      console.log(workoutCounts[0].date.toString(), formatDateYYYYMMDD(date))
       const workoutCount = workoutCounts.find(
         count => count.date.toString() === formatDateYYYYMMDD(date)
       );
