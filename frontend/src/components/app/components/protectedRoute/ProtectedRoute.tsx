@@ -14,7 +14,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   user,
   authChecked,
 }) => {
-    console.log(user)
   if (!authChecked) {
     return <Loader />;
   }

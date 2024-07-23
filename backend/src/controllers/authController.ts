@@ -13,7 +13,8 @@ const signUp = async (req: Request, res: Response) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ name:fullName, email, password: hashedPassword });
-    res.status(201).json({ message: 'User created successfully', user: newUser });
+    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET as string, { expiresIn: '30d' });
+    res.status(201).json({ message: 'User created successfully', token, user: newUser });
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Error creating user', error });
