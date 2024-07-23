@@ -1,5 +1,5 @@
 import { ApiPath, ContentType } from "../../common/enums/enums";
-import { ApiAuthPayload, SignInCredentials, SignUpCredentials, User } from "../../common/types/types";
+import { ApiAuthPayload, SignInCredentials, SignUpCredentials} from "../../common/types/types";
 import { getToken } from "../../utils/auth";
 import { Http } from "../http/http.service";
 
@@ -21,7 +21,7 @@ class Auth {
     this.basePath = ApiPath.AUTH;
   }
 
-  public getAuthenticatedUser(): Promise<User> {
+  public getAuthenticatedUser(): Promise<ApiAuthPayload> {
     const token = getToken();
     return this.http.load(this.getUrl(ApiPath.AUTHENTICATED_USER), {
       method: "GET",

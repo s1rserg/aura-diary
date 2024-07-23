@@ -1,4 +1,5 @@
 import { ApiPath, ContentType } from "../../common/enums/enums";
+import { WorkoutCount } from "../../common/types/data/workoutCount.type";
 import { WorkoutEntry } from "../../common/types/data/workoutEntry.type";
 import { getToken } from "../../utils/auth";
 import { Http } from "../http/http.service";
@@ -24,6 +25,14 @@ class Workouts {
   public getAllWorkouts(): Promise<WorkoutEntry[]> {
     const token = getToken();
     return this.http.load(this.getUrl("/"), {
+      method: "GET",
+      token,
+    });
+  }
+
+  public getWorkoutsCounts(): Promise<WorkoutCount[]> {
+    const token = getToken();
+    return this.http.load(this.getUrl("/counts"), {
       method: "GET",
       token,
     });

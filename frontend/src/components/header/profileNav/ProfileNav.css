@@ -35,3 +35,7 @@
 .profile-nav__sign-out {
   min-height: auto;
 }
+
+.profile-nav img {
+  height: 44px;
+}
