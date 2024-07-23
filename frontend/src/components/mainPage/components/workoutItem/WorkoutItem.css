@@ -1,0 +1,34 @@
+.workout-entry-container {
+  padding: 20px;
+  margin: auto;
+  width: 1000px;
+}
+
+.button.create-entry-button {
+  margin: 0 auto 10px;
+  width: 275px;
+}
+
+.workout-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.workout-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 0 auto 10px;
+  width: 50%;
+  flex: 1 1 calc(33.333% - 10px);
+}
+
+.workout-item div {
+  margin-bottom: 5px;
+}
+
+.workout-item button {
+  margin-right: 5px;
+}

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { AuthenticatedRequest } from "../common/types/types";
 import Workouts from "../models/workouts";
+import sequelize from "../config/database";
 
 dotenv.config();
 
@@ -13,6 +14,22 @@ const getAllWorkouts = async (req: Request, res: Response) => {
     res.json(workouts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching workouts", error });
+  }
+};
+
+const getWorkoutsCounts = async (req: Request, res: Response) => {
+  try {
+    const counts = await Workouts.findAll({
+      where: { userId: (req as AuthenticatedRequest).user.id },
+      attributes: [
+        [sequelize.fn('DATE', sequelize.col('date')), 'date'],
+        [sequelize.fn('COUNT', sequelize.col('id')), 'count']
+      ],
+      group: ['date']
+    });
+    res.json(counts);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching workouts counts", error });
   }
 };
 
@@ -49,7 +66,6 @@ const editWorkout = async (req: Request, res: Response) => {
   const {
     duration,
     rating,
-    location,
     trigger,
     energyLevelBefore,
     energyLevelAfter,
@@ -60,7 +76,6 @@ const editWorkout = async (req: Request, res: Response) => {
     if (workout) {
       workout.duration = duration;
       workout.rating = rating;
-      workout.location = location;
       workout.trigger = trigger;
       workout.energyLevelBefore = energyLevelBefore;
       workout.energyLevelAfter = energyLevelAfter;
@@ -91,14 +106,13 @@ const deleteWorkout = async (req: Request, res: Response) => {
 };
 
 const postWorkout = async (req: Request, res: Response) => {
-    const { id, date, duration, rating, location, trigger, energyLevelBefore, energyLevelAfter, times } = req.body;
+    const { id, date, duration, rating, trigger, energyLevelBefore, energyLevelAfter, times } = req.body;
     try {
       const newWorkout = await Workouts.create({
         userId: (req as AuthenticatedRequest).user.id,
         date,
         duration,
         rating,
-        location,
         trigger,
         energyLevelBefore,
         energyLevelAfter,
@@ -110,4 +124,4 @@ const postWorkout = async (req: Request, res: Response) => {
     }
   };
 
-export { getAllWorkouts, getAllWorkoutsByDate, getWorkoutById, editWorkout, deleteWorkout, postWorkout };
+export { getAllWorkouts, getAllWorkoutsByDate, getWorkoutById, editWorkout, deleteWorkout, postWorkout, getWorkoutsCounts };

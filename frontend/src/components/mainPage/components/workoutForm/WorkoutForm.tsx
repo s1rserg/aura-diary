@@ -1,35 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   WorkoutEntry,
   Trigger,
-  Location,
 } from "../../../../common/types/data/workoutEntry.type";
 import Input from "../../../input/Input";
 import Select from "../../../select/Select";
 import Button from "../../../button/Button";
+import { formatDateForBackend } from "../../../../utils/date/date";
 
 interface WorkoutFormProps {
+  selectedDate: string;
   onClose: () => void;
   onSubmit: (data: WorkoutEntry) => void;
+  initialValues?: WorkoutEntry;
 }
 
-const WorkoutForm: React.FC<WorkoutFormProps> = ({ onClose, onSubmit }) => {
-  const [duration, setDuration] = useState<number>(10);
-  const [rating, setRating] = useState<number>(1);
-  const [location, setLocation] = useState<Location>("home");
-  const [trigger, setTrigger] = useState<Trigger>("other");
-  const [energyLevelBefore, setEnergyLevelBefore] = useState<number>(1);
-  const [energyLevelAfter, setEnergyLevelAfter] = useState<number>(1);
-  const [times, setTimes] = useState<number>(1);
+const WorkoutForm: React.FC<WorkoutFormProps> = ({
+  selectedDate,
+  onClose,
+  onSubmit,
+  initialValues,
+}) => {
+  const [duration, setDuration] = useState<number>(initialValues?.duration ?? 10);
+  const [rating, setRating] = useState<number>(initialValues?.rating ?? 5);
+  const [trigger, setTrigger] = useState<Trigger>(initialValues?.trigger ?? "other");
+  const [energyLevelBefore, setEnergyLevelBefore] = useState<number>(initialValues?.energyLevelBefore ?? 5);
+  const [energyLevelAfter, setEnergyLevelAfter] = useState<number>(initialValues?.energyLevelAfter ?? 5);
+  const [times, setTimes] = useState<number>(initialValues?.times ?? 1);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newEntry: WorkoutEntry = {
-      id: crypto.randomUUID(),
-      date: new Date(),
+      id: initialValues?.id || crypto.randomUUID(),
+      date: new Date(formatDateForBackend(selectedDate)),
       duration,
       rating,
-      location,
       trigger,
       energyLevelBefore,
       energyLevelAfter,
@@ -38,6 +43,17 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onClose, onSubmit }) => {
     onSubmit(newEntry);
     onClose();
   };
+
+  useEffect(() => {
+    if (initialValues) {
+      setDuration(initialValues.duration);
+      setRating(initialValues.rating);
+      setTrigger(initialValues?.trigger ?? "other");
+      setEnergyLevelBefore(initialValues?.energyLevelBefore ?? 5);
+      setEnergyLevelAfter(initialValues?.energyLevelAfter ?? 5);
+      setTimes(initialValues.times);
+    }
+  }, [initialValues]);
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -64,28 +80,19 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onClose, onSubmit }) => {
             max={"10"}
           />
           <Select
-            label="Location:"
-            name="location"
-            onChange={(e) => setLocation(e.target.value as Location)}
-            options={[
-                {value: "home", label: "home"},
-                {value: "under Oleksandr's window", label: "under Oleksandr's window"},
-                {value: "other", label: "other"}
-              ]}
-          />
-          <Select
             label="Trigger:"
             name="trigger"
             onChange={(e) => setTrigger(e.target.value as Trigger)}
             options={[
-                {value: "photo", label: "photo"},
-                {value: "conversation", label: "conversation"},
-                {value: "movie", label: "movie"},
-                {value: "reading", label: "reading"},
-                {value: "boredom", label: "boredom"},
-                {value: 'schedule😎', label: 'schedule😎'},
-                {value: "other", label: "other"}
-              ]}
+              { value: "photo", label: "photo" },
+              { value: "conversation", label: "conversation" },
+              { value: "movie", label: "movie" },
+              { value: "reading", label: "reading" },
+              { value: "boredom", label: "boredom" },
+              { value: "schedule😎", label: "schedule😎" },
+              { value: "other", label: "other" },
+            ]}
+            defaultValue={trigger}
           />
           <Input
             label="Energy Level Before (1-10):"
@@ -112,7 +119,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onClose, onSubmit }) => {
             name="times"
             required={true}
             type="number"
-            value={energyLevelAfter}
+            value={times}
             onChange={(e) => setTimes(Number(e.target.value))}
             min={"1"}
             max={"10"}

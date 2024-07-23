@@ -84,7 +84,7 @@ body {
   overflow-x: hidden;
   color: var(--color-blue-400);
   font-size: var(--font-size-200);
-  font-family: Assistant, sans-serif;
+  font-family: "Comfortaa", sans-serif;
   font-style: normal;
   line-height: 1.5;
   text-rendering: optimizespeed;
@@ -135,10 +135,10 @@ select {
   text-decoration: none;
   background-color: var(--color-blue-200);
   border: none;
-  border-radius: 1px;
   cursor: pointer;
   transition: background-color 0.2s ease;
   margin-top: 10px;
+  border-radius: 8px;
 }
 
 .button-2 {

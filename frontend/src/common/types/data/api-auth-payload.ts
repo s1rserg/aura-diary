@@ -1,8 +1,7 @@
 type ApiAuthPayload = {
   token: string;
   user: {
-    id: string;
-    fullName: string;
+    name: string;
     email: string;
   };
 };

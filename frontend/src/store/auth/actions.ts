@@ -1,9 +1,9 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { name } from "./slice";
-import { ApiAuthPayload, AsyncThunkConfig, SignInCredentials, SignUpCredentials, User } from "../../common/types/types";
+import { ApiAuthPayload, AsyncThunkConfig, SignInCredentials, SignUpCredentials} from "../../common/types/types";
 
 
-const fetchAuthenticatedUser = createAsyncThunk<User, void, AsyncThunkConfig>(
+const fetchAuthenticatedUser = createAsyncThunk<ApiAuthPayload, void, AsyncThunkConfig>(
   `${name}/authenticatedUser`,
   async (_payload, { extra }) => {
     const { authService } = extra;

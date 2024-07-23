@@ -28,7 +28,7 @@ const { reducer, actions, name } = createSlice({
         state.error = { code: null, message: null };
       })
       .addCase(fetchAuthenticatedUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
       })

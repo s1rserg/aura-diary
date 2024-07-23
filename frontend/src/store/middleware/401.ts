@@ -23,7 +23,7 @@ const handleSignOut = async (
   listenerApi: ListenerEffectAPI<RootState, AppDispatch>
 ) => {
   if (isActionWithError(action)) {
-    if (action.error.message === "Unauthorized user") {
+    if (action.error.message === "No token provided") {
       listenerApi.dispatch({ type: "auth/signOut" });
     }
   }

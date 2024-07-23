@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <span className="footer__text">
-        © 2024 | from
+        from
         sirserg
         with
         <img className="footer__icon" src={heartIcon} alt="heart" />

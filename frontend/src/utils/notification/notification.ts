@@ -12,7 +12,6 @@ const notifyError = (message: string) => {
     progress: undefined,
     theme: "light",
     transition: Bounce,
-    className: "notification",
   });
 };
 
@@ -27,7 +26,6 @@ const notifySuccess = (message: string) => {
     progress: undefined,
     theme: "light",
     transition: Bounce,
-    className: "notification",
   });
 };
 

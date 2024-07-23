@@ -1,51 +1,45 @@
 import {
-  Navigate,
   createBrowserRouter,
-  Outlet,
-  RouteObject,
   RouterProvider,
 } from "react-router-dom";
-import { Provider } from "react-redux";
 import "./App.css";
-import SignIn from "../signPages/signInPage/SignIn";
-import SignUp from "../signPages/signUpPage/SignUp";
-import { store } from "../../store/store";
-import WorkoutCalendar from "../workoutCalendar/WorkoutCalendar";
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
-import { AppPath } from "../../common/enums/enums";
+import { RootState } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { useEffect, useState } from "react";
+import { fetchAuthenticatedUser } from "../../store/auth/actions";
+import { getToken } from "../../utils/auth";
+import { createRoutes } from "./components/routerConfig/RouterConfig";
+import Loader from "../loader/Loader";
 
-function App() {
-  const Layout = () => (
-    <>
-      <Header userName="test"/>
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
-  );
+const App: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { user, status: authStatus } = useAppSelector((state: RootState) => state.auth);
+  const [authChecked, setAuthChecked] = useState<boolean>(false);
 
-  const routes: RouteObject[] = [
-    {
-      path: AppPath.ROOT,
-      element: <Layout />,
-      children: [
-        { path: AppPath.SIGN_IN, element: <SignIn /> },
-        { path: AppPath.SIGN_UP, element: <SignUp /> },
-        { index: true, element: <WorkoutCalendar /> },
-        { path: AppPath.ANY, element: <Navigate to={AppPath.ROOT} replace /> },
-      ],
-    },
-  ];
+  const isLoading = !authChecked || authStatus === "pending"
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (getToken()) {
+        await dispatch(fetchAuthenticatedUser());
+      }
+      setAuthChecked(true);
+    };
+    checkAuth();
+  }, [dispatch]);
+
+  const routes = createRoutes({
+    user,
+    authChecked,
+  });
 
   const router = createBrowserRouter(routes);
 
-  return (
-    <Provider store={store}>
-    <RouterProvider router={router} />
-    </Provider>
-  );
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
