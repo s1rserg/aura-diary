@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { WorkoutEntry } from "../../common/types/data/workoutEntry.type";
 import { name } from "./slice";
 import { AsyncThunkConfig } from "../../common/types/types";
-import { WorkoutCount } from "../../common/types/data/workoutCount.type";
 
 const fetchAllWorkouts = createAsyncThunk<
   WorkoutEntry[],
@@ -14,15 +13,14 @@ const fetchAllWorkouts = createAsyncThunk<
   return workouts;
 });
 
-const fetchWorkoutsCounts = createAsyncThunk<
-WorkoutCount[],
-  void,
-  AsyncThunkConfig
->(`${name}/fetchWorkoutsCounts`, async (_payload, { extra }) => {
-  const { workoutsService } = extra;
-  const workouts = await workoutsService.getWorkoutsCounts();
-  return workouts;
-});
+export const fetchWorkoutsForPeriod = createAsyncThunk<WorkoutEntry[], { start: Date, end: Date }, AsyncThunkConfig>(
+  `${name}/fetchWorkoutsForPeriod`,
+  async ({ start, end }, { extra }) => {
+    const { workoutsService } = extra;
+    const workouts = await workoutsService.getWorkoutsForPeriod(start, end);
+    return workouts;
+  }
+);
 
 const fetchWorkoutsForDate = createAsyncThunk<
   WorkoutEntry[],
@@ -80,5 +78,4 @@ export {
   createWorkout,
   updateWorkout,
   deleteWorkout,
-  fetchWorkoutsCounts
 };

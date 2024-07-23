@@ -23,3 +23,10 @@ export const formatDateForBackend = (dateStr: string): string => {
 
   return formattedDate;
 };
+
+export const reformatDate = (date: string): string => {
+  const parts = date.split('-');
+  const reversedParts = parts.reverse();
+  const reversedStr = reversedParts.join('-');
+  return reversedStr;
+}

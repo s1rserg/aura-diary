@@ -5,6 +5,7 @@ import {
   createWorkout,
   updateWorkout,
   deleteWorkout,
+  fetchWorkoutsForPeriod,
 } from "./actions";
 import { actions, reducer } from "./slice";
 
@@ -16,6 +17,7 @@ const allActions = {
   createWorkout,
   updateWorkout,
   deleteWorkout,
+  fetchWorkoutsForPeriod
 };
 
 export { allActions as actions, reducer };
