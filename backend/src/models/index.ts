@@ -1,10 +1,12 @@
 import sequelize from '../config/database';
+import Friendship from './friendship';
 import User from './user';
 import Workouts from './workouts'
 
 const models = {
   User,
-  Workouts
+  Workouts,
+  Friendship
 };
 
 // Object.values(models).forEach(model => {

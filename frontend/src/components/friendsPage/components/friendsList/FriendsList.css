@@ -1,0 +1,7 @@
+.friends-list__list{
+    padding: 0;
+}
+
+.friends-list__list-item{
+    list-style: none;
+}

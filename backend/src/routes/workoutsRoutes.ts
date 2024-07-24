@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getAllWorkouts, getWorkoutById, getAllWorkoutsByDate, postWorkout, editWorkout, deleteWorkout, getWorkoutsCounts, getWorkoutsForPeriod } from "../controllers/workoutsController";
-import authMiddleware from "../middlewares/authMiddleware";
+import {authMiddleware} from "../middlewares/authMiddleware";
 
 const router = Router();
 

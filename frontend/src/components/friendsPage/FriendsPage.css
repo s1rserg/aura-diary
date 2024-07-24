@@ -1,0 +1,41 @@
+.friends-page {
+  width: 100%;
+  margin: 20px;
+}
+
+.slider {
+  display: flex;
+  margin: 0 auto 30px;
+  width: 30%;
+}
+
+.slider button {
+  transition: background-color 0.3s, border-bottom-color 0.3s;
+  border-radius: 0;
+}
+
+.slider button:hover::after {
+  transform: translateX(-50%) scaleX(0);
+}
+
+.slider button:first-of-type {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.slider button:nth-of-type(2) {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.slider button.active {
+  background-color: var(--color-purple-500);
+}
+
+
+@media (max-width: 1000px) {
+  .slider {
+    width: 80%;
+  }
+  
+}
