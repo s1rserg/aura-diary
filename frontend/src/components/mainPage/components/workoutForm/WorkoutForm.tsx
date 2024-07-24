@@ -7,6 +7,7 @@ import Input from "../../../input/Input";
 import Select from "../../../select/Select";
 import Button from "../../../button/Button";
 import { formatDateForBackend } from "../../../../utils/date/date";
+import "./WorkoutForm.css"
 
 interface WorkoutFormProps {
   selectedDate: string;
@@ -95,7 +96,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
             defaultValue={trigger}
           />
           <Input
-            label="Energy Level Before (1-10):"
+            label="Mood Level Before (1-10):"
             name="energyBefore"
             required={true}
             type="number"
@@ -105,7 +106,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
             max={"10"}
           />
           <Input
-            label="Energy Level After (1-10):"
+            label="Mood Level After (1-10):"
             name="energyAfter"
             required={true}
             type="number"

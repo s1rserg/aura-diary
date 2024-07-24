@@ -3,8 +3,14 @@ import dotenv from "dotenv";
 import { AuthenticatedRequest } from "../common/types/types";
 import Workouts from "../models/workouts";
 import sequelize from "../config/database";
+import { Op } from "sequelize";
 
 dotenv.config();
+
+interface DateQueryParams {
+  start: string;
+  end: string;
+}
 
 const getAllWorkouts = async (req: Request, res: Response) => {
   try {
@@ -30,6 +36,23 @@ const getWorkoutsCounts = async (req: Request, res: Response) => {
     res.json(counts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching workouts counts", error });
+  }
+};
+
+const getWorkoutsForPeriod = async (req: Request, res: Response) => {
+  try {
+    const { start, end } = req.query as unknown as DateQueryParams;
+    const workouts = await Workouts.findAll({
+      where: {
+        userId: (req as AuthenticatedRequest).user.id,
+        date: {
+          [Op.between]: [start, end]
+        }
+      },
+    });
+    res.json(workouts);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching workouts", error });
   }
 };
 
@@ -124,4 +147,4 @@ const postWorkout = async (req: Request, res: Response) => {
     }
   };
 
-export { getAllWorkouts, getAllWorkoutsByDate, getWorkoutById, editWorkout, deleteWorkout, postWorkout, getWorkoutsCounts };
+export { getAllWorkouts, getAllWorkoutsByDate, getWorkoutById, editWorkout, deleteWorkout, postWorkout, getWorkoutsCounts, getWorkoutsForPeriod };

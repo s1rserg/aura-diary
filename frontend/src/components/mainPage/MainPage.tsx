@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import {
-  fetchWorkoutsForDate,
   deleteWorkout,
   updateWorkout,
   createWorkout,
-  fetchWorkoutsCounts,
 } from "../../store/workouts/actions";
 import WorkoutCalendar from "./components/workoutCalendar/WorkoutCalendar";
 import { WorkoutEntry } from "../../common/types/types";
 import WorkoutItem from "./components/workoutItem/WorkoutItem";
-import { formatDate } from "../../utils/date/date";
+import { formatDate, reformatDate } from "../../utils/date/date";
 
 const MainPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -18,21 +16,13 @@ const MainPage: React.FC = () => {
   const [editWorkout, setEditWorkout] = useState<WorkoutEntry | null>(null);
 
   const dispatch = useAppDispatch();
-  const workoutsForDate = useAppSelector(
-    (state) => state.workouts.workoutsForDate
+  const workouts = useAppSelector(
+    (state) => state.workouts.workouts
   );
-  const workoutsCounts = useAppSelector(
-    (state) => state.workouts.workoutsCounts
-  );
-
-  useEffect(() => {
-    dispatch(fetchWorkoutsCounts());
-  }, [dispatch]);
 
   const handleDateClick = async (date: Date) => {
     if (date < new Date()) {
       setSelectedDate(formatDate(date));
-      await dispatch(fetchWorkoutsForDate(formatDate(date)));
     } else {
       setSelectedDate(null);
     }
@@ -51,8 +41,6 @@ const MainPage: React.FC = () => {
 
   const handleDeleteClick = async (id: string) => {
     await dispatch(deleteWorkout(id));
-    if (selectedDate) await dispatch(fetchWorkoutsForDate(selectedDate));
-    dispatch(fetchWorkoutsCounts());
   };
 
   const handleSubmit = async (data: WorkoutEntry) => {
@@ -62,13 +50,15 @@ const MainPage: React.FC = () => {
       await dispatch(createWorkout(data));
     }
     setIsModalOpen(false);
-    if (selectedDate) await dispatch(fetchWorkoutsForDate(selectedDate));
-    dispatch(fetchWorkoutsCounts());
   };
+
+  const workoutsForDate = selectedDate
+    ? workouts.filter(workout => formatDate(workout.date) === reformatDate(selectedDate))
+    : [];
 
   return (
     <div>
-      <WorkoutCalendar workoutCounts={workoutsCounts}  onDateClick={handleDateClick} />
+      <WorkoutCalendar onDateClick={handleDateClick} />
       {selectedDate && (
         <WorkoutItem
           selectedDate={selectedDate}

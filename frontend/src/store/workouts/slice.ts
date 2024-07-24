@@ -1,23 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllWorkouts,
-  fetchWorkoutsForDate,
   fetchWorkoutById,
   createWorkout,
   updateWorkout,
   deleteWorkout,
-  fetchWorkoutsCounts,
+  fetchWorkoutsForPeriod,
 } from "./actions";
 import { notifyError, notifySuccess } from "../../utils/notification/notification";
 import { DataStatus } from "../../common/enums/enums";
 import { WorkoutEntry, ValueOf } from "../../common/types/types";
-import { WorkoutCount } from "../../common/types/data/workoutCount.type";
 
 export interface WorkoutsState {
   workouts: WorkoutEntry[];
   selectedWorkout: WorkoutEntry | null;
-  workoutsForDate: WorkoutEntry[];
-  workoutsCounts: WorkoutCount[]
   status: ValueOf<typeof DataStatus>;
   error: { code: string | number | null; message: string | null };
 }
@@ -25,8 +21,6 @@ export interface WorkoutsState {
 const initialState: WorkoutsState = {
   workouts: [],
   selectedWorkout: null,
-  workoutsCounts: [],
-  workoutsForDate: [],
   status: DataStatus.IDLE,
   error: { code: null, message: null },
 };
@@ -54,41 +48,22 @@ const { reducer, actions, name } = createSlice({
         };
         notifyError(action.error.message || "Failed to fetch workouts.");
       })
-      .addCase(fetchWorkoutsCounts.pending, (state) => {
+      .addCase(fetchWorkoutsForPeriod.pending, (state) => {
         state.status = DataStatus.PENDING;
         state.error = { code: null, message: null };
       })
-      .addCase(fetchWorkoutsCounts.fulfilled, (state, action) => {
-        state.workoutsCounts = action.payload;
+      .addCase(fetchWorkoutsForPeriod.fulfilled, (state, action) => {
         state.status = DataStatus.SUCCESS;
+        state.workouts = action.payload;
         state.error = { code: null, message: null };
       })
-      .addCase(fetchWorkoutsCounts.rejected, (state, action) => {
+      .addCase(fetchWorkoutsForPeriod.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
         state.error = {
           code: action.error.code || null,
           message: action.error.message || null,
         };
         notifyError(action.error.message || "Failed to fetch workouts.");
-      })
-      .addCase(fetchWorkoutsForDate.pending, (state) => {
-        state.status = DataStatus.PENDING;
-        state.error = { code: null, message: null };
-      })
-      .addCase(fetchWorkoutsForDate.fulfilled, (state, action) => {
-        state.workoutsForDate = action.payload;
-        state.status = DataStatus.SUCCESS;
-        state.error = { code: null, message: null };
-      })
-      .addCase(fetchWorkoutsForDate.rejected, (state, action) => {
-        state.status = DataStatus.ERROR;
-        state.error = {
-          code: action.error.code || null,
-          message: action.error.message || null,
-        };
-        notifyError(
-          action.error.message || "Failed to fetch workouts for date."
-        );
       })
       .addCase(fetchWorkoutById.pending, (state) => {
         state.status = DataStatus.PENDING;

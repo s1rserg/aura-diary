@@ -1,7 +1,7 @@
 import { ApiPath, ContentType } from "../../common/enums/enums";
-import { WorkoutCount } from "../../common/types/data/workoutCount.type";
 import { WorkoutEntry } from "../../common/types/data/workoutEntry.type";
 import { getToken } from "../../utils/auth";
+import { formatDateYYYYMMDD } from "../../utils/date/date";
 import { Http } from "../http/http.service";
 
 type Constructor = {
@@ -30,9 +30,9 @@ class Workouts {
     });
   }
 
-  public getWorkoutsCounts(): Promise<WorkoutCount[]> {
+  public getWorkoutsForPeriod(start: Date, end: Date): Promise<WorkoutEntry[]> {
     const token = getToken();
-    return this.http.load(this.getUrl("/counts"), {
+    return this.http.load(this.getUrl(`/period?start=${formatDateYYYYMMDD(start)}&end=${formatDateYYYYMMDD(end)}`), {
       method: "GET",
       token,
     });

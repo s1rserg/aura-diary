@@ -2,7 +2,7 @@
   position: relative;
   padding: 10px 20px;
   border-bottom: 1px solid var(--color-gray);
-  background-color: #D8BFD8;
+  background-color: var(--color-purple-100);
 }
 
 .header__inner {
@@ -15,7 +15,7 @@
 
 .header__logo {
   margin: 0;
-  color: var(--color-blue-400);
+  color: var(--color-purple-600);
   font-weight: 700;
   font-size: var(--font-size-600);
   font-family: "Comfortaa", sans-serif;

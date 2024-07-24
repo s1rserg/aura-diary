@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { getAllWorkouts, getWorkoutById, getAllWorkoutsByDate, postWorkout, editWorkout, deleteWorkout, getWorkoutsCounts } from "../controllers/workoutsController";
+import { getAllWorkouts, getWorkoutById, getAllWorkoutsByDate, postWorkout, editWorkout, deleteWorkout, getWorkoutsCounts, getWorkoutsForPeriod } from "../controllers/workoutsController";
 import authMiddleware from "../middlewares/authMiddleware";
 
 const router = Router();
 
 router.get('/', authMiddleware, getAllWorkouts);
-router.get('/counts', authMiddleware, getWorkoutsCounts);
+router.get('/period', authMiddleware, getWorkoutsForPeriod);
 router.get('/:id', authMiddleware, getWorkoutById);
 router.get('/date/:date', authMiddleware, getAllWorkoutsByDate);
 router.post('/', authMiddleware, postWorkout);
