@@ -1,86 +1,47 @@
-.calendar{
-    margin: 10px auto 0;
-    font-family: "Comfortaa", sans-serif;
-    width: 630px;
-    border-radius: 12px;
+.calendar {
+  margin: 10px auto 0;
+  font-family: "Comfortaa", sans-serif;
+  width: 630px;
+  border-radius: 12px;
 }
 
-.react-calendar__tile{
-  border-radius: 4px;
+.react-calendar__tile {
+  border-radius: 5px;
 }
 
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    width: 40%;
-  }
+.react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
+  font-size: 16px;
+}
 
-  .modal form{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    z-index: 999;
-  }
-  
-  .hidden {
-    display: none;
-  }
+.react-calendar__month-view__weekdays__weekday {
+  font-size: 16px;
+}
+abbr[title] {
+  text-decoration: none;
+}
 
-  .react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from{
-    font-size: 16px;
-  }
+.react-calendar__tile.react-calendar__month-view__days__day {
+  font-size: 14px;
+}
 
-  .react-calendar__month-view__weekdays__weekday{
-    font-family: "Comfortaa", sans-serif;
-    font-size: 16px;
-  }
-  abbr[title] {
-    text-decoration: none;
-  }
+.workout-count-1 {
+  background-color: var(--color-purple-100);
+}
+.workout-count-2 {
+  background-color: var(--color-purple-200);
+}
+.workout-count-3 {
+  background-color: var(--color-purple-300);
+}
+.workout-count-4 {
+  background-color: var(--color-purple-400);
+}
+.workout-count-5 {
+  background-color: var(--color-purple-500);
+}
 
-  .react-calendar__tile.react-calendar__month-view__days__day{
-    font-size: 14px;
+@media (max-width: 1000px) {
+  .calendar {
+    width: 99%;
   }
-
-  .workout-count-1 {
-    background-color: #E6E6FA;
-  }
-  .workout-count-2 {
-    background-color: #D8BFD8;
-  }
-  .workout-count-3 {
-    background-color: #9370DB;
-  }
-  .workout-count-4 {
-    background-color: #663399;
-  }
-  .workout-count-5 {
-    background-color: #4B0082;
-  }
-
-  @media (max-width: 1000px) {
-    .calendar{
-      width: 99%;
-    }
-
-    .modal {
-      width: 90%;
-    }
-  }
+}

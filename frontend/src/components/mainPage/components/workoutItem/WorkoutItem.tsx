@@ -52,10 +52,10 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
                   <strong>Trigger:</strong> {workout.trigger}
                 </p>
                 <p>
-                  <strong>Energy Level Before:</strong> {workout.energyLevelBefore}
+                  <strong>Mood Level Before:</strong> {workout.energyLevelBefore}
                 </p>
                 <p>
-                  <strong>Energy Level After:</strong> {workout.energyLevelAfter}
+                  <strong>Mood Level After:</strong> {workout.energyLevelAfter}
                 </p>
                 <p>
                   <strong>Times:</strong> {workout.times}

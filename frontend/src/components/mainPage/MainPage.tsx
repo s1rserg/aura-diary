@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import {
-  fetchWorkoutsForDate,
   deleteWorkout,
   updateWorkout,
   createWorkout,
@@ -42,7 +41,6 @@ const MainPage: React.FC = () => {
 
   const handleDeleteClick = async (id: string) => {
     await dispatch(deleteWorkout(id));
-    if (selectedDate) await dispatch(fetchWorkoutsForDate(selectedDate));
   };
 
   const handleSubmit = async (data: WorkoutEntry) => {
@@ -52,7 +50,6 @@ const MainPage: React.FC = () => {
       await dispatch(createWorkout(data));
     }
     setIsModalOpen(false);
-    if (selectedDate) await dispatch(fetchWorkoutsForDate(selectedDate));
   };
 
   const workoutsForDate = selectedDate

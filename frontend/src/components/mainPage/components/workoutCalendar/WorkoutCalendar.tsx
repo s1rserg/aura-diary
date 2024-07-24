@@ -13,22 +13,22 @@ interface WorkoutCalendarProps {
 const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({ onDateClick }) => {
   const [activeStartDate, setActiveStartDate] = useState(new Date());
   const dispatch = useAppDispatch();
-  const workouts = useAppSelector(
-    (state) => state.workouts.workouts
-  );
+  const workouts = useAppSelector((state) => state.workouts.workouts);
 
   useEffect(() => {
-    console.log("1")
     const reloadWorkouts = async () => {
-      const startDate = new Date(activeStartDate.getFullYear(), activeStartDate.getMonth(), 1);
+      const startDate = new Date(
+        activeStartDate.getFullYear(),
+        activeStartDate.getMonth(),
+        1
+      );
       startDate.setDate(startDate.getDate() - 7);
+      if (startDate > new Date()) return;
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 42);
-      console.log(startDate, endDate)
       await dispatch(
-        fetchWorkoutsForPeriod({start: startDate, end: endDate})
+        fetchWorkoutsForPeriod({ start: startDate, end: endDate })
       );
-      console.log("dispatched")
     };
     reloadWorkouts();
   }, [activeStartDate, dispatch]);
