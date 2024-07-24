@@ -56,7 +56,7 @@ class Workouts {
 
   public postNewWorkout(workout: WorkoutEntry): Promise<WorkoutEntry> {
     const token = getToken();
-    return this.http.load(this.getUrl("/"), {
+    return this.http.load(this.getUrl(""), {
       method: "POST",
       token,
       contentType: ContentType.JSON,
