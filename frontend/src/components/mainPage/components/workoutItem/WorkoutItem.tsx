@@ -3,6 +3,7 @@ import { type WorkoutEntry as WorkoutEntryType } from "../../../../common/types/
 import "./WorkoutItem.css";
 import WorkoutForm from "../workoutForm/WorkoutForm";
 import { formatDate } from "../../../../utils/date/date";
+import { useTranslation } from "react-i18next";
 
 interface WorkoutItemProps {
   selectedDate: string;
@@ -28,11 +29,15 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
   handleSubmit,
   setIsModalOpen,
 }) => {
+  const { t } = useTranslation();
 
   return (
     <div className="workout-entry-container">
-      <button className="button create-entry-button" onClick={handleCreateClick}>
-        Create New Workout Entry
+      <button
+        className="button create-entry-button"
+        onClick={handleCreateClick}
+      >
+        {t("create workout")}
       </button>
       {workouts.length > 0 ? (
         <ul className="workout-list">
@@ -40,36 +45,48 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
             <li key={workout.id} className="workout-item">
               <div>
                 <p>
-                  <strong>Date:</strong> {formatDate(workout.date)}
+                  <strong>{t("date")}:</strong> {formatDate(workout.date)}
                 </p>
                 <p>
-                  <strong>Duration:</strong> {workout.duration} minutes
+                  <strong>{t("duration")}:</strong> {workout.duration} {t('minutes')}
                 </p>
                 <p>
-                  <strong>Rating:</strong> {workout.rating}
+                  <strong>{t("rating")}:</strong> {workout.rating}
                 </p>
                 <p>
-                  <strong>Trigger:</strong> {workout.trigger}
+                  <strong>{t("trigger")}:</strong> {t(workout.trigger as string)}
                 </p>
                 <p>
-                  <strong>Mood Level Before:</strong> {workout.energyLevelBefore}
+                  <strong>{t("mood level before")}:</strong>{" "}
+                  {workout.energyLevelBefore}
                 </p>
                 <p>
-                  <strong>Mood Level After:</strong> {workout.energyLevelAfter}
+                  <strong>{t("mood level after")}:</strong>{" "}
+                  {workout.energyLevelAfter}
                 </p>
                 <p>
-                  <strong>Times:</strong> {workout.times}
+                  <strong>{t("times")}:</strong> {workout.times}
                 </p>
               </div>
               <div className="edit-entry-buttons">
-                <button className="button edit-entry-button" onClick={() => handleEditClick(workout.id)}>Edit</button>
-                <button className="button edit-entry-button" onClick={() => handleDeleteClick(workout.id)}>Delete</button>
+                <button
+                  className="button edit-entry-button"
+                  onClick={() => handleEditClick(workout.id)}
+                >
+                  {t("edit")}
+                </button>
+                <button
+                  className="button edit-entry-button"
+                  onClick={() => handleDeleteClick(workout.id)}
+                >
+                  {t("delete")}
+                </button>
               </div>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No workouts for this date.</p>
+        <p>{t("no workouts")}</p>
       )}
       {isModalOpen && (
         <WorkoutForm

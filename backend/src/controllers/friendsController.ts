@@ -35,6 +35,19 @@ export const sendFriendRequest = async (req: Request, res: Response) => {
   const userId = (req as AuthenticatedRequest).user.id;
 
   try {
+    const existingFriendship = await Friendship.findOne({
+      where: {
+        [Op.or]: [
+          { userId: userId, friendId: friendId },
+          { userId: friendId, friendId: userId }
+        ]
+      }
+    });
+
+    if (existingFriendship) {
+      return res.status(400).json({ error: 'Friendship request already exists' });
+    }
+
     const friendship = await Friendship.create({
       userId,
       friendId,
@@ -43,6 +56,7 @@ export const sendFriendRequest = async (req: Request, res: Response) => {
 
     res.status(201).json(friendship);
   } catch (error) {
+    console.error('Error in sendFriendRequest:', error);
     res.status(500).json({ error: 'Failed to send friend request' });
   }
 };
@@ -153,7 +167,6 @@ export const getFriends = async (req: Request, res: Response) => {
         },
       ],
     });
-    console.log(friends);
     res.status(200).json(friends);
   } catch (error) {
     console.error(error);

@@ -11,6 +11,7 @@ import {
 import { notifyError, notifySuccess } from "../../utils/notification/notification";
 import { DataStatus } from "../../common/enums/enums";
 import { WorkoutEntry, ValueOf, UserStatistics } from "../../common/types/types";
+import i18n from "../../i18n";
 
 export interface WorkoutsState {
   workouts: WorkoutEntry[];
@@ -93,7 +94,7 @@ const { reducer, actions, name } = createSlice({
         state.workouts.push(action.payload);
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
-        notifySuccess("Workout Entry created successfully!");
+        notifySuccess(i18n.t('success create workout'));
       })
       .addCase(createWorkout.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
@@ -116,7 +117,7 @@ const { reducer, actions, name } = createSlice({
         }
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
-        notifySuccess("Workout Entry updated successfully!");
+        notifySuccess(i18n.t('success update workout'));
       })
       .addCase(updateWorkout.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
@@ -136,7 +137,7 @@ const { reducer, actions, name } = createSlice({
         );
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
-        notifySuccess("Workout Entry deleted successfully!");
+        notifySuccess(i18n.t('success delete workout'));
       })
       .addCase(deleteWorkout.rejected, (state, action) => {
         state.status = DataStatus.ERROR;

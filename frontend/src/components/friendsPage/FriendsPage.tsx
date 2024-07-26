@@ -4,9 +4,14 @@ import FriendsList from "./components/friendsList/FriendsList";
 import "./FriendsPage.css";
 import { useAppDispatch } from "../../hooks/hooks";
 import { fetchFriends, fetchFriendRequests } from "../../store/friends/actions";
+import { useTranslation } from "react-i18next";
 
 const FriendsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"friendsList" | "friendsSearch">("friendsList");
+  const { t } = useTranslation();
+
+  const [activeTab, setActiveTab] = useState<"friendsList" | "friendsSearch">(
+    "friendsList"
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -21,13 +26,13 @@ const FriendsPage: React.FC = () => {
           className={activeTab === "friendsList" ? "active button" : "button"}
           onClick={() => setActiveTab("friendsList")}
         >
-          My Friends
+          {t("my friends")}
         </button>
         <button
           className={activeTab === "friendsSearch" ? "active button" : "button"}
           onClick={() => setActiveTab("friendsSearch")}
         >
-          Friends Search
+          {t("friends search")}
         </button>
       </div>
       {activeTab === "friendsList" && <FriendsList />}

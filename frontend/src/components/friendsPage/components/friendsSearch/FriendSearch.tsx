@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/hooks";
 import Input from "../../../input/Input";
 import "./FriendSearch.css";
-import { fetchUsersByName, sendFriendRequest } from "../../../../store/friends/actions";
+import {
+  fetchUsersByName,
+  sendFriendRequest,
+} from "../../../../store/friends/actions";
 import { PotentialFriend, Friendship } from "../../../../common/types/types";
+import { useTranslation } from "react-i18next";
 
 const FriendSearch: React.FC = () => {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const dispatch = useAppDispatch();
   const searchResults = useAppSelector((state) => state.friends.friends);
@@ -24,7 +29,7 @@ const FriendSearch: React.FC = () => {
   };
 
   const isFriend = (id: string) => {
-    return friends.some((friend: Friendship) => friend.friendId === id);
+    return friends.some((friend: Friendship) => friend.friendId === id || friend.userId === id);
   };
 
   return (
@@ -36,13 +41,13 @@ const FriendSearch: React.FC = () => {
           required={true}
           value={query}
           onChange={handleChange}
-          placeholder="Search for users"
+          placeholder={t("search for users")}
         />
         <button
           className="button friends__friend-search__button"
           onClick={handleSearch}
         >
-          Search
+          {t("search")}
         </button>
       </div>
       <ul className="friends__friend-search__list">
@@ -51,13 +56,15 @@ const FriendSearch: React.FC = () => {
             <li key={user.id} className="friends__friend-search__list-item">
               {user.name}
               {isFriend(user.id) ? (
-                <span className="friends__friend-search__list-item__friend-span">Friend</span>
+                <span className="friends__friend-search__list-item__friend-span">
+                  {t("friend")}
+                </span>
               ) : (
                 <button
                   className="button"
                   onClick={() => handleSendRequest(user.id)}
                 >
-                  Add Friend
+                  {t("add friend")}
                 </button>
               )}
             </li>
