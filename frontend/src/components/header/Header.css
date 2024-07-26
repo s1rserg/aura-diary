@@ -61,4 +61,12 @@
     font-weight: 400;
     font-size: var(--font-size-400);
   }
+
+  .nav-header__list {
+    gap: 30px;
+  }
+
+  .nav-header__list svg {
+    width: 30px;
+  }
 }

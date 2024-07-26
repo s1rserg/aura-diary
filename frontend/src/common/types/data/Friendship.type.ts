@@ -6,6 +6,11 @@ type Friendship = {
   createdAt: Date;
   updatedAt: Date;
   friend: {
+    id: string;
+    name: string;
+  };
+  user: {
+    id: string;
     name: string;
   }
 };

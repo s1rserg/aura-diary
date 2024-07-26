@@ -6,21 +6,24 @@ import {
   updateWorkout,
   deleteWorkout,
   fetchWorkoutsForPeriod,
+  fetchUserStats,
 } from "./actions";
 import { notifyError, notifySuccess } from "../../utils/notification/notification";
 import { DataStatus } from "../../common/enums/enums";
-import { WorkoutEntry, ValueOf } from "../../common/types/types";
+import { WorkoutEntry, ValueOf, UserStatistics } from "../../common/types/types";
 
 export interface WorkoutsState {
   workouts: WorkoutEntry[];
   selectedWorkout: WorkoutEntry | null;
   status: ValueOf<typeof DataStatus>;
+  userStats: UserStatistics | null;
   error: { code: string | number | null; message: string | null };
 }
 
 const initialState: WorkoutsState = {
   workouts: [],
   selectedWorkout: null,
+  userStats: null,
   status: DataStatus.IDLE,
   error: { code: null, message: null },
 };
@@ -71,7 +74,6 @@ const { reducer, actions, name } = createSlice({
       })
       .addCase(fetchWorkoutById.fulfilled, (state, action) => {
         state.selectedWorkout = action.payload;
-        console.log("fullfilled", action.payload, state.selectedWorkout);
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
       })
@@ -143,6 +145,23 @@ const { reducer, actions, name } = createSlice({
           message: action.error.message || null,
         };
         notifyError(action.error.message || "Failed to delete workout.");
+      })
+      .addCase(fetchUserStats.pending, (state) => {
+        state.status = DataStatus.PENDING;
+        state.error = { code: null, message: null };
+      })
+      .addCase(fetchUserStats.fulfilled, (state, action) => {
+        state.userStats = action.payload
+        state.status = DataStatus.SUCCESS;
+        state.error = { code: null, message: null };
+      })
+      .addCase(fetchUserStats.rejected, (state, action) => {
+        state.status = DataStatus.ERROR;
+        state.error = {
+          code: action.error.code || null,
+          message: action.error.message || null,
+        };
+        notifyError(action.error.message || "Failed to fetch stats.");
       });
   },
 });

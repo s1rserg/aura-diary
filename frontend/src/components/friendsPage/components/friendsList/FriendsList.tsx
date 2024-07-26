@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../../hooks/hooks";
 import { approveFriendRequest, denyFriendRequest } from "../../../../store/friends/actions";
 import { Friendship } from "../../../../common/types/types";
 import "./FriendsList.css";
+import { Link } from "react-router-dom";
 
 const FriendsList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,10 @@ const FriendsList: React.FC = () => {
       <h2>My Friends</h2>
       <ul className="friends-list__list">
         {friends.map((friend: Friendship) => (
-          <li className="friends-list__list-item" key={friend.id}>{friend.friend.name}</li>
+          <li className="friends-list__list-item" key={friend.id}>
+            <span className="friends-list__list-item__name">{friend.friend ? friend.friend.name : friend.user.name}</span>
+            <Link  to={`/stats/${friend.friend ? friend.friendId : friend.userId}`} className="button friends-list__list-item__button">Stats</Link>
+            </li>
         ))}
       </ul>
     </div>

@@ -105,18 +105,15 @@ const { reducer, actions, name } = createSlice({
         notifyError(action.error.message || "Failed to deny friend request.");
       })
       .addCase(fetchFriends.pending, (state) => {
-        console.log("pending")
         state.status = DataStatus.PENDING;
         state.error = { code: null, message: null };
       })
       .addCase(fetchFriends.fulfilled, (state, action) => {
-        console.log("fullfiled", action.payload)
         state.userFriends = action.payload;
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
       })
       .addCase(fetchFriends.rejected, (state, action) => {
-        console.log("error", action.error.message)
         state.status = DataStatus.ERROR;
         state.error = {
           code: action.error.code || null,

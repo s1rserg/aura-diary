@@ -56,7 +56,7 @@ export const getFriendRequests = async (req: Request, res: Response) => {
         friendId: userId,
         status: 'pending',
       },
-      include: [{ model: User, as: 'friend', attributes: ['name'] }],
+      include: [{ model: User, as: 'user', attributes: ['name'] }],
     });
 
     res.status(200).json(requests);
@@ -118,11 +118,8 @@ export const denyFriendRequest = async (req: Request, res: Response) => {
 };
 
 export const getFriends = async (req: Request, res: Response) => {
-  console.log(12)
   const userId = (req as AuthenticatedRequest).user.id;
-  console.log(1)
   try {
-
     const friends = await Friendship.findAll({
       where: {
         [Op.or]: [
@@ -130,15 +127,39 @@ export const getFriends = async (req: Request, res: Response) => {
           { friendId: userId, status: 'accepted' },
         ],
       },
-      include: [{ model: User, as: 'friend', attributes: ['name'] }],
+      include: [
+        {
+          model: User,
+          as: 'friend',
+          attributes: ['name'],
+          where: {
+            id: {
+              [Op.ne]: userId,
+            },
+          },
+          required: false,
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+          where: {
+            id: {
+              [Op.ne]: userId,
+            },
+          },
+          required: false,
+        },
+      ],
     });
-    console.log(friends)
+    console.log(friends);
     res.status(200).json(friends);
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({ message: "Error fetching friends", error });
   }
 };
+
 
 
 export { getUsersByName };

@@ -49,3 +49,13 @@
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 1000px) {
+  .friends__friend-search__list {
+    padding: 0 5px;
+  }
+
+  .friends__friend-search__list-item {
+    min-width: 180px;
+  }
+}
