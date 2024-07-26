@@ -10,6 +10,7 @@ import {
 import { notifyError, notifySuccess } from "../../utils/notification/notification";
 import { DataStatus } from "../../common/enums/enums";
 import { PotentialFriend, Friendship, ValueOf } from "../../common/types/types";
+import i18n from "../../i18n";
 
 export interface FriendsState {
   friends: PotentialFriend[];
@@ -76,7 +77,7 @@ const { reducer, actions, name } = createSlice({
         state.userFriends.push(action.payload);
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
-        notifySuccess("Friend request approved successfully.");
+        notifySuccess(i18n.t('approve friend request'));
       })
       .addCase(approveFriendRequest.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
@@ -94,7 +95,7 @@ const { reducer, actions, name } = createSlice({
         state.friendRequests = state.friendRequests.filter(request => request.id !== action.payload.id);
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
-        notifySuccess("Friend request denied successfully.");
+        notifySuccess(i18n.t('deny friend request'));
       })
       .addCase(denyFriendRequest.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
@@ -128,7 +129,7 @@ const { reducer, actions, name } = createSlice({
       .addCase(sendFriendRequest.fulfilled, (state) => {
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
-        notifySuccess("Friend request sent successfully.");
+        notifySuccess(i18n.t('send friend request'));
       })
       .addCase(sendFriendRequest.rejected, (state, action) => {
         state.status = DataStatus.ERROR;

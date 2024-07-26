@@ -6,8 +6,10 @@ import StatCard from "./components/statCard/StatCard";
 import { useParams } from "react-router-dom";
 import Loader from "../loader/Loader";
 import { DataStatus } from "../../common/enums/enums";
+import { useTranslation } from "react-i18next";
 
 const StatsPage: React.FC = () => {
+  const { t } = useTranslation();
   const { userId } = useParams<{ userId: string | undefined }>();
 
   const dispatch = useAppDispatch();
@@ -30,29 +32,29 @@ const StatsPage: React.FC = () => {
     <div className="stats-page">
       <h1 className="username">{stats?.name}</h1>
       <div className="stats-grid">
-        <StatCard title="Total Workouts" value={stats?.totalWorkouts} />
+        <StatCard title={t('total workouts')} value={stats?.totalWorkouts} />
         <StatCard
-          title="Total Duration"
-          value={`${stats?.totalDuration} mins`}
+          title={t('total duration')}
+          value={`${stats?.totalDuration} ${t('mins')}`}
         />
         <StatCard
-          title="Avg. Workout Duration"
-          value={`${stats?.averageWorkoutDuration.toFixed(1)} mins`}
+          title={t('avg workout duration')}
+          value={`${stats?.averageWorkoutDuration.toFixed(1)} ${t('mins')}`}
         />
         <StatCard
-          title="Longest Workout"
-          value={`${stats?.highestDurationWorkout} mins`}
+          title={t('longest workout')}
+          value={`${stats?.highestDurationWorkout} ${t('mins')}`}
         />
-        <StatCard title="Avg. Rating" value={stats?.averageRating.toFixed(1)} />
+        <StatCard title={t('avg rating')} value={stats?.averageRating.toFixed(1)} />
         <StatCard
-          title="Energy Level Improvement"
+          title={t('mood level improvement')}
           value={`${stats?.energyLevelImprovement.toFixed(1)}%`}
         />
         <StatCard
-          title="Total Times Worked Out"
+          title={t('consistency')}
           value={stats?.totalTimesWorkedOut}
         />
-        <StatCard title="Consistency" value={`${stats?.consistency} days`} />
+        <StatCard title={t('consistency')} value={`${stats?.consistency} ${t('days')}`} />
       </div>
     </div>
   );

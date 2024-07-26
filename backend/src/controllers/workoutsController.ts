@@ -169,8 +169,8 @@ const getUserStatistics = async (req: Request, res: Response) => {
     // Fetch all workouts for the user
     const workouts = await Workouts.findAll({ where: { userId } });
 
-    if (workouts.length === 0) {
-      return {
+    if (!workouts || workouts.length === 0) {
+      res.status(200).json({
         name: user.name,
         totalWorkouts: 0,
         totalDuration: 0,
@@ -182,7 +182,8 @@ const getUserStatistics = async (req: Request, res: Response) => {
         totalTimesWorkedOut: 0,
         consistency: 0,
         totalWorkoutsPerTrigger: {},
-      };
+      });
+      return;
     }
 
     // Total Workouts

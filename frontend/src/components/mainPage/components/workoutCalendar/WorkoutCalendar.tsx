@@ -5,12 +5,14 @@ import "./WorkoutCalendar.css";
 import { formatDateYYYYMMDD } from "../../../../utils/date/date";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/hooks";
 import { fetchWorkoutsForPeriod } from "../../../../store/workouts/actions";
+import { useTranslation } from "react-i18next";
 
 interface WorkoutCalendarProps {
   onDateClick: (date: Date) => void;
 }
 
 const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({ onDateClick }) => {
+  const { i18n } = useTranslation();
   const [activeStartDate, setActiveStartDate] = useState(new Date());
   const dispatch = useAppDispatch();
   const workouts = useAppSelector((state) => state.workouts.workouts);
@@ -62,12 +64,21 @@ const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({ onDateClick }) => {
     if (activeStartDate) setActiveStartDate(activeStartDate);
   };
 
+  const localeMapping: { [key: string]: string } = {
+    "en-US": "en",
+    ua: "ukr",
+    he: "he",
+  };
+
+  const currentLocale = localeMapping[i18n.language] || "en";
+
   return (
     <Calendar
       onClickDay={handleDateClick}
       tileClassName={getTileClassName}
       className={"calendar"}
       onActiveStartDateChange={handleActiveStartDateChange}
+      locale={currentLocale}
     />
   );
 };

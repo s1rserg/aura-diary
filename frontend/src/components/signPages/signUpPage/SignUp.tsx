@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 import Input from "../../input/Input";
 import Button from "../../button/Button";
-
-import "../SignInSignUp.css";
 import { signUp } from "../../../store/auth/actions";
 import { useAppDispatch } from "../../../hooks/hooks";
+import "../SignInSignUp.css";
+import { useTranslation } from "react-i18next";
 
 const SignUp: React.FC = () => {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -46,11 +48,11 @@ const SignUp: React.FC = () => {
       <AuthForm
         className="sign-up-form"
         titleClassName="sign-up-form__title"
-        title="Sign Up"
+        title={t("sign up")}
         onSubmit={handleSubmit}
       >
         <Input
-          label="Full name"
+          label={t("full name")}
           name="fullName"
           type="text"
           required
@@ -58,7 +60,7 @@ const SignUp: React.FC = () => {
           onChange={handleChange}
         />
         <Input
-          label="Email"
+          label={t("email")}
           name="email"
           type="email"
           required
@@ -66,7 +68,7 @@ const SignUp: React.FC = () => {
           onChange={handleChange}
         />
         <Input
-          label="Password"
+          label={t("password")}
           name="password"
           type="password"
           required
@@ -75,16 +77,13 @@ const SignUp: React.FC = () => {
         />
         {error && <small className="error-text">{error}</small>}
         <Button className="button" type="submit">
-          Sign Up
+          {t("sign up")}
         </Button>
       </AuthForm>
       <span>
-        Already have an account?&nbsp;
-        <Link
-          to="/sign-in"
-          className="sign-up-form__link"
-        >
-          Sign In
+        {t("already have account")}&nbsp;
+        <Link to="/sign-in" className="sign-up-form__link">
+          {t("sign in")}
         </Link>
       </span>
     </main>

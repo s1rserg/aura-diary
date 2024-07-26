@@ -7,8 +7,10 @@ import Button from "../../button/Button";
 import "../SignInSignUp.css";
 import { signIn } from "../../../store/auth/actions";
 import { useAppDispatch } from "../../../hooks/hooks";
+import { useTranslation } from "react-i18next";
 
 const SignIn: React.FC = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
@@ -41,11 +43,11 @@ const SignIn: React.FC = () => {
       <AuthForm
         className="sign-in-form"
         titleClassName="sign-in-form__title"
-        title="Sign In"
+        title={t("sign in")}
         onSubmit={handleSubmit}
       >
         <Input
-          label="Email"
+          label={t("email")}
           name="email"
           type="email"
           required
@@ -53,7 +55,7 @@ const SignIn: React.FC = () => {
           onChange={handleChange}
         />
         <Input
-          label="Password"
+          label={t("password")}
           name="password"
           type="password"
           required
@@ -61,17 +63,14 @@ const SignIn: React.FC = () => {
           onChange={handleChange}
         />
         {error && <small className="error-text">{error}</small>}
-        <Button  className="button" type="submit">
-          Sign In
+        <Button className="button" type="submit">
+          {t("sign in")}
         </Button>
       </AuthForm>
       <span>
-        Don't have an account?&nbsp;
-        <Link
-          to="/sign-up"
-          className="sign-in-form__link"
-        >
-          Sign Up
+        {t("dont have account")}&nbsp;
+        <Link to="/sign-up" className="sign-in-form__link">
+          {t("sign up")}
         </Link>
       </span>
     </main>
