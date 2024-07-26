@@ -76,6 +76,7 @@ export const approveFriendRequest = async (req: Request, res: Response) => {
         friendId: userId,
         status: 'pending',
       },
+      include: [{ model: User, as: 'user', attributes: ['name'] }],
     });
 
     if (!friendship) {

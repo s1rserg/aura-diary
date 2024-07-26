@@ -24,3 +24,8 @@
     max-width: 150px;
     margin: 0
 }
+
+.friends-list__list-item__button-request{
+    margin: 0;
+    width: min-content;
+}
