@@ -1,4 +1,4 @@
-type Trigger = 'photo' | 'conversation' | 'movie' | 'reading' | 'boredom' | 'schedule😎' | 'other';
+type Trigger = 'photo' | 'conversation' | 'movie' | 'reading' | 'boredom' | 'schedule😎' | 'idk' | 'other';
 
 type WorkoutEntry = {
   id: string;

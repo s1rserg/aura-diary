@@ -91,6 +91,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
               { value: "reading", label: "reading" },
               { value: "boredom", label: "boredom" },
               { value: "schedule😎", label: "schedule😎" },
+              { value: "idk", label: "idk" },
               { value: "other", label: "other" },
             ]}
             defaultValue={trigger}

@@ -6,6 +6,8 @@ import SignIn from "../../../signPages/signInPage/SignIn";
 import SignUp from "../../../signPages/signUpPage/SignUp";
 import Layout from "../layout/Layout";
 import ProtectedRoute from "../protectedRoute/ProtectedRoute";
+import FriendsPage from "../../../friendsPage/FriendsPage";
+import StatsPage from "../../../statsPage/StatsPage";
 
 
 interface RouterConfigProps {
@@ -36,6 +38,14 @@ export const createRoutes = ({
       {
         index: true,
         element: <ProtectedRoute user={user} authChecked={authChecked} element={<MainPage />} />,
+      },
+      {
+        path: AppPath.FRIENDS,
+        element: <ProtectedRoute user={user} authChecked={authChecked} element={<FriendsPage />} />,
+      },
+      {
+        path: AppPath.STATS,
+        element: <ProtectedRoute user={user} authChecked={authChecked} element={<StatsPage />} />,
       },
       { path: AppPath.ANY, element: <Navigate to={AppPath.ROOT} replace /> },
     ],

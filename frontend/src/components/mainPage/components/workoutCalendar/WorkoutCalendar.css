@@ -3,6 +3,7 @@
   font-family: "Comfortaa", sans-serif;
   width: 630px;
   border-radius: 12px;
+  background-color: whitesmoke;
 }
 
 .react-calendar__tile {

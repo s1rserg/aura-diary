@@ -13,7 +13,7 @@ interface InputProps {
   min?: string;
   max?: string;
   checked?: boolean;
-  id?: string
+  id?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -34,7 +34,7 @@ const Input: React.FC<InputProps> = ({
       name={name}
       type={type}
       required={required}
-      value={value}
+      value={min ? Number(value).toString() : value}
       onChange={onChange}
       autoComplete={type === "password" ? "new-password" : "off"}
       placeholder={placeholder}

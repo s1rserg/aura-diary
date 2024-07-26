@@ -1,5 +1,6 @@
 import { ApiPath, ContentType } from "../../common/enums/enums";
 import { WorkoutEntry } from "../../common/types/data/workoutEntry.type";
+import { UserStatistics } from "../../common/types/types";
 import { getToken } from "../../utils/auth";
 import { formatDateYYYYMMDD } from "../../utils/date/date";
 import { Http } from "../http/http.service";
@@ -32,10 +33,17 @@ class Workouts {
 
   public getWorkoutsForPeriod(start: Date, end: Date): Promise<WorkoutEntry[]> {
     const token = getToken();
-    return this.http.load(this.getUrl(`/period?start=${formatDateYYYYMMDD(start)}&end=${formatDateYYYYMMDD(end)}`), {
-      method: "GET",
-      token,
-    });
+    return this.http.load(
+      this.getUrl(
+        `/period?start=${formatDateYYYYMMDD(start)}&end=${formatDateYYYYMMDD(
+          end
+        )}`
+      ),
+      {
+        method: "GET",
+        token,
+      }
+    );
   }
 
   public getAllWorkoutsforDate(date: string): Promise<WorkoutEntry[]> {
@@ -56,7 +64,7 @@ class Workouts {
 
   public postNewWorkout(workout: WorkoutEntry): Promise<WorkoutEntry> {
     const token = getToken();
-    return this.http.load(this.getUrl("/"), {
+    return this.http.load(this.getUrl(""), {
       method: "POST",
       token,
       contentType: ContentType.JSON,
@@ -78,6 +86,16 @@ class Workouts {
     const token = getToken();
     return this.http.load(this.getUrl(`/${id}`), {
       method: "DELETE",
+      token,
+    });
+  }
+
+  public getUserStats(id: string | undefined): Promise<UserStatistics> {
+    const token = getToken();
+    let path = `/stats`;
+    if (id && id !== 'default') path += `?userId=${id}`;
+    return this.http.load(this.getUrl(path), {
+      method: "GET",
       token,
     });
   }

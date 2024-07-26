@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
+import Friendship from './friendship';
 
 interface UserAttributes {
   id: string;

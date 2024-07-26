@@ -7,7 +7,7 @@ interface WorkoutsAttributes {
   date: Date;
   duration: number;
   rating: number;
-  trigger?: 'photo' | 'conversation' | 'movie' | 'reading' | 'boredom' | 'schedule😎' | 'other';
+  trigger?: 'photo' | 'conversation' | 'movie' | 'reading' | 'boredom' | 'schedule😎' | 'idk' | 'other';
   energyLevelBefore?: number;
   energyLevelAfter?: number;
   times: number;
@@ -21,7 +21,7 @@ class Workouts extends Model<WorkoutsAttributes, WorkoutCreationAttributes> impl
   public date!: Date;
   public duration!: number;
   public rating!: number;
-  public trigger?: 'photo' | 'conversation' | 'movie' | 'reading' | 'boredom' | 'schedule😎' | 'other';
+  public trigger?: 'photo' | 'conversation' | 'movie' | 'reading' | 'boredom' | 'schedule😎'| 'idk' | 'other';
   public energyLevelBefore?: number;
   public energyLevelAfter?: number;
   public times!: number;
@@ -53,7 +53,7 @@ Workouts.init({
     allowNull: false,
   },
   trigger: {
-    type: DataTypes.ENUM('photo', 'conversation', 'movie', 'reading', 'boredom', 'schedule😎', 'other'),
+    type: DataTypes.ENUM('photo', 'conversation', 'movie', 'reading', 'boredom', 'schedule😎', 'idk', 'other'),
     allowNull: true,
   },
   energyLevelBefore: {

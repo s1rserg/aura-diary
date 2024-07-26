@@ -12,6 +12,9 @@ const ApiPath = {
   WORKOUTS_BY_DATE: "/workouts/date/:date",
   WORKOUTS_BY_ID: "/workouts/:id",
 
+  // Friends routes
+  FRIENDS: "/friends"
+
 } as const;
 
 export { ApiPath };

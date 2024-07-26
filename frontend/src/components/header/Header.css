@@ -35,7 +35,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  gap: 30px;
+  gap: 50px;
 }
 
 .nav-header__inner {
@@ -45,10 +45,28 @@
   height: 100%;
 }
 
+.nav-header__item {
+  height: 40px;
+}
+
+.nav-header__item__svg {
+  fill-rule: evenodd;
+  clip-rule: evenodd;
+  stroke-linejoin: round;
+  stroke-miterlimit: 2;
+}
 
 @media (max-width: 1000px) {
   .header__logo {
     font-weight: 400;
     font-size: var(--font-size-400);
+  }
+
+  .nav-header__list {
+    gap: 30px;
+  }
+
+  .nav-header__list svg {
+    width: 30px;
   }
 }
