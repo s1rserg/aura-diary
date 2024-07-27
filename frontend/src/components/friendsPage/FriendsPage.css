@@ -10,7 +10,9 @@
 }
 
 .slider button {
-  transition: background-color 0.3s, border-bottom-color 0.3s;
+  transition:
+    background-color 0.3s,
+    border-bottom-color 0.3s;
   border-radius: 0;
 }
 
@@ -32,10 +34,8 @@
   background-color: var(--color-purple-500);
 }
 
-
 @media (max-width: 1000px) {
   .slider {
     width: 80%;
   }
-  
 }

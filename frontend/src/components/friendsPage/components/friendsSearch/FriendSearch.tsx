@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../hooks/hooks";
-import Input from "../../../input/Input";
-import "./FriendSearch.css";
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
+import Input from '../../../input/Input';
+import './FriendSearch.css';
 import {
   fetchUsersByName,
   sendFriendRequest,
-} from "../../../../store/friends/actions";
-import { PotentialFriend, Friendship } from "../../../../common/types/types";
-import { useTranslation } from "react-i18next";
+} from '../../../../store/friends/actions';
+import { PotentialFriend, Friendship } from '../../../../common/types/types';
+import { useTranslation } from 'react-i18next';
 
 const FriendSearch: React.FC = () => {
   const { t } = useTranslation();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const dispatch = useAppDispatch();
   const searchResults = useAppSelector((state) => state.friends.friends);
   const friends = useAppSelector((state) => state.friends.userFriends);
 
   const handleSearch = async () => {
-    if (query.trim() !== "") await dispatch(fetchUsersByName(query));
+    if (query.trim() !== '') await dispatch(fetchUsersByName(query));
   };
 
   const handleSendRequest = async (id: string) => {
@@ -29,7 +29,9 @@ const FriendSearch: React.FC = () => {
   };
 
   const isFriend = (id: string) => {
-    return friends.some((friend: Friendship) => friend.friendId === id || friend.userId === id);
+    return friends.some(
+      (friend: Friendship) => friend.friendId === id || friend.userId === id,
+    );
   };
 
   return (
@@ -41,30 +43,30 @@ const FriendSearch: React.FC = () => {
           required={true}
           value={query}
           onChange={handleChange}
-          placeholder={t("search for users")}
+          placeholder={t('search for users')}
         />
         <button
           className="button friends__friend-search__button"
           onClick={handleSearch}
         >
-          {t("search")}
+          {t('search')}
         </button>
       </div>
       <ul className="friends__friend-search__list">
-        {query.trim() !== "" &&
+        {query.trim() !== '' &&
           searchResults.map((user: PotentialFriend) => (
             <li key={user.id} className="friends__friend-search__list-item">
               {user.name}
               {isFriend(user.id) ? (
                 <span className="friends__friend-search__list-item__friend-span">
-                  {t("friend")}
+                  {t('friend')}
                 </span>
               ) : (
                 <button
                   className="button"
                   onClick={() => handleSendRequest(user.id)}
                 >
-                  {t("add friend")}
+                  {t('add friend')}
                 </button>
               )}
             </li>

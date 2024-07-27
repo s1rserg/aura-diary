@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   deleteWorkout,
   updateWorkout,
   createWorkout,
-} from "../../store/workouts/actions";
-import WorkoutCalendar from "./components/workoutCalendar/WorkoutCalendar";
-import { WorkoutEntry } from "../../common/types/types";
-import WorkoutItem from "./components/workoutItem/WorkoutItem";
-import { formatDate, reformatDate } from "../../utils/date/date";
+} from '../../store/workouts/actions';
+import WorkoutCalendar from './components/workoutCalendar/WorkoutCalendar';
+import { WorkoutEntry } from '../../common/types/types';
+import WorkoutItem from './components/workoutItem/WorkoutItem';
+import { formatDate, reformatDate } from '../../utils/date/date';
 
 const MainPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -16,9 +16,7 @@ const MainPage: React.FC = () => {
   const [editWorkout, setEditWorkout] = useState<WorkoutEntry | null>(null);
 
   const dispatch = useAppDispatch();
-  const workouts = useAppSelector(
-    (state) => state.workouts.workouts
-  );
+  const workouts = useAppSelector((state) => state.workouts.workouts);
 
   const handleDateClick = async (date: Date) => {
     if (date < new Date()) {
@@ -34,7 +32,8 @@ const MainPage: React.FC = () => {
   };
 
   const handleEditClick = async (id: string) => {
-    const workoutToEdit = workoutsForDate.find(workout => workout.id === id) || null;
+    const workoutToEdit =
+      workoutsForDate.find((workout) => workout.id === id) || null;
     setEditWorkout(workoutToEdit);
     setIsModalOpen(true);
   };
@@ -53,7 +52,9 @@ const MainPage: React.FC = () => {
   };
 
   const workoutsForDate = selectedDate
-    ? workouts.filter(workout => formatDate(workout.date) === reformatDate(selectedDate))
+    ? workouts.filter(
+        (workout) => formatDate(workout.date) === reformatDate(selectedDate),
+      )
     : [];
 
   return (

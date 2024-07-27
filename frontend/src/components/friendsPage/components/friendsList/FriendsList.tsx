@@ -1,22 +1,22 @@
-import React from "react";
-import { useAppDispatch, useAppSelector } from "../../../../hooks/hooks";
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import {
   approveFriendRequest,
   denyFriendRequest,
-} from "../../../../store/friends/actions";
-import { Friendship } from "../../../../common/types/types";
-import "./FriendsList.css";
-import { Link } from "react-router-dom";
-import { DataStatus } from "../../../../common/enums/enums";
-import Loader from "../../../loader/Loader";
-import { useTranslation } from "react-i18next";
+} from '../../../../store/friends/actions';
+import { Friendship } from '../../../../common/types/types';
+import './FriendsList.css';
+import { Link } from 'react-router-dom';
+import { DataStatus } from '../../../../common/enums/enums';
+import Loader from '../../../loader/Loader';
+import { useTranslation } from 'react-i18next';
 
 const FriendsList: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const friends = useAppSelector((state) => state.friends.userFriends);
   const friendRequests = useAppSelector(
-    (state) => state.friends.friendRequests
+    (state) => state.friends.friendRequests,
   );
   const status = useAppSelector((state) => state.friends.status);
 
@@ -32,7 +32,7 @@ const FriendsList: React.FC = () => {
 
   return (
     <div className="friends-list">
-      <h2>{t("incoming friend requests")}</h2>
+      <h2>{t('incoming friend requests')}</h2>
       <ul className="friends-list__list">
         {friendRequests.map((request: Friendship) => (
           <li className="friends-list__list-item" key={request.id}>
@@ -41,19 +41,19 @@ const FriendsList: React.FC = () => {
               className="button friends-list__list-item__button-request"
               onClick={() => handleApprove(request.id)}
             >
-              {t("approve")}
+              {t('approve')}
             </button>
             <button
               className="button friends-list__list-item__button-request"
               onClick={() => handleDeny(request.id)}
             >
-              {t("deny")}
+              {t('deny')}
             </button>
           </li>
         ))}
       </ul>
 
-      <h2>{t("my friends")}</h2>
+      <h2>{t('my friends')}</h2>
       <ul className="friends-list__list">
         {friends.map((friend: Friendship) => (
           <li className="friends-list__list-item" key={friend.id}>
@@ -64,7 +64,7 @@ const FriendsList: React.FC = () => {
               to={`/stats/${friend.friend ? friend.friendId : friend.userId}`}
               className="button friends-list__list-item__button"
             >
-              {t("stats")}
+              {t('stats')}
             </Link>
           </li>
         ))}

@@ -1,5 +1,12 @@
 import { Router } from 'express';
-import { sendFriendRequest, getFriendRequests, approveFriendRequest, denyFriendRequest, getFriends, getUsersByName } from '../controllers/friendsController';
+import {
+  sendFriendRequest,
+  getFriendRequests,
+  approveFriendRequest,
+  denyFriendRequest,
+  getFriends,
+  getUsersByName,
+} from '../controllers/friendsController';
 import { authMiddleware as authenticate } from '../middlewares/authMiddleware';
 
 const router = Router();

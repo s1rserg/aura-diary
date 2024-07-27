@@ -12,7 +12,7 @@ type Friendship = {
   user: {
     id: string;
     name: string;
-  }
+  };
 };
 
-export {type Friendship}
+export { type Friendship };

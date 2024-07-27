@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent } from 'react';
 
 interface AuthFormProps {
   className: string;
@@ -16,7 +16,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   children,
 }) => {
   const formClassName = `${title.toLowerCase()}-form${
-    className ? ` ${className}` : ""
+    className ? ` ${className}` : ''
   }`;
 
   return (

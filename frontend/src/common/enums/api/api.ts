@@ -1,1 +1,1 @@
-export { ApiPath } from "./api-path.enum";
+export { ApiPath } from './api-path.enum';

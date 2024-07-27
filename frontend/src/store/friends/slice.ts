@@ -1,16 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchUsersByName,
   fetchFriendRequests,
   approveFriendRequest,
   denyFriendRequest,
   fetchFriends,
-  sendFriendRequest
-} from "./actions";
-import { notifyError, notifySuccess } from "../../utils/notification/notification";
-import { DataStatus } from "../../common/enums/enums";
-import { PotentialFriend, Friendship, ValueOf } from "../../common/types/types";
-import i18n from "../../i18n";
+  sendFriendRequest,
+} from './actions';
+import {
+  notifyError,
+  notifySuccess,
+} from '../../utils/notification/notification';
+import { DataStatus } from '../../common/enums/enums';
+import { PotentialFriend, Friendship, ValueOf } from '../../common/types/types';
+import i18n from '../../i18n';
 
 export interface FriendsState {
   friends: PotentialFriend[];
@@ -29,7 +32,7 @@ const initialState: FriendsState = {
 };
 
 const { reducer, actions, name } = createSlice({
-  name: "friends",
+  name: 'friends',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -49,7 +52,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to fetch users.");
+        notifyError(action.error.message || 'Failed to fetch users.');
       })
       .addCase(fetchFriendRequests.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -66,14 +69,16 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to fetch friend requests.");
+        notifyError(action.error.message || 'Failed to fetch friend requests.');
       })
       .addCase(approveFriendRequest.pending, (state) => {
         state.status = DataStatus.PENDING;
         state.error = { code: null, message: null };
       })
       .addCase(approveFriendRequest.fulfilled, (state, action) => {
-        state.friendRequests = state.friendRequests.filter(request => request.id !== action.payload.id);
+        state.friendRequests = state.friendRequests.filter(
+          (request) => request.id !== action.payload.id,
+        );
         state.userFriends.push(action.payload);
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
@@ -85,14 +90,18 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to approve friend request.");
+        notifyError(
+          action.error.message || 'Failed to approve friend request.',
+        );
       })
       .addCase(denyFriendRequest.pending, (state) => {
         state.status = DataStatus.PENDING;
         state.error = { code: null, message: null };
       })
       .addCase(denyFriendRequest.fulfilled, (state, action) => {
-        state.friendRequests = state.friendRequests.filter(request => request.id !== action.payload.id);
+        state.friendRequests = state.friendRequests.filter(
+          (request) => request.id !== action.payload.id,
+        );
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
         notifySuccess(i18n.t('deny friend request'));
@@ -103,7 +112,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to deny friend request.");
+        notifyError(action.error.message || 'Failed to deny friend request.');
       })
       .addCase(fetchFriends.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -120,7 +129,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to fetch friends.");
+        notifyError(action.error.message || 'Failed to fetch friends.');
       })
       .addCase(sendFriendRequest.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -137,7 +146,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to send friend request.");
+        notifyError(action.error.message || 'Failed to send friend request.');
       });
   },
 });

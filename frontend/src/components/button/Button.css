@@ -1,40 +1,40 @@
 .button {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    min-height: 45px;
-    padding: 10px 15px;
-    color: var(--color-white);
-    font-size: var(--font-size-200);
-    text-align: center;
-    text-decoration: none;
-    background-color: var(--color-purple);
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-top: 10px;
-    border-radius: 8px;
-  }
-  
-  .button::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(to right, #7B68EE, #4B0082);
-    transform: translateX(-50%) scaleX(0);
-    transform-origin: left;
-    transition: transform 2s ease;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-  
-  .button:hover::after {
-    transform: translateX(-50%) scaleX(1);
-  }
-  
-  .button-2 {
-    background-color: var(--color-purple-400);
-  }
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-height: 45px;
+  padding: 10px 15px;
+  color: var(--color-white);
+  font-size: var(--font-size-200);
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--color-purple);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #7b68ee, #4b0082);
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: left;
+  transition: transform 2s ease;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.button:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.button-2 {
+  background-color: var(--color-purple-400);
+}

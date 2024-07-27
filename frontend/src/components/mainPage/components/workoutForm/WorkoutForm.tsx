@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   WorkoutEntry,
   Trigger,
-} from "../../../../common/types/data/workoutEntry.type";
-import Input from "../../../input/Input";
-import Select from "../../../select/Select";
-import Button from "../../../button/Button";
-import { formatDateForBackend } from "../../../../utils/date/date";
-import "./WorkoutForm.css";
-import { useTranslation } from "react-i18next";
+} from '../../../../common/types/data/workout-entry.type';
+import Input from '../../../input/Input';
+import Select from '../../../select/Select';
+import Button from '../../../button/Button';
+import { formatDateForBackend } from '../../../../utils/date/date';
+import './WorkoutForm.css';
+import { useTranslation } from 'react-i18next';
 
 interface WorkoutFormProps {
   selectedDate: string;
@@ -26,17 +26,17 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
   const { t } = useTranslation();
 
   const [duration, setDuration] = useState<number>(
-    initialValues?.duration ?? 10
+    initialValues?.duration ?? 10,
   );
   const [rating, setRating] = useState<number>(initialValues?.rating ?? 5);
   const [trigger, setTrigger] = useState<Trigger>(
-    initialValues?.trigger ?? "other"
+    initialValues?.trigger ?? 'other',
   );
   const [energyLevelBefore, setEnergyLevelBefore] = useState<number>(
-    initialValues?.energyLevelBefore ?? 5
+    initialValues?.energyLevelBefore ?? 5,
   );
   const [energyLevelAfter, setEnergyLevelAfter] = useState<number>(
-    initialValues?.energyLevelAfter ?? 5
+    initialValues?.energyLevelAfter ?? 5,
   );
   const [times, setTimes] = useState<number>(initialValues?.times ?? 1);
 
@@ -60,7 +60,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
     if (initialValues) {
       setDuration(initialValues.duration);
       setRating(initialValues.rating);
-      setTrigger(initialValues?.trigger ?? "other");
+      setTrigger(initialValues?.trigger ?? 'other');
       setEnergyLevelBefore(initialValues?.energyLevelBefore ?? 5);
       setEnergyLevelAfter(initialValues?.energyLevelAfter ?? 5);
       setTimes(initialValues.times);
@@ -72,76 +72,76 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={handleSubmit}>
           <Input
-            label={`${t("duration")} (${t("minutes")}):`}
+            label={`${t('duration')} (${t('minutes')}):`}
             name="duration"
             required={true}
             type="number"
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value))}
-            min={"1"}
-            max={"100"}
+            min={'1'}
+            max={'100'}
           />
           <Input
-            label={`${t("rating")} (1-10):`}
+            label={`${t('rating')} (1-10):`}
             name="rating"
             required={true}
             type="number"
             value={rating}
             onChange={(e) => setRating(Number(e.target.value))}
-            min={"1"}
-            max={"10"}
+            min={'1'}
+            max={'10'}
           />
           <Select
-            label={`${t("trigger")}:`}
+            label={`${t('trigger')}:`}
             name="trigger"
             onChange={(e) => setTrigger(e.target.value as Trigger)}
             options={[
-              { value: "photo", label: t("photo") },
-              { value: "conversation", label: t("conversation") },
-              { value: "movie", label: t("movie") },
-              { value: "reading", label: t("reading") },
-              { value: "boredom", label: t("boredom") },
-              { value: "schedule😎", label: t("schedule") },
-              { value: "idk", label: t("idk") },
-              { value: "other", label: t("other") },
+              { value: 'photo', label: t('photo') },
+              { value: 'conversation', label: t('conversation') },
+              { value: 'movie', label: t('movie') },
+              { value: 'reading', label: t('reading') },
+              { value: 'boredom', label: t('boredom') },
+              { value: 'schedule😎', label: t('schedule') },
+              { value: 'idk', label: t('idk') },
+              { value: 'other', label: t('other') },
             ]}
             defaultValue={trigger}
           />
           <Input
-            label={`${t("mood level before")} (1-10):`}
+            label={`${t('mood level before')} (1-10):`}
             name="energyBefore"
             required={true}
             type="number"
             value={energyLevelBefore}
             onChange={(e) => setEnergyLevelBefore(Number(e.target.value))}
-            min={"1"}
-            max={"10"}
+            min={'1'}
+            max={'10'}
           />
           <Input
-            label={`${t("mood level after")} (1-10):`}
+            label={`${t('mood level after')} (1-10):`}
             name="energyAfter"
             required={true}
             type="number"
             value={energyLevelAfter}
             onChange={(e) => setEnergyLevelAfter(Number(e.target.value))}
-            min={"1"}
-            max={"10"}
+            min={'1'}
+            max={'10'}
           />
           <Input
-            label={`${t("how many times")}:`}
+            label={`${t('how many times')}:`}
             name="times"
             required={true}
             type="number"
             value={times}
             onChange={(e) => setTimes(Number(e.target.value))}
-            min={"1"}
-            max={"10"}
+            min={'1'}
+            max={'10'}
           />
           <Button className="button " type="submit">
-            {t("save")}
+            {t('save')}
           </Button>
           <Button className="button button-2" type="button" onClick={onClose}>
-            {t("cancel")}
+            {t('cancel')}
           </Button>
         </form>
       </div>

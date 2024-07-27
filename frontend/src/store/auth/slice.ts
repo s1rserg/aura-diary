@@ -34,8 +34,13 @@ const { reducer, actions, name } = createSlice({
       })
       .addCase(fetchAuthenticatedUser.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
-        state.error = { code: action.error.code || null, message: action.error.message || null };
-        notifyError(action.error.message || 'Failed to fetch authenticated user.');
+        state.error = {
+          code: action.error.code || null,
+          message: action.error.message || null,
+        };
+        notifyError(
+          action.error.message || 'Failed to fetch authenticated user.',
+        );
       })
       .addCase(signIn.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -49,7 +54,10 @@ const { reducer, actions, name } = createSlice({
       })
       .addCase(signIn.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
-        state.error = { code: action.error.code || null, message: action.error.message || null };
+        state.error = {
+          code: action.error.code || null,
+          message: action.error.message || null,
+        };
         notifyError(action.error.message || 'Sign in failed.');
       })
       .addCase(signUp.pending, (state) => {
@@ -64,7 +72,10 @@ const { reducer, actions, name } = createSlice({
       })
       .addCase(signUp.rejected, (state, action) => {
         state.status = DataStatus.ERROR;
-        state.error = { code: action.error.code || null, message: action.error.message || null };
+        state.error = {
+          code: action.error.code || null,
+          message: action.error.message || null,
+        };
         notifyError(action.error.message || 'Sign up failed.');
       })
       .addCase(signOut, (state) => {

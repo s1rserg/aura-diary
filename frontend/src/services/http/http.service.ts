@@ -1,5 +1,5 @@
-import { ContentType, HttpHeader } from "../../common/enums/enums";
-import { HttpMethod, ValueOf } from "../../common/types/types";
+import { ContentType, HttpHeader } from '../../common/enums/enums';
+import { HttpMethod, ValueOf } from '../../common/types/types';
 
 type HttpOptions = {
   method: HttpMethod;
@@ -27,7 +27,10 @@ class Http {
       .catch(this.throwError);
   }
 
-  private getHeaders(contentType?: ValueOf<typeof ContentType>, token?: string|null): Headers {
+  private getHeaders(
+    contentType?: ValueOf<typeof ContentType>,
+    token?: string | null,
+  ): Headers {
     const headers = new Headers();
 
     if (contentType) {
@@ -44,7 +47,10 @@ class Http {
   private async checkStatus(response: Response): Promise<Response> {
     if (!response.ok) {
       const error = await response.json();
-      throw { status: response.status, message: error.message || response.statusText };
+      throw {
+        status: response.status,
+        message: error.message || response.statusText,
+      };
     }
 
     return response;

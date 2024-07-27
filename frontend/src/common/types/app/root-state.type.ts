@@ -1,4 +1,4 @@
-import { store } from "../../../store/store";
+import { store } from '../../../store/store';
 
 type RootState = ReturnType<typeof store.getState>;
 

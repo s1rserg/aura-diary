@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react";
-import "./Select.css";
+import React, { ChangeEvent } from 'react';
+import './Select.css';
 
 interface Option {
   value: string;
@@ -19,7 +19,7 @@ const Select: React.FC<SelectProps> = ({
   name,
   options,
   onChange,
-  defaultValue = ""
+  defaultValue = '',
 }) => (
   <label className="select">
     {label && <span className="input__heading">{label}</span>}

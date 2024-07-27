@@ -1,8 +1,8 @@
-import { Http } from "./http/http.service";
-import { Auth } from "./auth/auth.service";
-import { ApiPath } from "../common/enums/enums";
-import { Workouts } from "./workouts/workouts.service";
-import { Friends } from "./friends/friends.service";
+import { Http } from './http/http.service';
+import { Auth } from './auth/auth.service';
+import { ApiPath } from '../common/enums/enums';
+import { Workouts } from './workouts/workouts.service';
+import { Friends } from './friends/friends.service';
 
 const http = new Http();
 

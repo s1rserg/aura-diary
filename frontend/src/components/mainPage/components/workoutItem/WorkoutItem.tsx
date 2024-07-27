@@ -1,9 +1,9 @@
-import React from "react";
-import { type WorkoutEntry as WorkoutEntryType } from "../../../../common/types/types";
-import "./WorkoutItem.css";
-import WorkoutForm from "../workoutForm/WorkoutForm";
-import { formatDate } from "../../../../utils/date/date";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { type WorkoutEntry as WorkoutEntryType } from '../../../../common/types/types';
+import './WorkoutItem.css';
+import WorkoutForm from '../workoutForm/WorkoutForm';
+import { formatDate } from '../../../../utils/date/date';
+import { useTranslation } from 'react-i18next';
 
 interface WorkoutItemProps {
   selectedDate: string;
@@ -37,7 +37,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
         className="button create-entry-button"
         onClick={handleCreateClick}
       >
-        {t("create workout")}
+        {t('create workout')}
       </button>
       {workouts.length > 0 ? (
         <ul className="workout-list">
@@ -45,27 +45,29 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
             <li key={workout.id} className="workout-item">
               <div>
                 <p>
-                  <strong>{t("date")}:</strong> {formatDate(workout.date)}
+                  <strong>{t('date')}:</strong> {formatDate(workout.date)}
                 </p>
                 <p>
-                  <strong>{t("duration")}:</strong> {workout.duration} {t('minutes')}
+                  <strong>{t('duration')}:</strong> {workout.duration}{' '}
+                  {t('minutes')}
                 </p>
                 <p>
-                  <strong>{t("rating")}:</strong> {workout.rating}
+                  <strong>{t('rating')}:</strong> {workout.rating}
                 </p>
                 <p>
-                  <strong>{t("trigger")}:</strong> {t(workout.trigger as string)}
+                  <strong>{t('trigger')}:</strong>{' '}
+                  {t(workout.trigger as string)}
                 </p>
                 <p>
-                  <strong>{t("mood level before")}:</strong>{" "}
+                  <strong>{t('mood level before')}:</strong>{' '}
                   {workout.energyLevelBefore}
                 </p>
                 <p>
-                  <strong>{t("mood level after")}:</strong>{" "}
+                  <strong>{t('mood level after')}:</strong>{' '}
                   {workout.energyLevelAfter}
                 </p>
                 <p>
-                  <strong>{t("times")}:</strong> {workout.times}
+                  <strong>{t('times')}:</strong> {workout.times}
                 </p>
               </div>
               <div className="edit-entry-buttons">
@@ -73,20 +75,20 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
                   className="button edit-entry-button"
                   onClick={() => handleEditClick(workout.id)}
                 >
-                  {t("edit")}
+                  {t('edit')}
                 </button>
                 <button
                   className="button edit-entry-button"
                   onClick={() => handleDeleteClick(workout.id)}
                 >
-                  {t("delete")}
+                  {t('delete')}
                 </button>
               </div>
             </li>
           ))}
         </ul>
       ) : (
-        <p>{t("no workouts")}</p>
+        <p>{t('no workouts')}</p>
       )}
       {isModalOpen && (
         <WorkoutForm

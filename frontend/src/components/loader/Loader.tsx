@@ -1,7 +1,5 @@
-import "./Loader.css";
+import './Loader.css';
 
-const Loader: React.FC = () => (
-  <div className="loader"></div>
-);
+const Loader: React.FC = () => <div className="loader"></div>;
 
 export default Loader;

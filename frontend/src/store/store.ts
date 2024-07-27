@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { auth as authService, workouts as workoutsService, friends as friendsService } from '../services/services';
+import {
+  auth as authService,
+  workouts as workoutsService,
+  friends as friendsService,
+} from '../services/services';
 import { rootReducer } from './root-reducer';
 import { listenerMiddleware } from './middleware/401';
 
 const extraArgument = {
   authService,
   workoutsService,
-  friendsService
+  friendsService,
 };
 
 const store = configureStore({

@@ -13,7 +13,9 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      id: string;
+    };
     (req as AuthenticatedRequest).user = decoded;
     next();
   } catch (error) {
@@ -21,4 +23,4 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export {authMiddleware};
+export { authMiddleware };
