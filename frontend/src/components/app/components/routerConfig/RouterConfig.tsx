@@ -1,14 +1,13 @@
-import { RouteObject, Navigate } from "react-router-dom";
-import { AppPath } from "../../../../common/enums/enums";
-import { User } from "../../../../common/types/types";
-import MainPage from "../../../mainPage/MainPage";
-import SignIn from "../../../signPages/signInPage/SignIn";
-import SignUp from "../../../signPages/signUpPage/SignUp";
-import Layout from "../layout/Layout";
-import ProtectedRoute from "../protectedRoute/ProtectedRoute";
-import FriendsPage from "../../../friendsPage/FriendsPage";
-import StatsPage from "../../../statsPage/StatsPage";
-
+import { RouteObject, Navigate } from 'react-router-dom';
+import { AppPath } from '../../../../common/enums/enums';
+import { User } from '../../../../common/types/types';
+import MainPage from '../../../mainPage/MainPage';
+import SignIn from '../../../signPages/signInPage/SignIn';
+import SignUp from '../../../signPages/signUpPage/SignUp';
+import Layout from '../layout/Layout';
+import ProtectedRoute from '../protectedRoute/ProtectedRoute';
+import FriendsPage from '../../../friendsPage/FriendsPage';
+import StatsPage from '../../../statsPage/StatsPage';
 
 interface RouterConfigProps {
   user: User | null;
@@ -21,11 +20,7 @@ export const createRoutes = ({
 }: RouterConfigProps): RouteObject[] => [
   {
     path: AppPath.ROOT,
-    element: (
-      <Layout
-        userName={user?.name}
-      />
-    ),
+    element: <Layout userName={user?.name} />,
     children: [
       {
         path: AppPath.SIGN_IN,
@@ -37,15 +32,33 @@ export const createRoutes = ({
       },
       {
         index: true,
-        element: <ProtectedRoute user={user} authChecked={authChecked} element={<MainPage />} />,
+        element: (
+          <ProtectedRoute
+            user={user}
+            authChecked={authChecked}
+            element={<MainPage />}
+          />
+        ),
       },
       {
         path: AppPath.FRIENDS,
-        element: <ProtectedRoute user={user} authChecked={authChecked} element={<FriendsPage />} />,
+        element: (
+          <ProtectedRoute
+            user={user}
+            authChecked={authChecked}
+            element={<FriendsPage />}
+          />
+        ),
       },
       {
         path: AppPath.STATS,
-        element: <ProtectedRoute user={user} authChecked={authChecked} element={<StatsPage />} />,
+        element: (
+          <ProtectedRoute
+            user={user}
+            authChecked={authChecked}
+            element={<StatsPage />}
+          />
+        ),
       },
       { path: AppPath.ANY, element: <Navigate to={AppPath.ROOT} replace /> },
     ],

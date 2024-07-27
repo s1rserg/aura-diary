@@ -1,7 +1,7 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { User } from "../../../../common/types/types";
-import Loader from "../../../loader/Loader";
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { User } from '../../../../common/types/types';
+import Loader from '../../../loader/Loader';
 
 interface ProtectedRouteProps {
   element: React.ReactElement;

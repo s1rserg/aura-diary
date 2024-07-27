@@ -1,7 +1,7 @@
-import "./ProfileNav.css";
-import { useSignOut } from "../../../hooks/hooks";
-import userIcon from "../../../assets/images/user.svg";
-import { useTranslation } from "react-i18next";
+import './ProfileNav.css';
+import { useSignOut } from '../../../hooks/hooks';
+import userIcon from '../../../assets/images/user.svg';
+import { useTranslation } from 'react-i18next';
 
 interface ProfileNavProps {
   userName: string | undefined;
@@ -25,7 +25,7 @@ const ProfileNav: React.FC<ProfileNavProps> = ({ userName }) => {
               className="profile-nav__sign-out button"
               onClick={handleSignOut}
             >
-              {t("sign out")}
+              {t('sign out')}
             </a>
           </li>
         </ul>

@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import dotenv from "dotenv";
-import { Op } from "sequelize";
-import User from "../models/user";
-import { AuthenticatedRequest } from "../common/types/types";
-import Friendship from "../models/friendship";
+import { Request, Response } from 'express';
+import dotenv from 'dotenv';
+import { Op } from 'sequelize';
+import User from '../models/user';
+import { AuthenticatedRequest } from '../common/types/types';
+import Friendship from '../models/friendship';
 
 dotenv.config();
 
@@ -21,12 +21,12 @@ const getUsersByName = async (req: Request, res: Response) => {
           [Op.not]: userId,
         },
       },
-      attributes: ["id", "name"],
+      attributes: ['id', 'name'],
     });
 
     res.json(users);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching users", error });
+    res.status(500).json({ message: 'Error fetching users', error });
   }
 };
 
@@ -39,13 +39,15 @@ export const sendFriendRequest = async (req: Request, res: Response) => {
       where: {
         [Op.or]: [
           { userId: userId, friendId: friendId },
-          { userId: friendId, friendId: userId }
-        ]
-      }
+          { userId: friendId, friendId: userId },
+        ],
+      },
     });
 
     if (existingFriendship) {
-      return res.status(400).json({ error: 'Friendship request already exists' });
+      return res
+        .status(400)
+        .json({ error: 'Friendship request already exists' });
     }
 
     const friendship = await Friendship.create({
@@ -170,10 +172,8 @@ export const getFriends = async (req: Request, res: Response) => {
     res.status(200).json(friends);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching friends", error });
+    res.status(500).json({ message: 'Error fetching friends', error });
   }
 };
-
-
 
 export { getUsersByName };

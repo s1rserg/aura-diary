@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { fetchUserStats } from "../../store/workouts/actions";
-import "./StatsPage.css";
-import StatCard from "./components/statCard/StatCard";
-import { useParams } from "react-router-dom";
-import Loader from "../loader/Loader";
-import { DataStatus } from "../../common/enums/enums";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { fetchUserStats } from '../../store/workouts/actions';
+import './StatsPage.css';
+import StatCard from './components/statCard/StatCard';
+import { useParams } from 'react-router-dom';
+import Loader from '../loader/Loader';
+import { DataStatus } from '../../common/enums/enums';
+import { useTranslation } from 'react-i18next';
 
 const StatsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -14,7 +14,7 @@ const StatsPage: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const { userStats: stats, status } = useAppSelector(
-    (state) => state.workouts
+    (state) => state.workouts,
   );
 
   useEffect(() => {
@@ -45,16 +45,19 @@ const StatsPage: React.FC = () => {
           title={t('longest workout')}
           value={`${stats?.highestDurationWorkout} ${t('mins')}`}
         />
-        <StatCard title={t('avg rating')} value={stats?.averageRating.toFixed(1)} />
+        <StatCard
+          title={t('avg rating')}
+          value={stats?.averageRating.toFixed(1)}
+        />
         <StatCard
           title={t('mood level improvement')}
           value={`${stats?.energyLevelImprovement.toFixed(1)}%`}
         />
+        <StatCard title={t('consistency')} value={stats?.totalTimesWorkedOut} />
         <StatCard
           title={t('consistency')}
-          value={stats?.totalTimesWorkedOut}
+          value={`${stats?.consistency} ${t('days')}`}
         />
-        <StatCard title={t('consistency')} value={`${stats?.consistency} ${t('days')}`} />
       </div>
     </div>
   );

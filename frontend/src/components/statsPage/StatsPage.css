@@ -53,7 +53,6 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
-  
 
   .stats-grid {
     display: grid;
@@ -76,11 +75,10 @@
     font-size: 1rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .stat-card p {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--color-purple-500);
   }
-
 }

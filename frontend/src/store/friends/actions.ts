@@ -1,7 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { name } from "./slice";
-import { AsyncThunkConfig } from "../../common/types/types";
-import { PotentialFriend, Friendship } from "../../common/types/types";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { name } from './slice';
+import { AsyncThunkConfig } from '../../common/types/types';
+import { PotentialFriend, Friendship } from '../../common/types/types';
 
 const fetchUsersByName = createAsyncThunk<
   PotentialFriend[],
@@ -43,25 +43,23 @@ const denyFriendRequest = createAsyncThunk<
   return response;
 });
 
-const fetchFriends = createAsyncThunk<
-  Friendship[],
-  void,
-  AsyncThunkConfig
->(`${name}/fetchFriends`, async (_, { extra }) => {
-  const { friendsService } = extra;
-  const friends = await friendsService.getFriends();
-  return friends;
-});
+const fetchFriends = createAsyncThunk<Friendship[], void, AsyncThunkConfig>(
+  `${name}/fetchFriends`,
+  async (_, { extra }) => {
+    const { friendsService } = extra;
+    const friends = await friendsService.getFriends();
+    return friends;
+  },
+);
 
-const sendFriendRequest = createAsyncThunk<
-  boolean,
-  string,
-  AsyncThunkConfig
->(`${name}/sendFriendRequest`, async (friendId, { extra }) => {
-  const { friendsService } = extra;
-  const response = await friendsService.sendFriendRequest(friendId);
-  return response;
-});
+const sendFriendRequest = createAsyncThunk<boolean, string, AsyncThunkConfig>(
+  `${name}/sendFriendRequest`,
+  async (friendId, { extra }) => {
+    const { friendsService } = extra;
+    const response = await friendsService.sendFriendRequest(friendId);
+    return response;
+  },
+);
 
 export {
   fetchUsersByName,
@@ -69,5 +67,5 @@ export {
   approveFriendRequest,
   denyFriendRequest,
   fetchFriends,
-  sendFriendRequest
+  sendFriendRequest,
 };

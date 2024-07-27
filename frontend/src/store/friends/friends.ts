@@ -5,8 +5,8 @@ import {
   denyFriendRequest,
   fetchFriends,
   sendFriendRequest,
-} from "./actions";
-import { actions, reducer } from "./slice";
+} from './actions';
+import { actions, reducer } from './slice';
 
 const allActions = {
   ...actions,

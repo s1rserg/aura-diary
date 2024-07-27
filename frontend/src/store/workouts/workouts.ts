@@ -7,8 +7,8 @@ import {
   deleteWorkout,
   fetchWorkoutsForPeriod,
   fetchUserStats,
-} from "./actions";
-import { actions, reducer } from "./slice";
+} from './actions';
+import { actions, reducer } from './slice';
 
 const allActions = {
   ...actions,
@@ -19,7 +19,7 @@ const allActions = {
   updateWorkout,
   deleteWorkout,
   fetchWorkoutsForPeriod,
-  fetchUserStats
+  fetchUserStats,
 };
 
 export { allActions as actions, reducer };

@@ -1,7 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { WorkoutEntry } from "../../common/types/data/workoutEntry.type";
-import { name } from "./slice";
-import { AsyncThunkConfig, UserStatistics } from "../../common/types/types";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { WorkoutEntry } from '../../common/types/data/workoutEntry.type';
+import { name } from './slice';
+import { AsyncThunkConfig, UserStatistics } from '../../common/types/types';
 
 const fetchAllWorkouts = createAsyncThunk<
   WorkoutEntry[],
@@ -13,14 +13,15 @@ const fetchAllWorkouts = createAsyncThunk<
   return workouts;
 });
 
-export const fetchWorkoutsForPeriod = createAsyncThunk<WorkoutEntry[], { start: Date, end: Date }, AsyncThunkConfig>(
-  `${name}/fetchWorkoutsForPeriod`,
-  async ({ start, end }, { extra }) => {
-    const { workoutsService } = extra;
-    const workouts = await workoutsService.getWorkoutsForPeriod(start, end);
-    return workouts;
-  }
-);
+export const fetchWorkoutsForPeriod = createAsyncThunk<
+  WorkoutEntry[],
+  { start: Date; end: Date },
+  AsyncThunkConfig
+>(`${name}/fetchWorkoutsForPeriod`, async ({ start, end }, { extra }) => {
+  const { workoutsService } = extra;
+  const workouts = await workoutsService.getWorkoutsForPeriod(start, end);
+  return workouts;
+});
 
 const fetchWorkoutsForDate = createAsyncThunk<
   WorkoutEntry[],
@@ -68,7 +69,7 @@ const deleteWorkout = createAsyncThunk<boolean, string, AsyncThunkConfig>(
     const { workoutsService } = extra;
     const success = await workoutsService.deleteWorkoutById(id);
     return success;
-  }
+  },
 );
 
 const fetchUserStats = createAsyncThunk<
@@ -81,7 +82,6 @@ const fetchUserStats = createAsyncThunk<
   return workouts;
 });
 
-
 export {
   fetchAllWorkouts,
   fetchWorkoutsForDate,
@@ -89,5 +89,5 @@ export {
   createWorkout,
   updateWorkout,
   deleteWorkout,
-  fetchUserStats
+  fetchUserStats,
 };

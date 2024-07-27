@@ -6,7 +6,7 @@ const allActions = {
   fetchAuthenticatedUser,
   signIn,
   signUp,
-  signOut
+  signOut,
 };
 
 export { allActions as actions, reducer };

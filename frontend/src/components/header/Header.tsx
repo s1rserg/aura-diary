@@ -1,11 +1,11 @@
-import { useLocation, Link } from "react-router-dom";
-import ProfileNav from "./profileNav/ProfileNav";
-import "./Header.css";
-import { AppPath } from "../../common/enums/enums";
-import logoIcon from "../../assets/images/logo.svg";
-import statsIcon from "../../assets/images/stats.svg";
-import friendsIcon from "../../assets/images/friends.svg";
-import LanguageSelector from "../languageSelector/LanguageSelector";
+import { useLocation, Link } from 'react-router-dom';
+import ProfileNav from './profileNav/ProfileNav';
+import './Header.css';
+import { AppPath } from '../../common/enums/enums';
+import logoIcon from '../../assets/images/logo.svg';
+import statsIcon from '../../assets/images/stats.svg';
+import friendsIcon from '../../assets/images/friends.svg';
+import LanguageSelector from '../languageSelector/LanguageSelector';
 
 interface HeaderProps {
   userName: string | undefined;

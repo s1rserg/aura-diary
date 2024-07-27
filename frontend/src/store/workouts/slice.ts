@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchAllWorkouts,
   fetchWorkoutById,
@@ -7,11 +7,18 @@ import {
   deleteWorkout,
   fetchWorkoutsForPeriod,
   fetchUserStats,
-} from "./actions";
-import { notifyError, notifySuccess } from "../../utils/notification/notification";
-import { DataStatus } from "../../common/enums/enums";
-import { WorkoutEntry, ValueOf, UserStatistics } from "../../common/types/types";
-import i18n from "../../i18n";
+} from './actions';
+import {
+  notifyError,
+  notifySuccess,
+} from '../../utils/notification/notification';
+import { DataStatus } from '../../common/enums/enums';
+import {
+  WorkoutEntry,
+  ValueOf,
+  UserStatistics,
+} from '../../common/types/types';
+import i18n from '../../i18n';
 
 export interface WorkoutsState {
   workouts: WorkoutEntry[];
@@ -30,7 +37,7 @@ const initialState: WorkoutsState = {
 };
 
 const { reducer, actions, name } = createSlice({
-  name: "workouts",
+  name: 'workouts',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -50,7 +57,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to fetch workouts.");
+        notifyError(action.error.message || 'Failed to fetch workouts.');
       })
       .addCase(fetchWorkoutsForPeriod.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -67,7 +74,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to fetch workouts.");
+        notifyError(action.error.message || 'Failed to fetch workouts.');
       })
       .addCase(fetchWorkoutById.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -84,7 +91,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to fetch workout.");
+        notifyError(action.error.message || 'Failed to fetch workout.');
       })
       .addCase(createWorkout.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -102,7 +109,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to create workout.");
+        notifyError(action.error.message || 'Failed to create workout.');
       })
       .addCase(updateWorkout.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -110,7 +117,7 @@ const { reducer, actions, name } = createSlice({
       })
       .addCase(updateWorkout.fulfilled, (state, action) => {
         const index = state.workouts.findIndex(
-          (workout) => workout.id === action.payload.id
+          (workout) => workout.id === action.payload.id,
         );
         if (index !== -1) {
           state.workouts[index] = action.payload;
@@ -125,7 +132,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to update workout.");
+        notifyError(action.error.message || 'Failed to update workout.');
       })
       .addCase(deleteWorkout.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -133,7 +140,7 @@ const { reducer, actions, name } = createSlice({
       })
       .addCase(deleteWorkout.fulfilled, (state, action) => {
         state.workouts = state.workouts.filter(
-          (workout) => workout.id !== action.meta.arg
+          (workout) => workout.id !== action.meta.arg,
         );
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
@@ -145,14 +152,14 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to delete workout.");
+        notifyError(action.error.message || 'Failed to delete workout.');
       })
       .addCase(fetchUserStats.pending, (state) => {
         state.status = DataStatus.PENDING;
         state.error = { code: null, message: null };
       })
       .addCase(fetchUserStats.fulfilled, (state, action) => {
-        state.userStats = action.payload
+        state.userStats = action.payload;
         state.status = DataStatus.SUCCESS;
         state.error = { code: null, message: null };
       })
@@ -162,7 +169,7 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code || null,
           message: action.error.message || null,
         };
-        notifyError(action.error.message || "Failed to fetch stats.");
+        notifyError(action.error.message || 'Failed to fetch stats.');
       });
   },
 });

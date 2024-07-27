@@ -59,7 +59,7 @@ body {
   overflow-x: hidden;
   color: var(--color-purple-600);
   font-size: var(--font-size-200);
-  font-family: "Comfortaa", sans-serif;
+  font-family: 'Comfortaa', sans-serif;
   font-style: normal;
   line-height: 1.5;
   text-rendering: optimizespeed;

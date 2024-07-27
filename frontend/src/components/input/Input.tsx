@@ -1,6 +1,6 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react';
 
-import "./Input.css";
+import './Input.css';
 
 interface InputProps {
   label?: string;
@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   min,
   max,
-  checked
+  checked,
 }) => (
   <label className="input">
     {label && <span className="input__heading">{label}</span>}
@@ -36,7 +36,7 @@ const Input: React.FC<InputProps> = ({
       required={required}
       value={min ? Number(value).toString() : value}
       onChange={onChange}
-      autoComplete={type === "password" ? "new-password" : "off"}
+      autoComplete={type === 'password' ? 'new-password' : 'off'}
       placeholder={placeholder}
       min={min}
       max={max}

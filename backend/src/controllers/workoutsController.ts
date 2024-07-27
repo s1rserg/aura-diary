@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
-import dotenv from "dotenv";
-import { AuthenticatedRequest } from "../common/types/types";
-import Workouts from "../models/workouts";
-import sequelize from "../config/database";
-import { Op } from "sequelize";
-import User from "../models/user";
+import { Request, Response } from 'express';
+import dotenv from 'dotenv';
+import { AuthenticatedRequest } from '../common/types/types';
+import Workouts from '../models/workouts';
+import sequelize from '../config/database';
+import { Op } from 'sequelize';
+import User from '../models/user';
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ const getAllWorkouts = async (req: Request, res: Response) => {
     });
     res.json(workouts);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching workouts", error });
+    res.status(500).json({ message: 'Error fetching workouts', error });
   }
 };
 
@@ -29,14 +29,14 @@ const getWorkoutsCounts = async (req: Request, res: Response) => {
     const counts = await Workouts.findAll({
       where: { userId: (req as AuthenticatedRequest).user.id },
       attributes: [
-        [sequelize.fn("DATE", sequelize.col("date")), "date"],
-        [sequelize.fn("COUNT", sequelize.col("id")), "count"],
+        [sequelize.fn('DATE', sequelize.col('date')), 'date'],
+        [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
       ],
-      group: ["date"],
+      group: ['date'],
     });
     res.json(counts);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching workouts counts", error });
+    res.status(500).json({ message: 'Error fetching workouts counts', error });
   }
 };
 
@@ -53,7 +53,7 @@ const getWorkoutsForPeriod = async (req: Request, res: Response) => {
     });
     res.json(workouts);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching workouts", error });
+    res.status(500).json({ message: 'Error fetching workouts', error });
   }
 };
 
@@ -67,7 +67,7 @@ const getAllWorkoutsByDate = async (req: Request, res: Response) => {
     });
     res.json(workouts);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching workouts", error });
+    res.status(500).json({ message: 'Error fetching workouts', error });
   }
 };
 
@@ -78,10 +78,10 @@ const getWorkoutById = async (req: Request, res: Response) => {
     if (workout) {
       res.json(workout);
     } else {
-      res.status(404).json({ message: "Workout not found" });
+      res.status(404).json({ message: 'Workout not found' });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error fetching workout", error });
+    res.status(500).json({ message: 'Error fetching workout', error });
   }
 };
 
@@ -107,10 +107,10 @@ const editWorkout = async (req: Request, res: Response) => {
       await workout.save();
       res.json(workout);
     } else {
-      res.status(404).json({ message: "Workout not found" });
+      res.status(404).json({ message: 'Workout not found' });
     }
   } catch (error) {
-    res.status(500).json({ emessage: "Error editing workout", error });
+    res.status(500).json({ emessage: 'Error editing workout', error });
   }
 };
 
@@ -120,12 +120,12 @@ const deleteWorkout = async (req: Request, res: Response) => {
     const workout = await Workouts.findByPk(id);
     if (workout) {
       await workout.destroy();
-      res.json({ message: "Workout deleted" });
+      res.json({ message: 'Workout deleted' });
     } else {
-      res.status(404).json({ message: "Workout not found" });
+      res.status(404).json({ message: 'Workout not found' });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error deleting workout", error });
+    res.status(500).json({ message: 'Error deleting workout', error });
   }
 };
 
@@ -153,17 +153,18 @@ const postWorkout = async (req: Request, res: Response) => {
     });
     res.status(201).json(newWorkout);
   } catch (error) {
-    res.status(500).json({ message: "Error creating workout", error });
+    res.status(500).json({ message: 'Error creating workout', error });
   }
 };
 
 const getUserStatistics = async (req: Request, res: Response) => {
-  const userId = req.query.userId as string || (req as AuthenticatedRequest).user.id;
+  const userId =
+    (req.query.userId as string) || (req as AuthenticatedRequest).user.id;
 
   try {
     const user = await User.findOne({ where: { id: userId } });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     // Fetch all workouts for the user
@@ -192,7 +193,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
     // Total Duration
     const totalDuration = workouts.reduce(
       (sum, workout) => sum + workout.duration,
-      0
+      0,
     );
 
     // Average Workout Duration
@@ -200,7 +201,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
 
     // Highest Duration Workout
     const highestDurationWorkout = Math.max(
-      ...workouts.map((workout) => workout.duration)
+      ...workouts.map((workout) => workout.duration),
     );
 
     // Average Rating
@@ -210,7 +211,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
 
     // Energy Level Improvement
     const energyLevelImprovement =
-      workouts.reduce((sum, workout) => {
+      (workouts.reduce((sum, workout) => {
         if (
           workout.energyLevelBefore !== undefined &&
           workout.energyLevelAfter !== undefined
@@ -218,27 +219,30 @@ const getUserStatistics = async (req: Request, res: Response) => {
           return sum + (workout.energyLevelAfter - workout.energyLevelBefore);
         }
         return sum;
-      }, 0) / totalWorkouts * 100;
+      }, 0) /
+        totalWorkouts) *
+      100;
 
     // Total Times Worked Out
     const totalTimesWorkedOut = workouts.reduce(
       (sum, workout) => sum + workout.times,
-      0
+      0,
     );
 
     // Consistency (Streaks)
     const dates = workouts.map((workout) => new Date(workout.date));
     dates.sort((a, b) => a.getTime() - b.getTime());
-    
+
     let streaks = 0;
     let currentStreak = 1;
-    
+
     for (let i = 1; i < dates.length; i++) {
       const currentDate = dates[i];
       const previousDate = dates[i - 1];
       const diff =
-        (currentDate.getTime() - previousDate.getTime()) / (1000 * 60 * 60 * 24); // Difference in days
-      
+        (currentDate.getTime() - previousDate.getTime()) /
+        (1000 * 60 * 60 * 24); // Difference in days
+
       if (diff === 1) {
         currentStreak++;
       } else {
@@ -246,7 +250,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
         currentStreak = 1;
       }
     }
-    
+
     streaks = Math.max(streaks, currentStreak);
 
     res.status(200).json({
@@ -261,8 +265,8 @@ const getUserStatistics = async (req: Request, res: Response) => {
       consistency: streaks,
     });
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: "Error fetching user statistics:", error });
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching user statistics:', error });
   }
 };
 
@@ -275,5 +279,5 @@ export {
   postWorkout,
   getWorkoutsCounts,
   getWorkoutsForPeriod,
-  getUserStatistics
+  getUserStatistics,
 };

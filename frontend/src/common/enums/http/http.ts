@@ -1,1 +1,1 @@
-export { HttpHeader } from "./http-header.enum";
+export { HttpHeader } from './http-header.enum';
