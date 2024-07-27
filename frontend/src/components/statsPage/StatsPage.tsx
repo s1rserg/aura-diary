@@ -51,7 +51,7 @@ const StatsPage: React.FC = () => {
         />
         <StatCard
           title={t('avg workout duration')}
-          value={`${stats?.monthlyStats.averageWorkoutDuration.toFixed(1)} ${t('mins')}`}
+          value={`${stats?.monthlyStats.averageWorkoutDuration} ${t('mins')}`}
         />
         <StatCard
           title={t('longest workout')}
@@ -59,11 +59,11 @@ const StatsPage: React.FC = () => {
         />
         <StatCard
           title={t('avg rating')}
-          value={stats?.monthlyStats.averageRating.toFixed(1)}
+          value={stats?.monthlyStats.averageRating}
         />
         <StatCard
           title={t('mood level improvement')}
-          value={`${stats?.monthlyStats.energyLevelImprovement.toFixed(1)}%`}
+          value={`${stats?.monthlyStats.energyLevelImprovement}%`}
         />
         <StatCard
           title={t('active days ratio')}
@@ -86,7 +86,7 @@ const StatsPage: React.FC = () => {
         />
         <StatCard
           title={t('avg workout duration')}
-          value={`${stats?.totalStats.averageWorkoutDuration.toFixed(1)} ${t('mins')}`}
+          value={`${stats?.totalStats.averageWorkoutDuration} ${t('mins')}`}
         />
         <StatCard
           title={t('longest workout')}
@@ -94,11 +94,11 @@ const StatsPage: React.FC = () => {
         />
         <StatCard
           title={t('avg rating')}
-          value={stats?.totalStats.averageRating.toFixed(1)}
+          value={stats?.totalStats.averageRating}
         />
         <StatCard
           title={t('mood level improvement')}
-          value={`${stats?.totalStats.energyLevelImprovement.toFixed(1)}%`}
+          value={`${stats?.totalStats.energyLevelImprovement}%`}
         />
         <StatCard
           title={t('consistency')}
