@@ -15,4 +15,9 @@ type Friendship = {
   };
 };
 
-export { type Friendship };
+type PotentialFriend = {
+  id: string;
+  name: string;
+};
+
+export { type Friendship, type PotentialFriend };
