@@ -12,6 +12,7 @@ export {
   type PotentialFriend,
   type Friendship,
   type UserStatistics,
+  type Leaderboard,
 } from './data/types';
 export { type HttpMethod } from './http/http';
 export { type ValueOf } from './object/object';

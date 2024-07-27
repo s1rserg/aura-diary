@@ -1,39 +1,19 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
+import { WorkoutEntry } from '../common/types/types';
 
-interface WorkoutsAttributes {
-  id: string;
-  userId: string;
-  date: Date;
-  duration: number;
-  rating: number;
-  trigger?:
-    | 'photo'
-    | 'conversation'
-    | 'movie'
-    | 'reading'
-    | 'boredom'
-    | 'schedule😎'
-    | 'idk'
-    | 'other';
-  energyLevelBefore?: number;
-  energyLevelAfter?: number;
-  times: number;
-}
-
-interface WorkoutCreationAttributes
-  extends Optional<WorkoutsAttributes, 'id'> {}
+interface WorkoutCreationAttributes extends Optional<WorkoutEntry, 'id'> {}
 
 class Workouts
-  extends Model<WorkoutsAttributes, WorkoutCreationAttributes>
-  implements WorkoutsAttributes
+  extends Model<WorkoutEntry, WorkoutCreationAttributes>
+  implements WorkoutEntry
 {
   public id!: string;
   public userId!: string;
   public date!: Date;
   public duration!: number;
   public rating!: number;
-  public trigger?:
+  public trigger!:
     | 'photo'
     | 'conversation'
     | 'movie'
@@ -42,8 +22,8 @@ class Workouts
     | 'schedule😎'
     | 'idk'
     | 'other';
-  public energyLevelBefore?: number;
-  public energyLevelAfter?: number;
+  public energyLevelBefore!: number;
+  public energyLevelAfter!: number;
   public times!: number;
 
   public readonly createdAt!: Date;

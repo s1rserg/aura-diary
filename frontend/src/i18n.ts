@@ -8,7 +8,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: 'en-US',
     interpolation: {
       escapeValue: false,
     },
@@ -27,7 +27,7 @@ i18n
       ],
       caches: ['cookie'],
     },
-    supportedLngs: ['en-US', 'ua', 'he', 'en'],
+    supportedLngs: ['en-US', 'ua', 'he'],
   });
 
 export default i18n;

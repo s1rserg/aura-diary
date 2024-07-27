@@ -1,19 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { WorkoutEntry } from '../../common/types/data/workoutEntry.type';
 import { name } from './slice';
-import { AsyncThunkConfig, UserStatistics } from '../../common/types/types';
+import {
+  AsyncThunkConfig,
+  Leaderboard,
+  UserStatistics,
+  WorkoutEntry,
+} from '../../common/types/types';
 
-const fetchAllWorkouts = createAsyncThunk<
-  WorkoutEntry[],
-  void,
-  AsyncThunkConfig
->(`${name}/fetchAllWorkouts`, async (_payload, { extra }) => {
-  const { workoutsService } = extra;
-  const workouts = await workoutsService.getAllWorkouts();
-  return workouts;
-});
-
-export const fetchWorkoutsForPeriod = createAsyncThunk<
+const fetchWorkoutsForPeriod = createAsyncThunk<
   WorkoutEntry[],
   { start: Date; end: Date },
   AsyncThunkConfig
@@ -21,26 +15,6 @@ export const fetchWorkoutsForPeriod = createAsyncThunk<
   const { workoutsService } = extra;
   const workouts = await workoutsService.getWorkoutsForPeriod(start, end);
   return workouts;
-});
-
-const fetchWorkoutsForDate = createAsyncThunk<
-  WorkoutEntry[],
-  string,
-  AsyncThunkConfig
->(`${name}/fetchWorkoutsForDate`, async (date, { extra }) => {
-  const { workoutsService } = extra;
-  const workouts = await workoutsService.getAllWorkoutsforDate(date);
-  return workouts;
-});
-
-const fetchWorkoutById = createAsyncThunk<
-  WorkoutEntry,
-  string,
-  AsyncThunkConfig
->(`${name}/fetchWorkoutById`, async (id, { extra }) => {
-  const { workoutsService } = extra;
-  const workout = await workoutsService.getWorkoutById(id);
-  return workout;
 });
 
 const createWorkout = createAsyncThunk<
@@ -82,12 +56,20 @@ const fetchUserStats = createAsyncThunk<
   return workouts;
 });
 
+const fetchLeaderboard = createAsyncThunk<Leaderboard, void, AsyncThunkConfig>(
+  `${name}/fetchLeaderboard`,
+  async (_payload, { extra }) => {
+    const { workoutsService } = extra;
+    const workouts = await workoutsService.getLeaderboard();
+    return workouts;
+  },
+);
+
 export {
-  fetchAllWorkouts,
-  fetchWorkoutsForDate,
-  fetchWorkoutById,
+  fetchWorkoutsForPeriod,
   createWorkout,
   updateWorkout,
   deleteWorkout,
   fetchUserStats,
+  fetchLeaderboard,
 };

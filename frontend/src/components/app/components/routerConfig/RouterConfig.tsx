@@ -8,6 +8,7 @@ import Layout from '../layout/Layout';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import FriendsPage from '../../../friendsPage/FriendsPage';
 import StatsPage from '../../../statsPage/StatsPage';
+import Leaderboard from '../../../leaderboard/Leaderboard';
 
 interface RouterConfigProps {
   user: User | null;
@@ -57,6 +58,16 @@ export const createRoutes = ({
             user={user}
             authChecked={authChecked}
             element={<StatsPage />}
+          />
+        ),
+      },
+      {
+        path: AppPath.LEADERBOARD,
+        element: (
+          <ProtectedRoute
+            user={user}
+            authChecked={authChecked}
+            element={<Leaderboard />}
           />
         ),
       },

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   WorkoutEntry,
   Trigger,
-} from '../../../../common/types/data/workoutEntry.type';
+} from '../../../../common/types/data/workout-entry.type';
 import Input from '../../../input/Input';
 import Select from '../../../select/Select';
 import Button from '../../../button/Button';

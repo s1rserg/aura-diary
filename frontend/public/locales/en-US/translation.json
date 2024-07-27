@@ -55,5 +55,7 @@
   "send friend request": "Friend request sent successfully.",
   "success create workout": "Workout Entry created successfully!",
   "success update workout": "Workout Entry updated successfully!",
-  "success delete workout": "Workout Entry deleted successfully!"
+  "success delete workout": "Workout Entry deleted successfully!",
+  "total times worked out": "Total times worked out",
+  "active days ratio": "Active days ratio"
 }

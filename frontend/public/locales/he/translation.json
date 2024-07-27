@@ -55,5 +55,7 @@
   "send friend request": "בקשת חברות נשלחה בהצלחה.",
   "success create workout": "רישום אימון נוצר בהצלחה!",
   "success update workout": "רישום אימון עודכן בהצלחה!",
-  "success delete workout": "רישום אימון נמחק בהצלחה!"
+  "success delete workout": "רישום אימון נמחק בהצלחה!",
+  "total times worked out": "סה\"כ פעמים שהתאמנת",
+  "active days ratio": "יחס ימים פעילים"
 }

@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  fetchAllWorkouts,
-  fetchWorkoutById,
   createWorkout,
   updateWorkout,
   deleteWorkout,
   fetchWorkoutsForPeriod,
   fetchUserStats,
+  fetchLeaderboard,
 } from './actions';
 import {
   notifyError,
@@ -17,6 +16,7 @@ import {
   WorkoutEntry,
   ValueOf,
   UserStatistics,
+  Leaderboard,
 } from '../../common/types/types';
 import i18n from '../../i18n';
 
@@ -25,6 +25,7 @@ export interface WorkoutsState {
   selectedWorkout: WorkoutEntry | null;
   status: ValueOf<typeof DataStatus>;
   userStats: UserStatistics | null;
+  leaderboard: Leaderboard | null;
   error: { code: string | number | null; message: string | null };
 }
 
@@ -32,6 +33,7 @@ const initialState: WorkoutsState = {
   workouts: [],
   selectedWorkout: null,
   userStats: null,
+  leaderboard: null,
   status: DataStatus.IDLE,
   error: { code: null, message: null },
 };
@@ -42,23 +44,6 @@ const { reducer, actions, name } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllWorkouts.pending, (state) => {
-        state.status = DataStatus.PENDING;
-        state.error = { code: null, message: null };
-      })
-      .addCase(fetchAllWorkouts.fulfilled, (state, action) => {
-        state.workouts = action.payload;
-        state.status = DataStatus.SUCCESS;
-        state.error = { code: null, message: null };
-      })
-      .addCase(fetchAllWorkouts.rejected, (state, action) => {
-        state.status = DataStatus.ERROR;
-        state.error = {
-          code: action.error.code || null,
-          message: action.error.message || null,
-        };
-        notifyError(action.error.message || 'Failed to fetch workouts.');
-      })
       .addCase(fetchWorkoutsForPeriod.pending, (state) => {
         state.status = DataStatus.PENDING;
         state.error = { code: null, message: null };
@@ -75,23 +60,6 @@ const { reducer, actions, name } = createSlice({
           message: action.error.message || null,
         };
         notifyError(action.error.message || 'Failed to fetch workouts.');
-      })
-      .addCase(fetchWorkoutById.pending, (state) => {
-        state.status = DataStatus.PENDING;
-        state.error = { code: null, message: null };
-      })
-      .addCase(fetchWorkoutById.fulfilled, (state, action) => {
-        state.selectedWorkout = action.payload;
-        state.status = DataStatus.SUCCESS;
-        state.error = { code: null, message: null };
-      })
-      .addCase(fetchWorkoutById.rejected, (state, action) => {
-        state.status = DataStatus.ERROR;
-        state.error = {
-          code: action.error.code || null,
-          message: action.error.message || null,
-        };
-        notifyError(action.error.message || 'Failed to fetch workout.');
       })
       .addCase(createWorkout.pending, (state) => {
         state.status = DataStatus.PENDING;
@@ -170,6 +138,23 @@ const { reducer, actions, name } = createSlice({
           message: action.error.message || null,
         };
         notifyError(action.error.message || 'Failed to fetch stats.');
+      })
+      .addCase(fetchLeaderboard.pending, (state) => {
+        state.status = DataStatus.PENDING;
+        state.error = { code: null, message: null };
+      })
+      .addCase(fetchLeaderboard.fulfilled, (state, action) => {
+        state.leaderboard = action.payload;
+        state.status = DataStatus.SUCCESS;
+        state.error = { code: null, message: null };
+      })
+      .addCase(fetchLeaderboard.rejected, (state, action) => {
+        state.status = DataStatus.ERROR;
+        state.error = {
+          code: action.error.code || null,
+          message: action.error.message || null,
+        };
+        notifyError(action.error.message || 'Failed to fetch leaderboard.');
       });
   },
 });

@@ -55,5 +55,7 @@
   "send friend request": "Запит на дружбу успішно надіслано.",
   "success create workout": "Запис тренування успішно створено!",
   "success update workout": "Запис тренування успішно оновлено!",
-  "success delete workout": "Запис тренування успішно видалено!"
+  "success delete workout": "Запис тренування успішно видалено!",
+  "total times worked out": "Загальна кількість разів тренувань",
+  "active days ratio": "Співвідношення активних днів"
 }

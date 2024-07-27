@@ -1,25 +1,21 @@
 import {
-  fetchAllWorkouts,
-  fetchWorkoutsForDate,
-  fetchWorkoutById,
   createWorkout,
   updateWorkout,
   deleteWorkout,
   fetchWorkoutsForPeriod,
   fetchUserStats,
+  fetchLeaderboard,
 } from './actions';
 import { actions, reducer } from './slice';
 
 const allActions = {
   ...actions,
-  fetchAllWorkouts,
-  fetchWorkoutsForDate,
-  fetchWorkoutById,
   createWorkout,
   updateWorkout,
   deleteWorkout,
   fetchWorkoutsForPeriod,
   fetchUserStats,
+  fetchLeaderboard,
 };
 
 export { allActions as actions, reducer };
