@@ -9,15 +9,12 @@ This repository contains the full frontend and backend code for the Aura Diary a
 * #### Manipulating workout entries: Edit, and delete workout entries. View all your entries in a calendar format.
 * #### User Authentication: Securely sign in and manage your workout journal.
 * #### Notifications: Get feedback on successful operations or errors while managing your workouts.
-
-## Future Features
-We have exciting plans to enhance the Biceps Workout Journal with the following features:
-
 * #### Statistics: Visualize your progress and workout trends with detailed statistics.
 * #### Friends: Connect with friends, share your progress, and stay motivated together.
 * #### Leaderboards: Compete with others and see how you rank in various challenges.
-* #### Challenges: Participate in workout challenges to push your limits and achieve new milestones.
-* #### Authentication: OAuth with Google
+
+## Future Features
+All the necessary features have been implemented. However, we welcome suggestions for new features to enhance the app further.
 
 ## Technologies Used
 * #### Frontend: React, React Router, Redux Toolkit, TypeScript
