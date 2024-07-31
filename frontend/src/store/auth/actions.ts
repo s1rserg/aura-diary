@@ -42,6 +42,16 @@ const signUp = createAsyncThunk<
   return tasks;
 });
 
+const togglePrivacy = createAsyncThunk<string, void, AsyncThunkConfig>(
+  `${name}/togglePrivacy`,
+  async (_payload, { extra }) => {
+    const { authService } = extra;
+    const privacy = await authService.togglePrivacy();
+
+    return privacy;
+  },
+);
+
 const signOut = createAction(`${name}/signOut`);
 
-export { fetchAuthenticatedUser, signIn, signUp, signOut };
+export { fetchAuthenticatedUser, signIn, signUp, signOut, togglePrivacy };

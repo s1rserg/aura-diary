@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { fetchUserStats } from '../../store/workouts/actions';
 import './StatsPage.css';
@@ -8,33 +8,62 @@ import Loader from '../loader/Loader';
 import { DataStatus } from '../../common/enums/enums';
 import { useTranslation } from 'react-i18next';
 import podiumIcon from '../../assets/images/podium.svg';
+import PrivacyToggle from '../privacyToggle/PrivacyToggle';
+import { togglePrivacy } from '../../store/auth/actions';
 
 const StatsPage: React.FC = () => {
   const { t } = useTranslation();
   const { userId } = useParams<{ userId: string | undefined }>();
-
   const dispatch = useAppDispatch();
   const { userStats: stats, status } = useAppSelector(
     (state) => state.workouts,
   );
+  const [privacy, setPrivacy] = useState<string | undefined | null>(undefined);
+
+  const handlePrivacyChange = async () => {
+    await dispatch(togglePrivacy());
+    setPrivacy(privacy === 'private' ? 'public' : 'private');
+  };
 
   useEffect(() => {
     const loadStats = async () => {
       await dispatch(fetchUserStats(userId));
+      setPrivacy(stats?.privacy);
     };
     loadStats();
-  }, [dispatch, userId]);
+  }, [dispatch, stats?.privacy, userId]);
 
   if (status === DataStatus.PENDING) {
     return <Loader />;
   }
 
+  if (userId !== 'default' && stats?.privacy === 'private') {
+    return (
+      <div className="stats-page">
+        <h1 className="username">{stats?.name}</h1>
+        <h2>Profile is private</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="stats-page">
       <h1 className="username">{stats?.name}</h1>
-      <Link to="/stats/leaderboard">
-        <img className="header__icon" src={podiumIcon} alt="friends-icon" />
-      </Link>
+      {userId === 'default' && (
+        <Link to="/stats/leaderboard">
+          <img
+            className="header__icon"
+            src={podiumIcon}
+            alt="leaderboard-icon"
+          />
+        </Link>
+      )}
+      {userId === 'default' && (
+        <PrivacyToggle
+          privacy={privacy}
+          handlePrivacyChange={handlePrivacyChange}
+        />
+      )}
       <h2>Monthly Stats</h2>
       <div className="stats-grid">
         <StatCard

@@ -1,5 +1,7 @@
 type UserStatistics = {
   name: string;
+  privacy: string;
+  isAllowed: boolean;
   totalStats: {
     totalWorkouts: number;
     totalDuration: number;

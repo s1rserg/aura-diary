@@ -1,10 +1,10 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
-import Friendship from './friendship';
 
 interface UserAttributes {
   id: string;
   name: string;
+  privacy: string;
   email: string;
   password: string;
   createdAt?: Date;
@@ -19,6 +19,7 @@ class User
 {
   public id!: string;
   public name!: string;
+  public privacy!: string;
   public email!: string;
   public password!: string;
   public readonly createdAt!: Date;
@@ -35,6 +36,11 @@ User.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    privacy: {
+      type: DataTypes.ENUM('private', 'public'),
+      allowNull: false,
+      defaultValue: 'private',
     },
     email: {
       type: DataTypes.STRING,

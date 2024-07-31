@@ -49,6 +49,14 @@ class Auth {
     });
   }
 
+  public togglePrivacy(): Promise<string> {
+    const token = getToken();
+    return this.http.load(this.getUrl(ApiPath.TOGGLE_PRIVACY), {
+      method: 'GET',
+      token,
+    });
+  }
+
   private getUrl(path = ''): string {
     return `${this.baseUrl}${this.basePath}${path}`;
   }

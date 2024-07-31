@@ -15,6 +15,7 @@ const signUp = async (req: Request, res: Response) => {
     const newUser = await User.create({
       name: fullName,
       email,
+      privacy: 'private',
       password: hashedPassword,
     });
     const token = jwt.sign(
@@ -59,4 +60,21 @@ const getAuthenticatedUser = async (req: Request, res: Response) => {
   }
 };
 
-export { signUp, signIn, getAuthenticatedUser };
+const togglePrivacy = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findByPk((req as AuthenticatedRequest).user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.privacy = user.privacy === 'private' ? 'public' : 'private';
+    await user.save();
+
+    res.json(user.privacy);
+  } catch (error) {
+    console.error('Error toggling privacy:', error);
+    res.status(500).json({ message: 'Error toggling privacy', error });
+  }
+};
+
+export { signUp, signIn, getAuthenticatedUser, togglePrivacy };
