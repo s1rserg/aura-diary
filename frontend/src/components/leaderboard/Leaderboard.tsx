@@ -31,12 +31,17 @@ const Leaderboard: React.FC = () => {
               {index + 1}. {user.name} - {user.count} workouts
             </li>
           ))}
-        {leaderboard && leaderboard.currentUser.rank > 10 && (
-          <li className="leaderboard-item current-user">
-            {leaderboard.currentUser.rank}. {leaderboard.currentUser.name} -{' '}
-            {leaderboard.currentUser.count} workouts
-          </li>
-        )}
+        {leaderboard &&
+          (leaderboard.currentUser.rank > 10 ||
+            leaderboard.currentUser.rank === -1) && (
+            <li className="leaderboard-item current-user">
+              {leaderboard.currentUser.rank === -1
+                ? '-'
+                : leaderboard.currentUser.rank}
+              . {leaderboard.currentUser.name} - {leaderboard.currentUser.count}{' '}
+              workouts
+            </li>
+          )}
       </ul>
     </div>
   );

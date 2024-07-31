@@ -103,19 +103,56 @@ const postWorkout = async (req: Request, res: Response) => {
 };
 
 const getUserStatistics = async (req: Request, res: Response) => {
-  const userId =
-    (req.query.userId as string) || (req as AuthenticatedRequest).user.id;
+  const queryUserId = req.query.userId as string;
+  const authenticatedUserId = (req as AuthenticatedRequest).user.id;
+  const userId = queryUserId || authenticatedUserId;
 
   try {
     const user = await User.findOne({ where: { id: userId } });
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    if (queryUserId && queryUserId !== authenticatedUserId) {
+      if (user.privacy !== 'public') {
+        res.status(200).json({
+          name: user.name,
+          privacy: user.privacy,
+          isAllowed: false,
+          totalStats: {
+            totalWorkouts: 0,
+            totalDuration: 0,
+            averageWorkoutDuration: 0,
+            highestDurationWorkout: 0,
+            averageRating: 0,
+            energyLevelImprovement: 0,
+            totalTimesWorkedOut: 0,
+            consistency: 0,
+          },
+          monthlyStats: {
+            totalWorkouts: 0,
+            totalDuration: 0,
+            averageWorkoutDuration: 0,
+            highestDurationWorkout: 0,
+            averageRating: 0,
+            energyLevelImprovement: 0,
+            totalTimesWorkedOut: 0,
+            totalDaysWorkedOut: 0,
+            totalDaysInMonth: new Date().getDate(),
+          },
+        });
+        return;
+      }
+    }
+
     const workouts = await Workouts.findAll({ where: { userId } });
 
     if (!workouts || workouts.length === 0) {
       res.status(200).json({
         name: user.name,
+        privacy: user.privacy,
+        isAllowed: true,
         totalStats: {
           totalWorkouts: 0,
           totalDuration: 0,
@@ -141,6 +178,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
       return;
     }
 
+    // Total statistics calculation
     const totalWorkouts = workouts.length;
     const totalDuration = workouts.reduce(
       (sum, workout) => sum + workout.duration,
@@ -150,11 +188,9 @@ const getUserStatistics = async (req: Request, res: Response) => {
     const highestDurationWorkout = Math.max(
       ...workouts.map((workout) => workout.duration),
     );
-
     const averageRating =
       workouts.reduce((sum, workout) => sum + workout.rating, 0) /
       totalWorkouts;
-
     const energyLevelImprovement =
       workouts.reduce((sum, workout) => {
         return (
@@ -163,12 +199,12 @@ const getUserStatistics = async (req: Request, res: Response) => {
             workout.energyLevelBefore
         );
       }, 0) * 10;
-
     const totalTimesWorkedOut = workouts.reduce(
       (sum, workout) => sum + workout.times,
       0,
     );
 
+    // Consistency calculation (streaks)
     const dates = workouts.map((workout) => new Date(workout.date));
     dates.sort((a, b) => a.getTime() - b.getTime());
 
@@ -192,21 +228,16 @@ const getUserStatistics = async (req: Request, res: Response) => {
 
     streaks = Math.max(streaks, currentStreak);
 
-    // Calculate monthly statistics
+    // Monthly statistics calculation
     const currentMonthStart = new Date(
       new Date().getFullYear(),
       new Date().getMonth(),
       1,
     );
-    const currentMonthEnd = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      0,
-    );
 
     const monthlyWorkouts = workouts.filter((workout) => {
       const workoutDate = new Date(workout.date);
-      return workoutDate >= currentMonthStart && workoutDate <= currentMonthEnd;
+      return workoutDate >= currentMonthStart;
     });
 
     const monthlyTotalWorkouts = monthlyWorkouts.length;
@@ -246,6 +277,8 @@ const getUserStatistics = async (req: Request, res: Response) => {
 
     res.status(200).json({
       name: user.name,
+      privacy: user.privacy,
+      isAllowed: true,
       totalStats: {
         totalWorkouts,
         totalDuration,
@@ -270,7 +303,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error fetching user statistics:', error });
+    res.status(500).json({ message: 'Error fetching user statistics', error });
   }
 };
 
@@ -281,15 +314,23 @@ interface UserWorkoutCount {
   rank: number;
 }
 
-export const getLeaderboard = async (req: Request, res: Response) => {
+const getLeaderboard = async (req: Request, res: Response) => {
   try {
-    const userId =
-      (req.query.userId as string) || (req as AuthenticatedRequest).user.id;
+    const queryUserId = req.query.userId as string;
+    const authenticatedUserId = (req as AuthenticatedRequest).user.id;
+    const userId = queryUserId || authenticatedUserId;
 
+    // Fetch the authenticated user to check privacy settings if necessary
+    const requestingUser = await User.findOne({
+      where: { id: authenticatedUserId },
+    });
+
+    // Start of the current month
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
     startOfMonth.setHours(0, 0, 0, 0);
 
+    // Find all workouts in the current month
     const workouts = await Workouts.findAll({
       where: {
         date: {
@@ -299,44 +340,65 @@ export const getLeaderboard = async (req: Request, res: Response) => {
       include: {
         model: User,
         as: 'user',
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'privacy'],
       },
     });
 
+    // Reduce workouts to a count per user, excluding private profiles
     const userWorkoutCounts = workouts.reduce<{
       [key: string]: UserWorkoutCount;
     }>((acc, workout) => {
-      const userId = workout.userId;
-      if (!acc[userId]) {
-        acc[userId] = {
-          userId,
-          name: (workout as any).user.name,
+      const workoutUser = (workout as any).user;
+      const workoutUserId = workoutUser.id;
+
+      // Exclude private profiles unless they are the requesting user
+      if (workoutUser.privacy === 'private' && workoutUserId !== userId) {
+        return acc;
+      }
+
+      if (!acc[workoutUserId]) {
+        acc[workoutUserId] = {
+          userId: workoutUserId,
+          name: workoutUser.name,
           count: 0,
           rank: 0,
         };
       }
-      acc[userId].count += 1;
+
+      acc[workoutUserId].count += 1;
       return acc;
     }, {});
 
+    // Sort the leaderboard by count in descending order
     const leaderboard = Object.values(userWorkoutCounts).sort(
       (a, b) => b.count - a.count,
     );
 
+    // Determine the current user's rank
     const currentUserRank = leaderboard.findIndex(
       (user) => user.userId === userId,
     );
 
-    const topUsers = leaderboard.slice(0, 10);
+    // Include current user in the leaderboard if they are not in the top 10
+    let currentUser;
+    if (currentUserRank !== -1) {
+      currentUser = {
+        userId,
+        name: requestingUser?.name,
+        count: userWorkoutCounts[userId]?.count || 0,
+        rank: currentUserRank + 1,
+      };
+    } else {
+      currentUser = {
+        userId,
+        name: requestingUser?.name,
+        count: 0,
+        rank: currentUserRank,
+      };
+    }
 
-    const currentUser = {
-      userId,
-      name: User.name,
-      count: userWorkoutCounts[userId].count,
-      rank: currentUserRank + 1,
-    };
-
-    res.status(200).json({ leaders: topUsers, currentUser });
+    // Send the response
+    res.status(200).json({ leaders: leaderboard.slice(0, 10), currentUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching leaderboard', error });
@@ -349,4 +411,5 @@ export {
   postWorkout,
   getWorkoutsForPeriod,
   getUserStatistics,
+  getLeaderboard,
 };
