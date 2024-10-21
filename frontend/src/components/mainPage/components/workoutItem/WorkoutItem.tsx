@@ -67,6 +67,9 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
                   {workout.energyLevelAfter}
                 </p>
                 <p>
+                  <strong>{t('sets')}:</strong> {workout.sets}
+                </p>
+                <p>
                   <strong>{t('times')}:</strong> {workout.times}
                 </p>
               </div>

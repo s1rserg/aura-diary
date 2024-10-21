@@ -25,6 +25,7 @@ type WorkoutEntry = {
   trigger: Trigger;
   energyLevelBefore: number;
   energyLevelAfter: number;
+  sets: number;
   times: number;
 };
 

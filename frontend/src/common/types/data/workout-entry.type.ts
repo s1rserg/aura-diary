@@ -16,7 +16,8 @@ type WorkoutEntry = {
   trigger?: Trigger;
   energyLevelBefore?: number; // scale of 1 to 10
   energyLevelAfter?: number; // scale of 1 to 10
-  times: number; // calculated field
+  sets: number;
+  times: number;
 };
 
 export { type WorkoutEntry, type Trigger };

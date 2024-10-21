@@ -38,7 +38,8 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
   const [energyLevelAfter, setEnergyLevelAfter] = useState<number>(
     initialValues?.energyLevelAfter ?? 5,
   );
-  const [times, setTimes] = useState<number>(initialValues?.times ?? 1);
+  const [sets, setSets] = useState<number>(initialValues?.sets ?? 1);
+  const [times, setTimes] = useState<number>(initialValues?.times ?? 10);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +51,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
       trigger,
       energyLevelBefore,
       energyLevelAfter,
+      sets,
       times,
     };
     onSubmit(newEntry);
@@ -128,6 +130,16 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
             max={'10'}
           />
           <Input
+            label={`${t('how many sets')}:`}
+            name="sets"
+            required={true}
+            type="number"
+            value={sets}
+            onChange={(e) => setSets(Number(e.target.value))}
+            min={'1'}
+            max={'100'}
+          />
+          <Input
             label={`${t('how many times')}:`}
             name="times"
             required={true}
@@ -135,7 +147,7 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({
             value={times}
             onChange={(e) => setTimes(Number(e.target.value))}
             min={'1'}
-            max={'10'}
+            max={'100'}
           />
           <Button className="button " type="submit">
             {t('save')}

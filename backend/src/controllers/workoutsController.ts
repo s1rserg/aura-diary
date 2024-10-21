@@ -38,6 +38,7 @@ const editWorkout = async (req: Request, res: Response) => {
     trigger,
     energyLevelBefore,
     energyLevelAfter,
+    sets,
     times,
   } = req.body;
   try {
@@ -48,6 +49,7 @@ const editWorkout = async (req: Request, res: Response) => {
       workout.trigger = trigger;
       workout.energyLevelBefore = energyLevelBefore;
       workout.energyLevelAfter = energyLevelAfter;
+      workout.sets = sets;
       workout.times = times;
       await workout.save();
       res.json(workout);
@@ -83,6 +85,7 @@ const postWorkout = async (req: Request, res: Response) => {
     trigger,
     energyLevelBefore,
     energyLevelAfter,
+    sets,
     times,
   } = req.body;
   try {
@@ -94,6 +97,7 @@ const postWorkout = async (req: Request, res: Response) => {
       trigger,
       energyLevelBefore,
       energyLevelAfter,
+      sets,
       times,
     });
     res.status(201).json(newWorkout);
@@ -200,7 +204,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
         );
       }, 0) * 10;
     const totalTimesWorkedOut = workouts.reduce(
-      (sum, workout) => sum + workout.times,
+      (sum, workout) => sum + workout.times * workout.sets,
       0,
     );
 
@@ -265,7 +269,7 @@ const getUserStatistics = async (req: Request, res: Response) => {
         );
       }, 0) * 10;
     const monthlyTotalTimesWorkedOut = monthlyWorkouts.reduce(
-      (sum, workout) => sum + workout.times,
+      (sum, workout) => sum + workout.times * workout.sets,
       0,
     );
 

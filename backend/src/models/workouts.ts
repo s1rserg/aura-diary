@@ -24,6 +24,7 @@ class Workouts
     | 'other';
   public energyLevelBefore!: number;
   public energyLevelAfter!: number;
+  public sets!: number;
   public times!: number;
 
   public readonly createdAt!: Date;
@@ -73,6 +74,11 @@ Workouts.init(
     energyLevelAfter: {
       type: DataTypes.INTEGER,
       allowNull: true,
+    },
+    sets: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
     },
     times: {
       type: DataTypes.INTEGER,
