@@ -4,6 +4,15 @@ Welcome to the Aura Diary! This app is designed to help you track your biceps wo
 ## Project Overview
 This repository contains the full frontend and backend code for the Aura Diary app. The project is written in TypeScript to ensure type safety and improve code maintainability.
 
+## How to start
+1. npm i
+2. fill .env files in frontend and backend directories
+3. cd ./backend 
+4. npm run dev
+5. cd ..
+6. cd ./frontend
+7. npm run dev
+
 ## Features
 * #### Workout Tracking: Log your biceps workouts with details like duration, rating, location, trigger, energy levels before and after, and the number of times performed.
 * #### Manipulating workout entries: Edit, and delete workout entries. View all your entries in a calendar format.
