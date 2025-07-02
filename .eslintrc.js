@@ -16,6 +16,7 @@ module.exports = {
     },
   },
   rules: {
+    'no-undef': 'error',
     'import/no-cycle': 'warn',
     'import/no-extraneous-dependencies': 'error',
     'import/no-self-import': 'error',
