@@ -1,26 +1,49 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import { AuthenticatedRequest } from '../common/types/types';
+import { token } from '../token/token';
 
-dotenv.config();
+interface UserPayload {
+  id: string;
+}
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
+interface AuthRequest extends Request {
+  user?: UserPayload;
+}
+
+const authMiddleware = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+): void => {
+  const authHeader = req.headers['authorization'];
+
   if (!authHeader) {
-    return res.status(401).json({ message: 'No token provided' });
+    res.status(401).json({ error: 'Authorization header is missing' });
+    return;
   }
 
-  const token = authHeader.split(' ')[1];
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
-      id: string;
-    };
-    (req as AuthenticatedRequest).user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ message: 'Invalid token' });
+  const jwtToken = authHeader.split(' ')[1];
+
+  if (!jwtToken) {
+    res.status(401).json({ error: 'Token is missing' });
+    return;
   }
+
+  const { valid, payload } = token.verifyToken(jwtToken);
+
+  if (!valid) {
+    res.status(403).json({ error: 'Invalid token' });
+    return;
+  }
+
+  if (payload && typeof payload === 'object' && 'id' in payload) {
+    req.user = { id: payload.id };
+  } else {
+    res.status(403).json({ error: 'Token payload is invalid' });
+    return;
+  }
+
+  next();
 };
 
-export { authMiddleware };
+export default authMiddleware;
+export { AuthRequest };
