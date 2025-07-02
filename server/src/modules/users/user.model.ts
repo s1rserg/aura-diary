@@ -4,14 +4,15 @@ import sequelize from '../config/database';
 interface UserAttributes {
   id: string;
   name: string;
-  privacy: string;
+  privacy: 'private' | 'public';
   email: string;
   password: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+interface UserCreationAttributes
+  extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
 
 class User
   extends Model<UserAttributes, UserCreationAttributes>
@@ -19,9 +20,10 @@ class User
 {
   public id!: string;
   public name!: string;
-  public privacy!: string;
+  public privacy!: 'private' | 'public';
   public email!: string;
   public password!: string;
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -56,6 +58,7 @@ User.init(
     sequelize,
     modelName: 'User',
     timestamps: true,
+    indexes: [{ fields: ['email'] }],
   },
 );
 
