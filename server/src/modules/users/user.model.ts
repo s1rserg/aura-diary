@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/database';
+import sequelize from '../../libs/database/database';
 
-interface UserAttributes {
+interface IUser {
   id: string;
   name: string;
   privacy: 'private' | 'public';
@@ -11,13 +11,9 @@ interface UserAttributes {
   updatedAt?: Date;
 }
 
-interface UserCreationAttributes
-  extends Optional<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {}
+type UserCreationAttributes = Optional<IUser, 'id' | 'createdAt' | 'updatedAt'>;
 
-class User
-  extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes
-{
+class User extends Model<IUser, UserCreationAttributes> implements IUser {
   public id!: string;
   public name!: string;
   public privacy!: 'private' | 'public';
@@ -62,4 +58,4 @@ User.init(
   },
 );
 
-export default User;
+export { User, IUser };

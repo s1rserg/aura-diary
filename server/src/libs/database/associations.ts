@@ -1,6 +1,6 @@
-import Friendship from './friendship';
-import User from './user';
-import Workouts from './workouts';
+import Friendship from '../../modules/friendships/friendship.model';
+import User from '../../modules/users/user.model';
+import Workouts from '../../modules/workouts/workout.model';
 
 const defineAssociations = () => {
   User.hasMany(Workouts, { as: 'workouts', foreignKey: 'userId' });
@@ -13,4 +13,4 @@ const defineAssociations = () => {
   Friendship.belongsTo(User, { as: 'friend', foreignKey: 'friendId' });
 };
 
-export default defineAssociations;
+export { defineAssociations };

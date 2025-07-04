@@ -2,6 +2,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+interface Config {
+  databaseURL: string;
+  JWTsecret: string;
+}
+
 function requireEnv(variable: string | undefined): string {
   if (!variable) {
     throw new Error(

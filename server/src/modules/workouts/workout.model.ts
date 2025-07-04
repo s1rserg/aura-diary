@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/database';
+import sequelize from '../../libs/database/database';
 import { WorkoutEntry } from '../common/types/types';
 
 interface WorkoutCreationAttributes extends Optional<WorkoutEntry, 'id'> {}
