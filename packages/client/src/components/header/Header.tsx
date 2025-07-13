@@ -1,61 +1,58 @@
-import { useLocation, Link } from 'react-router-dom';
-import ProfileNav from './profileNav/ProfileNav';
-import './Header.css';
-import { AppPath } from '../../common/enums/enums';
-import logoIcon from '../../assets/images/logo.svg';
-import statsIcon from '../../assets/images/stats.svg';
-import friendsIcon from '../../assets/images/friends.svg';
-import LanguageSelector from '../language-selector/LanguageSelector';
+import logoSrc from '~/assets/images/logo.svg';
 
-interface HeaderProps {
-  userName: string | undefined;
-}
+import { HeaderLink, UserPopover } from './libs/components/components.js';
+import styles from './styles.module.css';
+import { useAppSelector, usePopover } from '~/hooks/hooks.js';
+import { AppPath } from '~/common/enums/enums.js';
+import { Avatar, NavLink } from '../components.js';
+import { useLocation } from 'react-router-dom';
 
-const Header: React.FC<HeaderProps> = ({ userName }) => {
+const Header = (): JSX.Element => {
   const location = useLocation();
+  const {
+    isOpened: isUserOpened,
+    onClose: onUserClose,
+    onOpen: onUserOpen,
+  } = usePopover();
 
-  const isAuthPage =
-    location.pathname === AppPath.SIGN_IN ||
-    location.pathname === AppPath.SIGN_UP;
+  const authenticatedUser = useAppSelector(({ auth }) => auth.user);
+
+  if (!authenticatedUser) {
+    return <></>;
+  }
+
+  const { email, name } = authenticatedUser;
+
+  const currentPath = location.pathname;
 
   return (
-    <header className="header">
-      <div className="header__inner">
-        <Link to="/" className="header__logo">
-          <img className="header__icon" src={logoIcon} alt="logo" />
-          aura diary
-        </Link>
-        {!isAuthPage && (
-          <nav className="header__nav">
-            <ul className="nav-header__list">
-              <li className="nav-header__item">
-                <LanguageSelector />
-              </li>
-              <li className="nav-header__item">
-                <Link to="/stats/default">
-                  <img
-                    className="header__icon"
-                    src={statsIcon}
-                    alt="stats-icon"
-                  />
-                </Link>
-              </li>
-              <li className="nav-header__item">
-                <Link to="/friends">
-                  <img
-                    className="header__icon"
-                    src={friendsIcon}
-                    alt="friends-icon"
-                  />
-                </Link>
-              </li>
-              <ProfileNav userName={userName} />
-            </ul>
-          </nav>
+    <header className={styles['header']}>
+      <NavLink className={styles['logo-link'] as string} to={AppPath.ROOT}>
+        <img alt="logo" className={styles['logo-img']} src={logoSrc} />
+      </NavLink>
+      <div className={styles['header-links']}>
+        {currentPath != AppPath.SKILLS && (
+          <HeaderLink label="Browse Skills" link={AppPath.SKILLS} />
         )}
+        {currentPath != AppPath.LISTINGS && (
+          <HeaderLink label="List Skills" link={AppPath.LISTINGS} />
+        )}
+        <UserPopover
+          email={email}
+          isOpened={isUserOpened}
+          name={name}
+          onClose={onUserClose}
+        >
+          <button
+            className={styles['user-popover-trigger']}
+            onClick={isUserOpened ? onUserClose : onUserOpen}
+          >
+            <Avatar name={name} />
+          </button>
+        </UserPopover>
       </div>
     </header>
   );
 };
 
-export default Header;
+export { Header };

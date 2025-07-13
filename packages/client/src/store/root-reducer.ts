@@ -1,11 +1,13 @@
 import { reducer as authReducer } from './auth/auth';
-import { reducer as workoutsReducer } from './workouts/workouts';
-import { reducer as friendsReducer } from './friends/friends';
+import { reducer as listingsReducer } from './listings/listings';
+import { reducer as imagesReducer } from './images/images';
+import { reducer as attributesReducer } from './attributes/attributes';
 
 const rootReducer = {
   auth: authReducer,
-  workouts: workoutsReducer,
-  friends: friendsReducer,
+  listings: listingsReducer,
+  images: imagesReducer,
+  attributes: attributesReducer,
 };
 
 export { rootReducer };

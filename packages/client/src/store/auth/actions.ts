@@ -1,14 +1,14 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { name } from './slice';
 import {
-  ApiAuthPayload,
   AsyncThunkConfig,
-  SignInCredentials,
-  SignUpCredentials,
-} from '../../common/types/types';
+  AuthResponseDto,
+  SignInRequestDto,
+  SignUpRequestDto,
+} from '~/common/types/types';
 
 const fetchAuthenticatedUser = createAsyncThunk<
-  ApiAuthPayload,
+  AuthResponseDto,
   void,
   AsyncThunkConfig
 >(`${name}/authenticatedUser`, async (_payload, { extra }) => {
@@ -19,8 +19,8 @@ const fetchAuthenticatedUser = createAsyncThunk<
 });
 
 const signIn = createAsyncThunk<
-  ApiAuthPayload,
-  SignInCredentials,
+  AuthResponseDto,
+  SignInRequestDto,
   AsyncThunkConfig
 >(`${name}/signIn`, async (credentials, { extra }) => {
   const { authService } = extra;
@@ -31,8 +31,8 @@ const signIn = createAsyncThunk<
 });
 
 const signUp = createAsyncThunk<
-  ApiAuthPayload,
-  SignUpCredentials,
+  AuthResponseDto,
+  SignUpRequestDto,
   AsyncThunkConfig
 >(`${name}/signUp`, async (credentials, { extra }) => {
   const { authService } = extra;
@@ -42,16 +42,6 @@ const signUp = createAsyncThunk<
   return tasks;
 });
 
-const togglePrivacy = createAsyncThunk<string, void, AsyncThunkConfig>(
-  `${name}/togglePrivacy`,
-  async (_payload, { extra }) => {
-    const { authService } = extra;
-    const privacy = await authService.togglePrivacy();
-
-    return privacy;
-  },
-);
-
 const signOut = createAction(`${name}/signOut`);
 
-export { fetchAuthenticatedUser, signIn, signUp, signOut, togglePrivacy };
+export { fetchAuthenticatedUser, signIn, signUp, signOut };

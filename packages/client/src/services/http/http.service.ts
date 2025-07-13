@@ -1,21 +1,30 @@
-import { ContentType, HttpHeader } from '../../common/enums/enums';
-import { HttpMethod, ValueOf } from '../../common/types/types';
+import { ContentType, HttpHeader } from '~/common/enums/enums';
+import { HttpMethod, ValueOf } from '~/common/types/types';
+import { configureQueryString } from '~/helpers/helpers';
 
 type HttpOptions = {
   method: HttpMethod;
   contentType: ValueOf<typeof ContentType>;
   payload: BodyInit | null;
   token?: string | null;
+  query?: Record<string, string>;
 };
 
 class Http {
   public load<T = unknown>(
-    url: string,
-    options: Partial<HttpOptions> = {},
+    path: string,
+    options: Partial<HttpOptions> = {}
   ): Promise<T> {
-    const { method = 'GET', payload = null, contentType, token } = options;
+    const {
+      method = 'GET',
+      payload = null,
+      contentType,
+      token,
+      query,
+    } = options;
 
     const headers = this.getHeaders(contentType, token);
+    const url = configureQueryString(path, query);
 
     return fetch(url, {
       method,
@@ -29,7 +38,7 @@ class Http {
 
   private getHeaders(
     contentType?: ValueOf<typeof ContentType>,
-    token?: string | null,
+    token?: string | null
   ): Headers {
     const headers = new Headers();
 

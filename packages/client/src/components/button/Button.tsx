@@ -1,22 +1,47 @@
-import './Button.css';
+import { getValidClassNames } from '~/helpers/helpers';
+import styles from './styles.module.css';
+import { NavLink } from '../components';
 
-import React, { ButtonHTMLAttributes } from 'react';
+type Properties = {
+  href?: string | undefined;
+  isDisabled?: boolean;
+  label: string;
+  onClick?: () => void;
+  type?: 'button' | 'submit';
+  variant?: 'danger' | 'default' | 'outlined';
+};
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children?: React.ReactNode;
-}
-
-const Button: React.FC<ButtonProps> = ({
-  children,
-  className = '',
+const Button = ({
+  href,
+  isDisabled,
+  label,
+  onClick,
   type = 'button',
-  ...rest
-}) => {
+  variant = 'default',
+}: Properties): JSX.Element => {
+  const buttonClassName = getValidClassNames(
+    styles['button'],
+    styles[`button-${variant}`]
+  );
+
+  if (href) {
+    return (
+      <NavLink className={buttonClassName} to={href}>
+        {label}
+      </NavLink>
+    );
+  }
+
   return (
-    <button className={className} type={type} {...rest}>
-      {children}
+    <button
+      className={buttonClassName}
+      disabled={isDisabled}
+      onClick={onClick}
+      type={type}
+    >
+      {label}
     </button>
   );
 };
 
-export default Button;
+export { Button };

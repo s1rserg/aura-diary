@@ -1,8 +1,9 @@
 import { Http } from './http/http.service';
 import { Auth } from './auth/auth.service';
-import { ApiPath } from '../common/enums/enums';
-import { Workouts } from './workouts/workouts.service';
-import { Friends } from './friends/friends.service';
+import { ApiPath } from '~/common/enums/enums';
+import { Listings } from './listings/listing.service';
+import { Images } from './images/images.service';
+import { Attributes } from './attributes/attribute.service';
 
 const http = new Http();
 
@@ -11,14 +12,19 @@ const auth = new Auth({
   http,
 });
 
-const workouts = new Workouts({
+const listings = new Listings({
   baseUrl: ApiPath.API_URL,
   http,
 });
 
-const friends = new Friends({
+const images = new Images({
   baseUrl: ApiPath.API_URL,
   http,
 });
 
-export { http, auth, workouts, friends };
+const attributes = new Attributes({
+  baseUrl: ApiPath.API_URL,
+  http,
+});
+
+export { http, auth, listings, images, attributes };

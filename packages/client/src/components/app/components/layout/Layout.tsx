@@ -1,19 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../../../header/Header';
-import Footer from '../../../footer/Footer';
+import { Header } from '~/components/header/header';
+import styles from './styles.module.css';
 
-interface LayoutProps {
-  userName?: string;
-}
-
-const Layout: React.FC<LayoutProps> = ({ userName }) => (
+const Layout: React.FC = () => (
   <>
-    <Header userName={userName} />
-    <main>
+    <div className={styles['page-header']}>
+      <Header />
+    </div>
+    <>
       <Outlet />
-    </main>
-    <Footer />
+    </>
+    {/* <Footer /> */}
   </>
 );
 

@@ -1,10 +1,4 @@
-import {
-  fetchAuthenticatedUser,
-  signIn,
-  signUp,
-  signOut,
-  togglePrivacy,
-} from './actions';
+import { fetchAuthenticatedUser, signIn, signUp, signOut } from './actions';
 import { actions, reducer } from './slice';
 
 const allActions = {
@@ -13,7 +7,6 @@ const allActions = {
   signIn,
   signUp,
   signOut,
-  togglePrivacy,
 };
 
 export { allActions as actions, reducer };

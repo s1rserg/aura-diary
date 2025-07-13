@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/app/App.tsx';
-import './assets/styles/style.css';
-import { ToastContainer } from 'react-toastify';
-import { store } from './store/store.ts';
 import { Provider } from 'react-redux';
-import './i18n';
+import { store } from './store/store';
+import App from './components/app/app';
+import { ToastContainer } from 'react-toastify';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -13,5 +11,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <App />
       <ToastContainer />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

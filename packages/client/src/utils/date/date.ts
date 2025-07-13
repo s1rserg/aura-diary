@@ -18,7 +18,7 @@ export const formatDateForBackend = (dateStr: string): string => {
   const [day, month, year] = dateStr.split('-');
   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(
     2,
-    '0',
+    '0'
   )}T00:00:00Z`;
 
   return formattedDate;

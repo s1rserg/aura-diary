@@ -1,5 +1,9 @@
-import './Loader.css';
+import styles from './styles.module.css';
 
-const Loader: React.FC = () => <div className="loader"></div>;
+const Loader = (): JSX.Element => (
+  <div className={styles['loader-wrapper']}>
+    <div aria-label="Loading" className={styles['loader']} role="status" />
+  </div>
+);
 
-export default Loader;
+export { Loader };
