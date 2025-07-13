@@ -2,6 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { AuthRequest } from '../../libs/middlewares/auth.middleware';
 import { BaseController } from '../../libs/core/base-controller';
 import { UserService } from './user.service';
+import {
+  signInRequestSchema,
+  signUpRequestSchema,
+} from '../../libs/common/common';
 
 class UserController extends BaseController {
   private userService = new UserService();
@@ -13,12 +17,12 @@ class UserController extends BaseController {
       next,
       async (req: Request, res: Response) => {
         const { name, email, password } = req.body;
-        const { user, jwtToken } = await this.userService.create(
+        const { user, token } = await this.userService.create(
           name,
           email,
           password,
         );
-        this.sendResponse(res, { user, token: jwtToken }, 201);
+        this.sendResponse(res, { user, token }, 201);
       },
       signUpRequestSchema,
     );
@@ -30,11 +34,8 @@ class UserController extends BaseController {
       next,
       async (req: Request, res: Response) => {
         const { email, password } = req.body;
-        const { user, jwtToken } = await this.userService.signIn(
-          email,
-          password,
-        );
-        this.sendResponse(res, { user, token: jwtToken }, 200);
+        const { user, token } = await this.userService.signIn(email, password);
+        this.sendResponse(res, { user, token }, 200);
       },
       signInRequestSchema,
     );
@@ -62,12 +63,7 @@ class UserController extends BaseController {
       next,
       async (req: AuthRequest, res: Response) => {
         const userId = req.user?.id as string;
-        const user = await this.userService.getById(userId);
-        if (!user) {
-          this.sendResponse(res, { message: 'User not found' }, 404);
-        }
-
-        await this.userService.togglePrivacy(user.id);
+        const user = await this.userService.togglePrivacy(userId);
         this.sendResponse(res, { user }, 200);
       },
     );

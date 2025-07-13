@@ -1,50 +1,70 @@
-import { Model, WhereOptions } from 'sequelize';
+import {
+  Model,
+  WhereOptions,
+  Transaction,
+  ModelStatic,
+  InferAttributes,
+} from 'sequelize';
+import { MakeNullishOptional } from 'sequelize/lib/utils';
 
 export abstract class BaseRepository<T extends Model> {
-  // eslint-disable-next-line no-unused-vars
-  constructor(protected model: typeof Model) {}
+  protected readonly model: ModelStatic<T>;
 
-  public async create(item: Partial<T['_creationAttributes']>): Promise<T> {
-    return this.model.create(item) as Promise<T>;
+  constructor(model: ModelStatic<T>) {
+    this.model = model;
   }
 
-  public async find(id: number | string): Promise<T | null> {
-    return this.model.findByPk(id) as Promise<T | null>;
+  public async create(
+    item: MakeNullishOptional<T['_creationAttributes']>,
+    options?: { transaction?: Transaction },
+  ): Promise<T> {
+    return this.model.create(item, options);
+  }
+
+  public async findById(
+    id: number | string,
+    options?: { transaction?: Transaction },
+  ): Promise<T | null> {
+    return this.model.findByPk(id, options);
   }
 
   public async findAll(
-    filter: WhereOptions = {},
+    filter: WhereOptions<InferAttributes<T>> = {},
     skip = 0,
     limit = 10,
+    options: { transaction?: Transaction } = {},
   ): Promise<T[]> {
     return this.model.findAll({
       where: filter,
       offset: skip,
       limit,
       order: [['createdAt', 'DESC']],
-    }) as Promise<T[]>;
+      ...options,
+    });
   }
 
   public async update(
     id: number | string,
-    item: Partial<T['_attributes']>,
+    item: Partial<InferAttributes<T>>,
+    options?: { transaction?: Transaction },
   ): Promise<T | null> {
-    const record = (await this.model.findByPk(id)) as T;
+    const record = await this.model.findByPk(id, { ...options });
     if (!record) {
       return null;
     }
-
-    await record.update(item);
+    await record.update(item, options);
     return record;
   }
 
-  public async delete(id: number | string): Promise<T | null> {
-    const record = (await this.model.findByPk(id)) as T;
+  public async delete(
+    id: number | string,
+    options?: { transaction?: Transaction },
+  ): Promise<T | null> {
+    const record = await this.model.findByPk(id, { ...options });
     if (!record) {
       return null;
     }
-
-    await record.destroy();
+    await record.destroy(options);
     return record;
   }
 }

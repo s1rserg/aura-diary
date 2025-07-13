@@ -1,15 +1,20 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload, SignOptions, Secret } from 'jsonwebtoken';
 import config from '../config/config';
+import { StringValue } from 'ms';
 
 export class Token {
-  private secretKey: string;
+  private secretKey: Secret;
 
-  constructor(secretKey: string) {
+  constructor(secretKey: Secret) {
     this.secretKey = secretKey;
   }
 
-  createToken(payload: object, expiresIn: string | number = '24h'): string {
-    return jwt.sign(payload, this.secretKey, { expiresIn });
+  createToken(
+    payload: object,
+    expiresIn: StringValue | number = '24h',
+  ): string {
+    const options: SignOptions = { expiresIn };
+    return jwt.sign(payload, this.secretKey, options);
   }
 
   verifyToken(token: string): {
@@ -26,4 +31,4 @@ export class Token {
   }
 }
 
-export const token = new Token(config.secretKey);
+export const token = new Token(config.JWTsecret);

@@ -1,27 +1,22 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 import sequelize from '../../libs/database/database';
+import { Privacy } from '../../libs/common/common';
 
-interface IUser {
-  id: string;
-  name: string;
-  privacy: 'private' | 'public';
-  email: string;
-  password: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  declare id: CreationOptional<string>;
+  declare privacy: CreationOptional<Privacy>;
+  declare readonly createdAt: CreationOptional<Date>;
+  declare readonly updatedAt: CreationOptional<Date>;
 
-type UserCreationAttributes = Optional<IUser, 'id' | 'createdAt' | 'updatedAt'>;
-
-class User extends Model<IUser, UserCreationAttributes> implements IUser {
-  public id!: string;
-  public name!: string;
-  public privacy!: 'private' | 'public';
-  public email!: string;
-  public password!: string;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  declare name: string;
+  declare email: string;
+  declare password: string;
 }
 
 User.init(
@@ -49,13 +44,14 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
     sequelize,
     modelName: 'User',
     timestamps: true,
-    indexes: [{ fields: ['email'] }],
   },
 );
 
-export { User, IUser };
+export { User };

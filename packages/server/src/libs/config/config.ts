@@ -7,18 +7,19 @@ interface Config {
   JWTsecret: string;
 }
 
-function requireEnv(variable: string | undefined): string {
-  if (!variable) {
+function requireEnv(value: string | undefined, key: string): string {
+  if (!value) {
     throw new Error(
-      `${variable} is required but not defined in the environment variables`,
+      `${key} is required but not defined in environment variables`,
     );
   }
-  return variable;
+  return value;
 }
 
 const config: Config = {
-  databaseURL: requireEnv(process.env.DATABASE_URL),
-  JWTsecret: requireEnv(process.env.JWT_SECRET),
+  databaseURL: requireEnv(process.env.DATABASE_URL, 'DATABASE_URL'),
+  JWTsecret:
+    requireEnv(process.env.JWT_SECRET, 'JWT_SECRET') || 'fallback_secret',
 };
 
 export default config;

@@ -1,5 +1,5 @@
 import Friendship from '../../modules/friendships/friendship.model';
-import User from '../../modules/users/user.model';
+import { User } from '../../modules/users/user.model';
 import Workouts from '../../modules/workouts/workout.model';
 
 const defineAssociations = () => {

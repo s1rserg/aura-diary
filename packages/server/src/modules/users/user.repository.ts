@@ -1,9 +1,9 @@
-import { User, IUser } from './user.model';
+import { User } from './user.model';
 import { BaseRepository } from '../../libs/core/base-repository';
 
-class UserRepository extends BaseRepository<IUser> {
+class UserRepository extends BaseRepository<User> {
   constructor() {
-    super(IUser);
+    super(User);
   }
 
   public async findByEmail(email: string): Promise<User | null> {
