@@ -18,7 +18,13 @@ const Header = (): JSX.Element => {
   const authenticatedUser = useAppSelector(({ auth }) => auth.user);
 
   if (!authenticatedUser) {
-    return <></>;
+    return (
+      <header className={styles['header']}>
+        <NavLink className={styles['logo-link'] as string} to={AppPath.ROOT}>
+          <img alt="logo" className={styles['logo-img']} src={logoSrc} />
+        </NavLink>
+      </header>
+    );
   }
 
   const { email, name } = authenticatedUser;
