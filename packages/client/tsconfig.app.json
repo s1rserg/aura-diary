@@ -16,7 +16,12 @@
     /* Linting - these are also great, we keep them */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".", // make sure this is set
+    "paths": {
+      "~/*": ["src/*"],
+      "shared/*": ["../shared/*"]
+    }
   },
   "include": ["src"]
 }

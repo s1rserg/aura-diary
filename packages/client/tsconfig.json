@@ -6,9 +6,10 @@
     { "path": "../shared" }
   ],
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": ".", // make sure this is set
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      "shared/*": ["../shared/*"]
     }
   }
 }

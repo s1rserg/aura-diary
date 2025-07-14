@@ -5,7 +5,12 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "module": "ESNext",
     "noEmit": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".", // make sure this is set
+    "paths": {
+      "~/*": ["src/*"],
+      "shared/*": ["../shared/*"]
+    }
   },
   "include": ["vite.config.ts"]
 }
