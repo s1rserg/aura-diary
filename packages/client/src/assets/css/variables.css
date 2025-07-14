@@ -23,4 +23,12 @@
 
   /* Shadow */
   --box-shadow: 0px 0px 15px 0px #00000088;
+
+  --header-padding-height: 14px;
+  --header-logo-height: 33px;
+  --header-border-height: 1px;
+  --header-height: calc(
+    var(--header-padding-height) + var(--header-padding-height) +
+      var(--header-logo-height) + var(--header-border-height)
+  );
 }
