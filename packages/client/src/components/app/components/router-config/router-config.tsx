@@ -1,11 +1,12 @@
 import { RouteObject, Navigate } from 'react-router-dom';
-import { AppPath } from '../../../../common/enums/enums';
+import { AppPath } from '~/common/enums/enums';
 import Layout from '../layout/layout';
 import ProtectedRoute from '../protected-route/protected-route';
 import { NotFound } from '~/pages/not-found/not-found';
 import { UserDto } from '~/common/types/types';
 import { Auth } from '~/pages/auth/auth';
 import { Main } from '~/pages/main/main';
+import { Exercises } from '~/pages/exercises/exercise';
 
 interface RouterConfigProps {
   user: UserDto | null;
@@ -48,16 +49,16 @@ export const createRoutes = ({
       //     />
       //   ),
       // },
-      // {
-      //   path: AppPath.LISTINGS,
-      //   element: (
-      //     <ProtectedRoute
-      //       user={user}
-      //       authChecked={authChecked}
-      //       element={<Listings />}
-      //     />
-      //   ),
-      // },
+      {
+        path: AppPath.EXERCISES,
+        element: (
+          <ProtectedRoute
+            user={user}
+            authChecked={authChecked}
+            element={<Exercises />}
+          />
+        ),
+      },
       {
         path: AppPath.ANY,
         element: <NotFound />,

@@ -1,7 +1,7 @@
 const AppPath = {
   ROOT: '/',
-  SKILLS: '/skills',
-  SKILL: '/skills/:id',
+  EXERCISES: '/exercises',
+  EXERCISE: '/exercises/:id',
   LISTINGS: '/listings',
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',

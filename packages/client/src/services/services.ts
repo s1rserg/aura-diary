@@ -2,8 +2,7 @@ import { Http } from './http/http.service';
 import { Auth } from './auth/auth.service';
 import { ApiPath } from '~/common/enums/enums';
 import { Listings } from './listings/listing.service';
-import { Images } from './images/images.service';
-import { Attributes } from './attributes/attribute.service';
+import { Exercises } from './exercises/exercise.service';
 
 const http = new Http();
 
@@ -17,14 +16,9 @@ const listings = new Listings({
   http,
 });
 
-const images = new Images({
+const exercises = new Exercises({
   baseUrl: ApiPath.API_URL,
   http,
 });
 
-const attributes = new Attributes({
-  baseUrl: ApiPath.API_URL,
-  http,
-});
-
-export { http, auth, listings, images, attributes };
+export { http, auth, listings, exercises };

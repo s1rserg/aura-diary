@@ -1,9 +1,10 @@
-import { uploadImage } from './actions';
+import { getAll, getById } from './actions';
 import { actions, reducer } from './slice';
 
 const allActions = {
   ...actions,
-  uploadImage,
+  getAll,
+  getById,
 };
 
 export { allActions as actions, reducer };

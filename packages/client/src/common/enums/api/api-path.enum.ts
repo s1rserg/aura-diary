@@ -7,14 +7,8 @@ const ApiPath = {
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
 
-  // Skills routes
-  SKILLS: '/skills',
-
-  // Images routes
-  IMAGES: '/images',
-
-  // Attributes routes
-  ATTRIBUTES: '/attributes',
+  // Exercises routes
+  EXERCISES: '/exercises',
 } as const;
 
 export { ApiPath };

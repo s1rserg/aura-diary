@@ -37,8 +37,8 @@ const Header = (): JSX.Element => {
         <img alt="logo" className={styles['logo-img']} src={logoSrc} />
       </NavLink>
       <div className={styles['header-links']}>
-        {currentPath != AppPath.SKILLS && (
-          <HeaderLink label="Browse Skills" link={AppPath.SKILLS} />
+        {currentPath != AppPath.EXERCISES && (
+          <HeaderLink label="Browse Exercises" link={AppPath.EXERCISES} />
         )}
         {currentPath != AppPath.LISTINGS && (
           <HeaderLink label="List Skills" link={AppPath.LISTINGS} />

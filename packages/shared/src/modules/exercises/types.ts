@@ -27,4 +27,6 @@ export type ExerciseQueryOptions = {
   mechanic?: MechanicType;
   equipment?: EquipmentType;
   category?: CategoryType;
+  page?: number;
+  perPage?: number;
 };
