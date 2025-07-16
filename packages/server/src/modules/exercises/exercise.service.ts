@@ -20,10 +20,11 @@ class ExerciseService {
     perPage = 10,
   ): Promise<GetAllExercisesDto> {
     const skip = (page - 1) * perPage;
+    const where = this.exerciseRepository.buildWhereClause(filter);
 
     const [exercises, items] = await Promise.all([
-      this.exerciseRepository.findAll(filter, skip, perPage),
-      this.exerciseRepository.count(filter),
+      this.exerciseRepository.findAll(where, skip, perPage),
+      this.exerciseRepository.count(where),
     ]);
 
     return {

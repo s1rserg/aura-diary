@@ -6,7 +6,7 @@ import { NotFound } from '~/pages/not-found/not-found';
 import { UserDto } from '~/common/types/types';
 import { Auth } from '~/pages/auth/auth';
 import { Main } from '~/pages/main/main';
-import { Exercises } from '~/pages/exercises/exercise';
+import { Exercises } from '~/pages/exercises/exercises';
 
 interface RouterConfigProps {
   user: UserDto | null;

@@ -40,15 +40,19 @@ class Exercises {
     if (query.page !== undefined) queryParams.page = String(query.page);
     if (query.perPage !== undefined)
       queryParams.perPage = String(query.perPage);
-    if (query.force) queryParams.force = query.force;
-    if (query.level) queryParams.level = query.level;
-    if (query.mechanic) queryParams.mechanic = query.mechanic;
-    if (query.equipment) queryParams.equipment = query.equipment;
-    if (query.category) queryParams.category = query.category;
 
-    if (query.primaryMuscles && query.primaryMuscles.length > 0) {
-      queryParams.primaryMuscles = query.primaryMuscles.join(',');
-    }
+    const arrayToQuery = (key: string, arr?: string[] | null) => {
+      if (arr?.length) {
+        queryParams[key] = arr.join(',');
+      }
+    };
+
+    arrayToQuery('force', query.force);
+    arrayToQuery('level', query.level);
+    arrayToQuery('mechanic', query.mechanic);
+    arrayToQuery('equipment', query.equipment);
+    arrayToQuery('category', query.category);
+    arrayToQuery('primaryMuscles', query.primaryMuscles);
 
     return this.http.load(this.getUrl(), {
       method: 'GET',

@@ -27,11 +27,11 @@ export type ExerciseDto = {
 export type ExerciseQueryOptions = {
   name?: string;
   primaryMuscles?: Muscle[];
-  force?: ForceType;
-  level?: LevelType;
-  mechanic?: MechanicType;
-  equipment?: EquipmentType;
-  category?: CategoryType;
+  force?: ForceType[];
+  level?: LevelType[];
+  mechanic?: MechanicType[];
+  equipment?: EquipmentType[];
+  category?: CategoryType[];
   page?: number;
   perPage?: number;
 };
