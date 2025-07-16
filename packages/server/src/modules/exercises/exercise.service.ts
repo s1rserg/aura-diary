@@ -1,6 +1,10 @@
 import { Exercise } from './exercise.model';
 import { ExerciseRepository } from './exercise.repository';
-import { ExerciseDto, ExerciseQueryOptions } from '../../libs/common/common';
+import {
+  ExerciseDto,
+  ExerciseQueryOptions,
+  GetAllExercisesDto,
+} from '../../libs/common/common';
 
 class ExerciseService {
   private exerciseRepository = new ExerciseRepository();
@@ -14,14 +18,18 @@ class ExerciseService {
     filter: ExerciseQueryOptions,
     page = 1,
     perPage = 10,
-  ): Promise<ExerciseDto[]> {
+  ): Promise<GetAllExercisesDto> {
     const skip = (page - 1) * perPage;
-    const exercises = await this.exerciseRepository.findAll(
-      filter,
-      skip,
-      perPage,
-    );
-    return exercises.map((exercise) => this.selectFields(exercise));
+
+    const [exercises, items] = await Promise.all([
+      this.exerciseRepository.findAll(filter, skip, perPage),
+      this.exerciseRepository.count(filter),
+    ]);
+
+    return {
+      items,
+      data: exercises.map((exercise) => this.selectFields(exercise)),
+    };
   }
 
   private selectFields(exercise: Exercise): ExerciseDto {

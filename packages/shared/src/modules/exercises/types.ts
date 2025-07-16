@@ -7,6 +7,11 @@ import {
   Muscle,
 } from './enums';
 
+export type GetAllExercisesDto = {
+  items: number;
+  data: ExerciseDto[];
+};
+
 export type ExerciseDto = {
   id: string;
   name: string;

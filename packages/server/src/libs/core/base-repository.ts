@@ -42,6 +42,16 @@ export abstract class BaseRepository<T extends Model> {
     });
   }
 
+  public async count(
+    filter: WhereOptions<InferAttributes<T>> = {},
+    options: { transaction?: Transaction } = {},
+  ): Promise<number> {
+    return this.model.count({
+      where: filter,
+      ...options,
+    });
+  }
+
   public async update(
     id: number | string,
     item: Partial<InferAttributes<T>>,
