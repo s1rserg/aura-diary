@@ -1,7 +1,11 @@
 import { ApiPath } from '~/common/enums/enums';
 import { Http } from '../http/http.service';
 import { getToken } from '~/utils/auth';
-import { ExerciseDto, ExerciseQueryOptions } from '~/common/types/types';
+import {
+  ExerciseDto,
+  ExerciseQueryOptions,
+  GetAllExercisesDto,
+} from '~/common/types/types';
 
 type Constructor = {
   baseUrl: string;
@@ -27,7 +31,7 @@ class Exercises {
     });
   }
 
-  public getAll(query: ExerciseQueryOptions): Promise<ExerciseDto[]> {
+  public getAll(query: ExerciseQueryOptions): Promise<GetAllExercisesDto> {
     const token = getToken();
 
     const queryParams: Record<string, string> = {};

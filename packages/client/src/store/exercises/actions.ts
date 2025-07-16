@@ -4,10 +4,11 @@ import {
   AsyncThunkConfig,
   ExerciseDto,
   ExerciseQueryOptions,
+  GetAllExercisesDto,
 } from '~/common/types/types';
 
 const getAll = createAsyncThunk<
-  ExerciseDto[],
+  GetAllExercisesDto,
   ExerciseQueryOptions,
   AsyncThunkConfig
 >(`${name}/fetchAll`, async (query, { extra: { exercisesService } }) => {
