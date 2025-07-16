@@ -38,7 +38,6 @@ export abstract class BaseRepository<T extends Model> {
       where: filter,
       offset: skip,
       limit,
-      order: [['createdAt', 'DESC']],
       ...options,
     });
   }
