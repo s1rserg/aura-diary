@@ -7,6 +7,12 @@ class ExerciseRepository extends BaseRepository<Exercise> {
   constructor() {
     super(Exercise);
   }
+  private parseFilter(value: unknown): string[] {
+    if (!value) return [];
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') return value.split(',').map((v) => v.trim());
+    return [];
+  }
 
   public buildWhereClause(filters: ExerciseQueryOptions): WhereOptions {
     const where: WhereOptions = {};
@@ -15,28 +21,34 @@ class ExerciseRepository extends BaseRepository<Exercise> {
       where.name = { [Op.iLike]: `%${filters.name}%` };
     }
 
-    if (filters.force?.length) {
-      where.force = { [Op.in]: filters.force };
+    const force = this.parseFilter(filters.force);
+    if (force.length > 0) {
+      where.force = { [Op.in]: force };
     }
 
-    if (filters.level?.length) {
-      where.level = { [Op.in]: filters.level };
+    const level = this.parseFilter(filters.level);
+    if (level.length > 0) {
+      where.level = { [Op.in]: level };
     }
 
-    if (filters.mechanic?.length) {
-      where.mechanic = { [Op.in]: filters.mechanic };
+    const mechanic = this.parseFilter(filters.mechanic);
+    if (mechanic.length > 0) {
+      where.mechanic = { [Op.in]: mechanic };
     }
 
-    if (filters.equipment?.length) {
-      where.equipment = { [Op.in]: filters.equipment };
+    const equipment = this.parseFilter(filters.equipment);
+    if (equipment.length > 0) {
+      where.equipment = { [Op.in]: equipment };
     }
 
-    if (filters.category?.length) {
-      where.category = { [Op.in]: filters.category };
+    const category = this.parseFilter(filters.category);
+    if (category.length > 0) {
+      where.category = { [Op.in]: category };
     }
 
-    if (filters.primaryMuscles?.length) {
-      where.primaryMuscles = { [Op.overlap]: filters.primaryMuscles };
+    const primaryMuscles = this.parseFilter(filters.primaryMuscles);
+    if (primaryMuscles.length > 0) {
+      where.primary_muscles = { [Op.overlap]: primaryMuscles };
     }
 
     return where;

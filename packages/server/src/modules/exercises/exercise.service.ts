@@ -21,6 +21,7 @@ class ExerciseService {
   ): Promise<GetAllExercisesDto> {
     const skip = (page - 1) * perPage;
     const where = this.exerciseRepository.buildWhereClause(filter);
+    console.log(where);
 
     const [exercises, items] = await Promise.all([
       this.exerciseRepository.findAll(where, skip, perPage),

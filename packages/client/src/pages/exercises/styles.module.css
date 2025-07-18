@@ -1,0 +1,44 @@
+.filters-sidebar {
+  display: none;
+}
+
+.filters-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.content-area {
+  flex: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .exercises {
+    padding: 32px 32px 0;
+  }
+
+  .filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .filters-sidebar {
+    display: block;
+    width: 250px;
+    padding-right: 1rem;
+  }
+
+  .filters-modal-toggle {
+    display: none;
+  }
+
+  .filters-mobile-button {
+    display: none;
+  }
+
+  .filters-layout {
+    display: flex;
+    flex-direction: row;
+  }
+}

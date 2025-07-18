@@ -7,3 +7,4 @@ export { usePopover } from './use-popover/use-popover.hook';
 export { useSearchFilters } from './use-search-filters/use-search-filters.hook';
 export { useModal } from './use-modal-state/use-modal-state.hook';
 export { usePagination } from './use-pagination/use-pagination.hook';
+export { useQueryFilter } from './use-query-filter/use-query-filter.hook';
