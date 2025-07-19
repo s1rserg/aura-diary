@@ -1,8 +1,7 @@
 const AppPath = {
   ROOT: '/',
   EXERCISES: '/exercises',
-  EXERCISE: '/exercises/:id',
-  LISTINGS: '/listings',
+  EXERCISE: '/exercises/:exerciseId',
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
   PROFILE: '/profile',
