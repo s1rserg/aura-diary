@@ -32,24 +32,8 @@ export const createRoutes = ({
       },
       {
         index: true,
-        element: (
-          <ProtectedRoute
-            user={user}
-            authChecked={authChecked}
-            element={<Main />}
-          />
-        ),
+        element: <Main user={user} />,
       },
-      // {
-      //   path: AppPath.ROOT,
-      //   element: (
-      //     <ProtectedRoute
-      //       user={user}
-      //       authChecked={authChecked}
-      //       element={<Main />}
-      //     />
-      //   ),
-      // },
       {
         path: AppPath.EXERCISES,
         element: (

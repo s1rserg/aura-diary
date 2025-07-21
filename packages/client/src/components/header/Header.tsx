@@ -15,6 +15,8 @@ const Header = (): JSX.Element => {
     onOpen: onUserOpen,
   } = usePopover();
 
+  const currentPath = location.pathname;
+
   const authenticatedUser = useAppSelector(({ auth }) => auth.user);
 
   if (!authenticatedUser) {
@@ -23,13 +25,19 @@ const Header = (): JSX.Element => {
         <NavLink className={styles['logo-link'] as string} to={AppPath.ROOT}>
           <img alt="logo" className={styles['logo-img']} src={logoSrc} />
         </NavLink>
+        <div className={styles['header-links']}>
+          {currentPath != AppPath.SIGN_IN && (
+            <HeaderLink label="Log in" link={AppPath.SIGN_IN} />
+          )}
+          {currentPath != AppPath.SIGN_UP && (
+            <HeaderLink label="Sign up" link={AppPath.SIGN_UP} />
+          )}
+        </div>
       </header>
     );
   }
 
   const { email, name } = authenticatedUser;
-
-  const currentPath = location.pathname;
 
   return (
     <header className={styles['header']}>
@@ -39,9 +47,6 @@ const Header = (): JSX.Element => {
       <div className={styles['header-links']}>
         {currentPath != AppPath.EXERCISES && (
           <HeaderLink label="Browse Exercises" link={AppPath.EXERCISES} />
-        )}
-        {currentPath != AppPath.LISTINGS && (
-          <HeaderLink label="List Skills" link={AppPath.LISTINGS} />
         )}
         <UserPopover
           email={email}
