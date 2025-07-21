@@ -1,95 +1,60 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 import sequelize from '../../libs/database/database';
-import { WorkoutEntry } from '../common/types/types';
 
-interface WorkoutCreationAttributes extends Optional<WorkoutEntry, 'id'> {}
-
-class Workouts
-  extends Model<WorkoutEntry, WorkoutCreationAttributes>
-  implements WorkoutEntry
-{
-  public id!: string;
-  public userId!: string;
-  public date!: Date;
-  public duration!: number;
-  public rating!: number;
-  public trigger!:
-    | 'photo'
-    | 'conversation'
-    | 'movie'
-    | 'reading'
-    | 'boredom'
-    | 'schedule😎'
-    | 'idk'
-    | 'other';
-  public energyLevelBefore!: number;
-  public energyLevelAfter!: number;
-  public sets!: number;
-  public times!: number;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+class Workout extends Model<
+  InferAttributes<Workout>,
+  InferCreationAttributes<Workout>
+> {
+  declare id: CreationOptional<string>;
+  declare name: string;
+  declare date: Date;
+  declare notes: string | null;
+  declare date_created: CreationOptional<Date>;
+  declare date_updated: CreationOptional<Date>;
 }
 
-Workouts.init(
+Workout.init(
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    userId: {
-      type: DataTypes.UUID,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     date: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    duration: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    rating: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    trigger: {
-      type: DataTypes.ENUM(
-        'photo',
-        'conversation',
-        'movie',
-        'reading',
-        'boredom',
-        'schedule😎',
-        'idk',
-        'other',
-      ),
+    notes: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-    energyLevelBefore: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    energyLevelAfter: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    sets: {
-      type: DataTypes.INTEGER,
+    date_created: {
+      type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: 1,
+      defaultValue: DataTypes.NOW,
     },
-    times: {
-      type: DataTypes.INTEGER,
+    date_updated: {
+      type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
   },
   {
     sequelize,
-    modelName: 'Workouts',
-    timestamps: true,
+    modelName: 'Workout',
+    tableName: 'workouts',
+    timestamps: false,
   },
 );
 
-export default Workouts;
+export { Workout };

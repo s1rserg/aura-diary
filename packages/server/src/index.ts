@@ -6,6 +6,7 @@ import errorHandler from './libs/middlewares/error.middleware';
 import authRoutes from './modules/users/auth.route';
 import userRoutes from './modules/users/user.route';
 import exerciseRoutes from './modules/exercises/exercise.route';
+import workoutsRoutes from './modules/workouts/workout.route';
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use('/users', userRoutes);
 
 app.use('/exercises', exerciseRoutes);
 
-// app.use('/workouts', workoutsRoutes);
+app.use('/workouts', workoutsRoutes);
 
 // app.use('/friends', friendsRoutes);
 

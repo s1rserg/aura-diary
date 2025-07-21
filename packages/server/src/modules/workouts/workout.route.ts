@@ -1,20 +1,14 @@
 import { Router } from 'express';
-import {
-  postWorkout,
-  editWorkout,
-  deleteWorkout,
-  getWorkoutsForPeriod,
-  getUserStatistics,
-  getLeaderboard,
-} from '../controllers/workoutsController';
-import { authMiddleware } from '../middlewares/authMiddleware';
+import { WorkoutController } from './workout.controller';
+import authMiddleware from '../../libs/middlewares/auth.middleware';
 
 const router = Router();
+const controller = new WorkoutController();
 
-router.get('/period', authMiddleware, getWorkoutsForPeriod);
-router.get('/stats', authMiddleware, getUserStatistics);
-router.get('/stats/leaderboard', authMiddleware, getLeaderboard);
-router.post('/', authMiddleware, postWorkout);
-router.patch('/:id', authMiddleware, editWorkout);
-router.delete('/:id', authMiddleware, deleteWorkout);
+router.get('/:id', authMiddleware, controller.getById);
+router.get('/', authMiddleware, controller.getAll);
+router.post('/', authMiddleware, controller.create);
+router.put('/:id', authMiddleware, controller.update);
+router.delete('/:id', authMiddleware, controller.delete);
+
 export default router;
