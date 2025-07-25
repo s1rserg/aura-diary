@@ -29,7 +29,8 @@ export type GetAllWorkoutsDto = {
 };
 
 export type WorkoutQueryOptions = {
-  date?: string;
+  name?: string;
+  createdAt?: string;
   page?: number;
   perPage?: number;
 };

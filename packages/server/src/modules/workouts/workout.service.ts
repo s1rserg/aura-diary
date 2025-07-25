@@ -46,7 +46,7 @@ class WorkoutService {
       Workout.findAll({
         offset: skip,
         limit: perPage,
-        order: [['created_at', 'DESC']],
+        order: [['createdAt', 'DESC']],
         include: [
           {
             model: WorkoutExercise,

@@ -7,6 +7,7 @@ import authRoutes from './modules/users/auth.route';
 import userRoutes from './modules/users/user.route';
 import exerciseRoutes from './modules/exercises/exercise.route';
 import workoutsRoutes from './modules/workouts/workout.route';
+import { defineAssociations } from './libs/database/associations';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await sequelize.sync({ force: false });
+    await defineAssociations();
     app.listen(3000, () => {
       console.log(`Server is running on port ${3000}`);
     });
