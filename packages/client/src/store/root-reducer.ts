@@ -1,10 +1,10 @@
 import { reducer as authReducer } from './auth/auth';
-import { reducer as listingsReducer } from './listings/listings';
+import { reducer as workoutsReducer } from './workouts/workouts';
 import { reducer as exercisesReducer } from './exercises/exercises';
 
 const rootReducer = {
   auth: authReducer,
-  listings: listingsReducer,
+  workouts: workoutsReducer,
   exercises: exercisesReducer,
 };
 

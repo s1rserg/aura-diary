@@ -1,33 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getAll, create, update, deleteById, getById } from './actions';
-import { ListingResponseDto, ValueOf } from '~/common/types/types';
+import { ValueOf, WorkoutDto } from '~/common/types/types';
 import { DataStatus } from '~/common/enums/enums';
 import { notifyError } from '~/utils/notification/notification';
 
-export interface ListingsState {
-  listing: null | ListingResponseDto;
-  listings: ListingResponseDto[];
+export interface WorkoutsState {
+  workout: null | WorkoutDto;
+  workouts: WorkoutDto[];
+  totalItems: number;
   status: ValueOf<typeof DataStatus>;
-  listingStatus: ValueOf<typeof DataStatus>;
-  listingCreateStatus: ValueOf<typeof DataStatus>;
-  listingDeleteStatus: ValueOf<typeof DataStatus>;
-  listingUpdateStatus: ValueOf<typeof DataStatus>;
+  workoutStatus: ValueOf<typeof DataStatus>;
+  workoutCreateStatus: ValueOf<typeof DataStatus>;
+  workoutDeleteStatus: ValueOf<typeof DataStatus>;
+  workoutUpdateStatus: ValueOf<typeof DataStatus>;
   error: { code: string | number | undefined; message: string | undefined };
 }
 
-const initialState: ListingsState = {
-  listing: null,
-  listings: [],
+const initialState: WorkoutsState = {
+  workout: null,
+  workouts: [],
+  totalItems: 0,
   status: DataStatus.IDLE,
-  listingStatus: DataStatus.IDLE,
-  listingCreateStatus: DataStatus.IDLE,
-  listingDeleteStatus: DataStatus.IDLE,
-  listingUpdateStatus: DataStatus.IDLE,
+  workoutStatus: DataStatus.IDLE,
+  workoutCreateStatus: DataStatus.IDLE,
+  workoutDeleteStatus: DataStatus.IDLE,
+  workoutUpdateStatus: DataStatus.IDLE,
   error: { code: undefined, message: undefined },
 };
 
 const { reducer, actions, name } = createSlice({
-  name: 'skills',
+  name: 'workouts',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -36,7 +38,8 @@ const { reducer, actions, name } = createSlice({
         state.status = DataStatus.PENDING;
       })
       .addCase(getAll.fulfilled, (state, action) => {
-        state.listings = action.payload;
+        state.workouts = action.payload.data;
+        state.totalItems = 0;
         state.status = DataStatus.SUCCESS;
       })
       .addCase(getAll.rejected, (state, action) => {
@@ -45,73 +48,73 @@ const { reducer, actions, name } = createSlice({
           code: action.error.code,
           message: action.error.message,
         };
-        notifyError(action.error.message || 'Failed to fetch listings');
+        notifyError(action.error.message || 'Failed to fetch workouts');
       })
       .addCase(getById.pending, (state) => {
         state.status = DataStatus.PENDING;
       })
       .addCase(getById.fulfilled, (state, action) => {
-        state.listing = action.payload;
-        state.listingStatus = DataStatus.SUCCESS;
+        state.workout = action.payload;
+        state.workoutStatus = DataStatus.SUCCESS;
       })
       .addCase(getById.rejected, (state, action) => {
-        state.listingStatus = DataStatus.ERROR;
+        state.workoutStatus = DataStatus.ERROR;
         state.error = {
           code: action.error.code,
           message: action.error.message,
         };
-        notifyError(action.error.message || 'Failed to fetch listing');
+        notifyError(action.error.message || 'Failed to fetch workout');
       })
       .addCase(create.pending, (state) => {
-        state.listingCreateStatus = DataStatus.PENDING;
+        state.workoutCreateStatus = DataStatus.PENDING;
       })
       .addCase(create.fulfilled, (state, action) => {
-        state.listings = [action.payload, ...state.listings];
-        state.listingCreateStatus = DataStatus.SUCCESS;
+        state.workouts = [action.payload, ...state.workouts];
+        state.workoutCreateStatus = DataStatus.SUCCESS;
       })
       .addCase(create.rejected, (state, action) => {
-        state.listingCreateStatus = DataStatus.ERROR;
+        state.workoutCreateStatus = DataStatus.ERROR;
         state.error = {
           code: action.error.code,
           message: action.error.message,
         };
-        notifyError(action.error.message || 'Failed to create listing');
+        notifyError(action.error.message || 'Failed to create workout');
       })
       .addCase(update.pending, (state) => {
-        state.listingUpdateStatus = DataStatus.PENDING;
+        state.workoutUpdateStatus = DataStatus.PENDING;
       })
       .addCase(update.fulfilled, (state, action) => {
-        const updatedListing = action.payload;
-        state.listings = state.listings.map((listing) =>
-          listing._id === updatedListing._id ? updatedListing : listing
+        const updatedWorkout = action.payload;
+        state.workouts = state.workouts.map((workout) =>
+          workout.id === updatedWorkout.id ? updatedWorkout : workout,
         );
-        state.listingUpdateStatus = DataStatus.SUCCESS;
+        state.workoutUpdateStatus = DataStatus.SUCCESS;
       })
       .addCase(update.rejected, (state, action) => {
-        state.listingUpdateStatus = DataStatus.ERROR;
+        state.workoutUpdateStatus = DataStatus.ERROR;
         state.error = {
           code: action.error.code,
           message: action.error.message,
         };
-        notifyError(action.error.message || 'Failed to update listing');
+        notifyError(action.error.message || 'Failed to update workout');
       })
       .addCase(deleteById.pending, (state) => {
-        state.listingDeleteStatus = DataStatus.PENDING;
+        state.workoutDeleteStatus = DataStatus.PENDING;
       })
       .addCase(deleteById.fulfilled, (state, action) => {
-        const deletedListingId = action.meta.arg;
-        state.listings = state.listings.filter(
-          (listing) => listing._id.toString() !== deletedListingId
+        const deletedWorkoutId = action.meta.arg;
+        state.workouts = state.workouts.filter(
+          (workout) => workout.id.toString() !== deletedWorkoutId,
         );
-        state.listingUpdateStatus = DataStatus.SUCCESS;
+        state.workoutUpdateStatus = DataStatus.SUCCESS;
       })
       .addCase(deleteById.rejected, (state, action) => {
-        state.listingDeleteStatus = DataStatus.ERROR;
+        state.workoutDeleteStatus = DataStatus.ERROR;
         state.error = {
           code: action.error.code,
           message: action.error.message,
         };
-        notifyError(action.error.message || 'Failed to delete listing');
+        notifyError(action.error.message || 'Failed to delete workout');
       });
   },
 });

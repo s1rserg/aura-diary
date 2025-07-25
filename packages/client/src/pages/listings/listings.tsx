@@ -7,7 +7,7 @@ import {
 } from '~/components/components.js';
 import { EMPTY_LENGTH } from '~/common/constants/constants.js';
 
-import { actions as listingActions } from '~/store/listings/listings.js';
+import { actions as listingActions } from '~/store/workouts/workouts.js';
 
 import styles from './styles.module.css';
 import {
@@ -37,7 +37,7 @@ const Listings = (): JSX.Element => {
   const { onSearch, search } = useSearchFilters();
 
   const [listingToModifyId, setListingToModifyId] = useState<null | string>(
-    null
+    null,
   );
 
   const {
@@ -59,7 +59,7 @@ const Listings = (): JSX.Element => {
     (value: string) => {
       onSearch(value);
     },
-    [onSearch]
+    [onSearch],
   );
 
   useEffect(() => {
@@ -81,10 +81,10 @@ const Listings = (): JSX.Element => {
           name: search,
           page,
           pageSize,
-        })
+        }),
       );
     },
-    [dispatch, search]
+    [dispatch, search],
   );
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const Listings = (): JSX.Element => {
       setListingToModifyId(listing._id);
       handleEditModalOpen();
     },
-    [handleEditModalOpen]
+    [handleEditModalOpen],
   );
 
   const handleDeleteClick = useCallback(
@@ -138,26 +138,26 @@ const Listings = (): JSX.Element => {
       setListingToModifyId(listing._id);
       handleDeleteConfirmationModalOpen();
     },
-    [handleDeleteConfirmationModalOpen]
+    [handleDeleteConfirmationModalOpen],
   );
 
   const handleListingCreateSubmit = useCallback(
     (payload: ListingCreateRequestDto) => {
       void dispatch(listingActions.create(payload));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleListingEditSubmit = useCallback(
     (payload: ListingUpdateRequestDto) => {
       if (listingToModifyId) {
         void dispatch(
-          listingActions.update({ id: listingToModifyId, data: payload })
+          listingActions.update({ id: listingToModifyId, data: payload }),
         );
         setListingToModifyId(null);
       }
     },
-    [dispatch, listingToModifyId]
+    [dispatch, listingToModifyId],
   );
 
   const handleListingDeleteConfirm = useCallback(() => {

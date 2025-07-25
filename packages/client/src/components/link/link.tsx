@@ -1,13 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
-import { type AppRoute } from '~/libs/enums/enums.js';
-import { type ValueOf } from '~/libs/types/types.js';
-
 import styles from './styles.module.css';
+import { ValueOf } from '../../common/types/types';
+import { AppPath } from '../../common/enums/enums';
 
 type Properties = {
   children: React.ReactNode;
-  to: ValueOf<typeof AppRoute>;
+  to: ValueOf<typeof AppPath>;
 };
 
 const Link = ({ children, to }: Properties): JSX.Element => (

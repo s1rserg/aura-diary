@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { auth as authService } from '../services/services';
-import { listings as listingsService } from '../services/services';
+import { workouts as workoutsService } from '../services/services';
 import { exercises as exercisesService } from '../services/services';
 import { rootReducer } from './root-reducer';
 import { listenerMiddleware } from './middleware/401';
 
 const extraArgument = {
   authService,
-  listingsService,
+  workoutsService,
   exercisesService,
 };
 
