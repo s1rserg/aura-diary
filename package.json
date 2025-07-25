@@ -2,12 +2,15 @@
   "name": "aura-diary",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://s1rserg.github.io/aura-diary",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "dev:s": "npm run dev -w @aura-diary/server",
-    "dev:c": "npm run dev -w @aura-diary/client"
+    "dev:c": "npm run dev -w @aura-diary/client",
+    "predeploy": "npm run build -w @aura-diary/client",
+    "deploy": "gh-pages -d packages/client/dist"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +26,7 @@
     "eslint-plugin-prettier": "^5.5.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "gh-pages": "^6.3.0",
     "prettier": "^3.6.2"
   }
 }
