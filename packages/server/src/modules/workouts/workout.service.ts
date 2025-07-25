@@ -46,7 +46,7 @@ class WorkoutService {
       Workout.findAll({
         offset: skip,
         limit: perPage,
-        order: [['date', 'DESC']],
+        order: [['created_at', 'DESC']],
         include: [
           {
             model: WorkoutExercise,
@@ -90,7 +90,6 @@ class WorkoutService {
     const workout = await Workout.create(
       {
         name: data.name,
-        date: data.date,
         notes: data.notes ?? null,
       },
       { returning: true },
@@ -120,23 +119,21 @@ class WorkoutService {
   ): Promise<WorkoutDto | null> {
     const updated = await this.workoutRepository.update(id, {
       name: updates.name,
-      date: updates.date,
       notes: updates.notes,
     });
 
     return updated ? this.getById(id) : null;
   }
 
-  public async delete(id: string): Promise<boolean> {
-    const result = await this.workoutRepository.delete(id);
-    return result !== null;
+  public async delete(id: string): Promise<void> {
+    await this.workoutRepository.delete(id);
+    return;
   }
 
   private toDto(workout: Workout): WorkoutDto {
     return {
       id: workout.id,
       name: workout.name,
-      date: workout.date.toISOString(),
       notes: workout.notes,
       exercises: (workout.workout_exercises ?? []).map(
         (we): WorkoutExerciseDto => ({

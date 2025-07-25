@@ -30,7 +30,7 @@ const Exercises = (): JSX.Element => {
   const handleCloseFilters = () => setIsMobileFiltersOpen(false);
 
   const dispatch = useAppDispatch();
-  const { exercises, status, items } = useAppSelector(
+  const { exercises, status, totalItems } = useAppSelector(
     (state) => state.exercises,
   );
 
@@ -82,7 +82,7 @@ const Exercises = (): JSX.Element => {
   });
 
   const { page, perPage, nextPage, prevPage, setPerPage, setPage, totalPages } =
-    usePagination(items, 1, 10);
+    usePagination(totalItems, 1, 10);
 
   const { control, errors } = useAppForm({
     defaultValues: {
@@ -182,7 +182,7 @@ const Exercises = (): JSX.Element => {
     category.length;
 
   const itemsPlaceholder =
-    items === 0 &&
+    totalItems === 0 &&
     (hasSearch
       ? 'There are no exercises that suit applied filters.'
       : 'There are no exercises at the moment.');
@@ -199,7 +199,7 @@ const Exercises = (): JSX.Element => {
           <Button onClick={handleOpenFilters} label="Open Filters"></Button>
         </div>
         {isLoading && <Loader />}
-        {!isLoading && items > 0 ? (
+        {!isLoading && totalItems > 0 ? (
           <div className={styles['content-area']}>
             {exercises.map((exercise) => (
               <ExerciseCard key={exercise.id} exercise={exercise} />

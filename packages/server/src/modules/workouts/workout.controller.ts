@@ -38,8 +38,8 @@ class WorkoutController extends BaseController {
   public delete = (req: Request, res: Response, next: NextFunction) =>
     this.handleRequest(req, res, next, async () => {
       const workoutId = req.params.id;
-      const deleted = await this.workoutService.delete(workoutId);
-      this.sendResponse(res, { success: deleted }, 200);
+      await this.workoutService.delete(workoutId);
+      this.sendResponse(res, {}, 200);
     });
 }
 

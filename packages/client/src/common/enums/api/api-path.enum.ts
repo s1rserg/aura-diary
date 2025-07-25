@@ -9,6 +9,9 @@ const ApiPath = {
 
   // Exercises routes
   EXERCISES: '/exercises',
+
+  // Workouts routes
+  WORKOUTS: '/workouts',
 } as const;
 
 export { ApiPath };

@@ -23,13 +23,13 @@ class ExerciseService {
     const where = this.exerciseRepository.buildWhereClause(filter);
     console.log(where);
 
-    const [exercises, items] = await Promise.all([
+    const [exercises, totalItems] = await Promise.all([
       this.exerciseRepository.findAll(where, skip, perPage),
       this.exerciseRepository.count(where),
     ]);
 
     return {
-      items,
+      totalItems,
       data: exercises.map((exercise) => this.selectFields(exercise)),
     };
   }

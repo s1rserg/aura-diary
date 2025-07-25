@@ -13,10 +13,7 @@ class Workout extends Model<
 > {
   declare id: CreationOptional<string>;
   declare name: string;
-  declare date: Date;
   declare notes: string | null;
-  declare date_created: CreationOptional<Date>;
-  declare date_updated: CreationOptional<Date>;
 }
 
 Workout.init(
@@ -30,30 +27,16 @@ Workout.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     notes: {
       type: DataTypes.TEXT,
       allowNull: true,
-    },
-    date_created: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    date_updated: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
   },
   {
     sequelize,
     modelName: 'Workout',
     tableName: 'workouts',
-    timestamps: false,
+    timestamps: true,
   },
 );
 

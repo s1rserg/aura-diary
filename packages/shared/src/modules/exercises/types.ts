@@ -8,7 +8,7 @@ import {
 } from './enums';
 
 export type GetAllExercisesDto = {
-  items: number;
+  totalItems: number;
   data: ExerciseDto[];
 };
 

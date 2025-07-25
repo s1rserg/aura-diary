@@ -22,3 +22,26 @@ export type WorkoutDto = {
   notes: string | null;
   exercises: WorkoutExerciseDto[];
 };
+
+export type GetAllWorkoutsDto = {
+  totalItems: number;
+  data: WorkoutDto[];
+};
+
+export type WorkoutQueryOptions = {
+  date?: string;
+  page?: number;
+  perPage?: number;
+};
+
+export type WorkoutCreateRequestDto = {
+  name: string;
+  notes: string | null;
+  exercises: WorkoutExerciseDto[];
+};
+
+export type WorkoutUpdateRequestDto = {
+  name: string;
+  notes: string | null;
+  exercises: WorkoutExerciseDto[];
+};

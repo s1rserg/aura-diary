@@ -7,7 +7,7 @@ import { notifyError } from '~/utils/notification/notification';
 export interface ListingsState {
   exercise: null | ExerciseDto;
   exercises: ExerciseDto[];
-  items: number;
+  totalItems: number;
   status: ValueOf<typeof DataStatus>;
   exerciseStatus: ValueOf<typeof DataStatus>;
   error: { code: string | number | undefined; message: string | undefined };
@@ -16,7 +16,7 @@ export interface ListingsState {
 const initialState: ListingsState = {
   exercise: null,
   exercises: [],
-  items: 0,
+  totalItems: 0,
   status: DataStatus.IDLE,
   exerciseStatus: DataStatus.IDLE,
   error: { code: undefined, message: undefined },
@@ -33,7 +33,7 @@ const { reducer, actions, name } = createSlice({
       })
       .addCase(getAll.fulfilled, (state, action) => {
         state.exercises = action.payload.data;
-        state.items = action.payload.items;
+        state.totalItems = action.payload.totalItems;
         state.status = DataStatus.SUCCESS;
       })
       .addCase(getAll.rejected, (state, action) => {
