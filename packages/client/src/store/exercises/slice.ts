@@ -4,7 +4,7 @@ import { ExerciseDto, ValueOf } from '~/common/types/types';
 import { DataStatus } from '~/common/enums/enums';
 import { notifyError } from '~/utils/notification/notification';
 
-export interface ListingsState {
+export interface ExercisesState {
   exercise: null | ExerciseDto;
   exercises: ExerciseDto[];
   totalItems: number;
@@ -13,7 +13,7 @@ export interface ListingsState {
   error: { code: string | number | undefined; message: string | undefined };
 }
 
-const initialState: ListingsState = {
+const initialState: ExercisesState = {
   exercise: null,
   exercises: [],
   totalItems: 0,

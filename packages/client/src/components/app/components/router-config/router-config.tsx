@@ -8,6 +8,7 @@ import { Auth } from '~/pages/auth/auth';
 import { Main } from '~/pages/main/main';
 import { Exercises } from '~/pages/exercises/exercises';
 import { Exercise } from '../../../../pages/exercise/exercise';
+import { Workouts } from '../../../../pages/workouts/workouts';
 
 interface RouterConfigProps {
   user: UserDto | null;
@@ -51,6 +52,16 @@ export const createRoutes = ({
             user={user}
             authChecked={authChecked}
             element={<Exercise />}
+          />
+        ),
+      },
+      {
+        path: AppPath.WORKOUTS,
+        element: (
+          <ProtectedRoute
+            user={user}
+            authChecked={authChecked}
+            element={<Workouts />}
           />
         ),
       },

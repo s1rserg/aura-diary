@@ -7,7 +7,7 @@ import {
 } from '~/components/components.js';
 import { EMPTY_LENGTH } from '~/common/constants/constants.js';
 
-import { actions as listingActions } from '~/store/workouts/workouts.js';
+import { actions as workoutActions } from '~/store/workouts/workouts.js';
 
 import styles from './styles.module.css';
 import {
@@ -20,35 +20,34 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { DataStatus } from '~/common/enums/enums';
 import {
-  ListingCreateRequestDto,
-  ListingResponseDto,
-  ListingUpdateRequestDto,
+  WorkoutCreateRequestDto,
+  WorkoutDto,
+  WorkoutUpdateRequestDto,
 } from '~/common/types/types';
 import {
-  ListingCard,
-  ListingCreateForm,
-  ListingSearch,
-  ListingUpdateForm,
+  WorkoutCard,
+  WorkoutCreateForm,
+  WorkoutSearch,
 } from './libs/components/components';
 
-const Listings = (): JSX.Element => {
+const Workouts = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const { onSearch, search } = useSearchFilters();
 
-  const [listingToModifyId, setListingToModifyId] = useState<null | string>(
+  const [workoutToModifyId, setWorkoutToModifyId] = useState<null | string>(
     null,
   );
 
   const {
     status,
-    listing,
-    listingCreateStatus,
-    listingDeleteStatus,
-    listingUpdateStatus,
-    listings,
-    listingStatus,
-  } = useAppSelector(({ listings }) => listings);
+    workout,
+    workoutCreateStatus,
+    workoutDeleteStatus,
+    workoutUpdateStatus,
+    workouts,
+    workoutStatus,
+  } = useAppSelector(({ workouts }) => workouts);
 
   const { control, errors } = useAppForm({
     defaultValues: { search },
@@ -63,24 +62,24 @@ const Listings = (): JSX.Element => {
   );
 
   useEffect(() => {
-    if (listingToModifyId) {
-      void dispatch(listingActions.getById(String(listingToModifyId)));
+    if (workoutToModifyId) {
+      void dispatch(workoutActions.getById(String(workoutToModifyId)));
     }
-  }, [dispatch, listingToModifyId]);
+  }, [dispatch, workoutToModifyId]);
 
-  const hasListings = listings.length !== EMPTY_LENGTH;
+  const hasWorkouts = workouts.length !== EMPTY_LENGTH;
   const hasSearch = search.length !== EMPTY_LENGTH;
   const emptyPlaceholderMessage = hasSearch
-    ? 'No listings found matching your search criteria. Please try different keywords.'
-    : 'No listings created yet. Create the first listing now.';
+    ? 'No workouts found matching your search criteria. Please try different keywords.'
+    : 'No workouts created yet. Create the first workout now.';
 
-  const handleLoadListings = useCallback(
-    (page: number, pageSize: number) => {
+  const handleLoadWorkouts = useCallback(
+    (page: number, perPage: number) => {
       void dispatch(
-        listingActions.getAll({
+        workoutActions.getAll({
           name: search,
           page,
-          pageSize,
+          perPage,
         }),
       );
     },
@@ -88,8 +87,8 @@ const Listings = (): JSX.Element => {
   );
 
   useEffect(() => {
-    handleLoadListings(1, 10);
-  }, [handleLoadListings]);
+    handleLoadWorkouts(1, 10);
+  }, [handleLoadWorkouts]);
 
   const {
     isOpened: isCreateModalOpen,
@@ -108,79 +107,79 @@ const Listings = (): JSX.Element => {
   } = useModal();
 
   useEffect(() => {
-    if (listingCreateStatus === DataStatus.SUCCESS) {
+    if (workoutCreateStatus === DataStatus.SUCCESS) {
       handleCreateModalClose();
     }
-  }, [handleCreateModalClose, listingCreateStatus]);
+  }, [handleCreateModalClose, workoutCreateStatus]);
 
   useEffect(() => {
-    if (listingUpdateStatus === DataStatus.SUCCESS) {
+    if (workoutUpdateStatus === DataStatus.SUCCESS) {
       handleEditModalClose();
     }
-  }, [handleEditModalClose, listingUpdateStatus]);
+  }, [handleEditModalClose, workoutUpdateStatus]);
 
   useEffect(() => {
-    if (listingDeleteStatus === DataStatus.SUCCESS) {
+    if (workoutDeleteStatus === DataStatus.SUCCESS) {
       handleDeleteConfirmationModalClose();
     }
-  }, [handleDeleteConfirmationModalClose, listingDeleteStatus]);
+  }, [handleDeleteConfirmationModalClose, workoutDeleteStatus]);
 
   const handleEditClick = useCallback(
-    (listing: ListingResponseDto) => {
-      setListingToModifyId(listing._id);
+    (workout: WorkoutDto) => {
+      setWorkoutToModifyId(workout.id);
       handleEditModalOpen();
     },
     [handleEditModalOpen],
   );
 
   const handleDeleteClick = useCallback(
-    (listing: ListingResponseDto) => {
-      setListingToModifyId(listing._id);
+    (workout: WorkoutDto) => {
+      setWorkoutToModifyId(workout.id);
       handleDeleteConfirmationModalOpen();
     },
     [handleDeleteConfirmationModalOpen],
   );
 
-  const handleListingCreateSubmit = useCallback(
-    (payload: ListingCreateRequestDto) => {
-      void dispatch(listingActions.create(payload));
+  const handleWorkoutCreateSubmit = useCallback(
+    (payload: WorkoutCreateRequestDto) => {
+      void dispatch(workoutActions.create(payload));
     },
     [dispatch],
   );
 
-  const handleListingEditSubmit = useCallback(
-    (payload: ListingUpdateRequestDto) => {
-      if (listingToModifyId) {
+  const handleWorkoutEditSubmit = useCallback(
+    (payload: WorkoutUpdateRequestDto) => {
+      if (workoutToModifyId) {
         void dispatch(
-          listingActions.update({ id: listingToModifyId, data: payload }),
+          workoutActions.update({ id: workoutToModifyId, data: payload }),
         );
-        setListingToModifyId(null);
+        setWorkoutToModifyId(null);
       }
     },
-    [dispatch, listingToModifyId],
+    [dispatch, workoutToModifyId],
   );
 
-  const handleListingDeleteConfirm = useCallback(() => {
-    if (listingToModifyId) {
-      void dispatch(listingActions.deleteById(listingToModifyId));
+  const handleWorkoutDeleteConfirm = useCallback(() => {
+    if (workoutToModifyId) {
+      void dispatch(workoutActions.deleteById(workoutToModifyId));
     }
-  }, [dispatch, listingToModifyId]);
+  }, [dispatch, workoutToModifyId]);
 
   const isLoading =
     status === DataStatus.IDLE ||
-    (status === DataStatus.PENDING && !hasListings);
+    (status === DataStatus.PENDING && !hasWorkouts);
 
-  const isUpdateFormShown = listing && listingStatus === DataStatus.SUCCESS;
+  const isUpdateFormShown = workout && workoutStatus === DataStatus.SUCCESS;
 
   return (
     <PageLayout>
-      <header className={styles['listings-header']}>
-        <h1 className={styles['title']}>My Listings</h1>
+      <header className={styles['workouts-header']}>
+        <h1 className={styles['title']}>My Workouts</h1>
         <div>
           <Button label="Create New" onClick={handleCreateModalOpen} />
         </div>
       </header>
-      <ListingSearch
+      <WorkoutSearch
         control={control}
         errors={errors}
         name="search"
@@ -190,14 +189,14 @@ const Listings = (): JSX.Element => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={styles['listings-list']}>
-          {hasListings ? (
-            listings.map((listing) => (
-              <ListingCard
-                key={listing._id}
+        <div className={styles['workouts-list']}>
+          {hasWorkouts ? (
+            workouts.map((workout) => (
+              <WorkoutCard
+                key={workout.id}
                 onDelete={handleDeleteClick}
                 onEdit={handleEditClick}
-                listing={listing}
+                workout={workout}
               />
             ))
           ) : (
@@ -210,30 +209,31 @@ const Listings = (): JSX.Element => {
       <Modal
         isOpened={isCreateModalOpen}
         onClose={handleCreateModalClose}
-        title="Create new listing"
+        title="Create new workout"
       >
-        <ListingCreateForm onSubmit={handleListingCreateSubmit} />
+        <WorkoutCreateForm onSubmit={handleWorkoutCreateSubmit} />
       </Modal>
       <Modal
         isOpened={isEditModalOpen}
         onClose={handleEditModalClose}
-        title="Update listing"
+        title="Update workout"
       >
-        {isUpdateFormShown && (
-          <ListingUpdateForm
-            onSubmit={handleListingEditSubmit}
-            listing={listing}
-          />
-        )}
+        {isUpdateFormShown &&
+          123
+          // <WorkoutUpdateForm
+          //   onSubmit={handleWorkoutEditSubmit}
+          //   workout={workout}
+          // />
+        }
       </Modal>
       <ConfirmationModal
-        content="The listing will be deleted. This action cannot be undone. Click 'Confirm' to proceed."
+        content="The workout will be deleted. This action cannot be undone. Click 'Confirm' to proceed."
         isOpened={isDeleteConfirmationModalOpen}
         onClose={handleDeleteConfirmationModalClose}
-        onConfirm={handleListingDeleteConfirm}
+        onConfirm={handleWorkoutDeleteConfirm}
       />
     </PageLayout>
   );
 };
 
-export { Listings };
+export { Workouts };

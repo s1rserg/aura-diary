@@ -15,7 +15,7 @@ type Properties<T extends FieldValues> = {
   onChange: (search: string) => void;
 };
 
-const ListingSearch = <T extends FieldValues>({
+const WorkoutSearch = <T extends FieldValues>({
   control,
   errors,
   name,
@@ -27,13 +27,13 @@ const ListingSearch = <T extends FieldValues>({
         control={control}
         errors={errors}
         isLabelHidden
-        label="Listing search"
+        label="Workout search"
         name={name}
         onChange={onChange}
-        placeholder="Enter listing name"
+        placeholder="Enter workout name"
       />
     </div>
   );
 };
 
-export { ListingSearch };
+export { WorkoutSearch };

@@ -6,7 +6,7 @@ type Properties = {
   onEdit: () => void;
 };
 
-const ListingMenu = ({ onDelete, onEdit }: Properties): JSX.Element => {
+const WorkoutMenu = ({ onDelete, onEdit }: Properties): JSX.Element => {
   const { isOpened, onClose, onOpen } = usePopover();
 
   const handleEditClick = () => {
@@ -34,4 +34,4 @@ const ListingMenu = ({ onDelete, onEdit }: Properties): JSX.Element => {
   );
 };
 
-export { ListingMenu };
+export { WorkoutMenu };

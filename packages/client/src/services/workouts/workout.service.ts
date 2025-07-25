@@ -37,7 +37,8 @@ class Workouts {
     const token = getToken();
     const queryParams: Record<string, string> = {};
 
-    if (query.date) queryParams.name = query.date;
+    if (query.name) queryParams.name = query.name;
+    if (query.createdAt) queryParams.createdAt = query.createdAt;
     if (query.page !== undefined) queryParams.page = String(query.page);
     if (query.perPage !== undefined)
       queryParams.perPage = String(query.perPage);

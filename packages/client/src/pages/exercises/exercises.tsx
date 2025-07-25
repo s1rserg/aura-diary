@@ -20,8 +20,10 @@ import {
 import { useWatch } from 'react-hook-form';
 import styles from './styles.module.css';
 import { Filters } from './components/filters/filters';
-import { DataStatus } from '../../common/enums/enums';
+import { AppPath, DataStatus } from '../../common/enums/enums';
 import { ExerciseCard } from './components/exercise-card/exercise-card';
+import { configureString } from '../../helpers/helpers';
+import { Link } from 'react-router-dom';
 
 const Exercises = (): JSX.Element => {
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -202,7 +204,15 @@ const Exercises = (): JSX.Element => {
         {!isLoading && totalItems > 0 ? (
           <div className={styles['content-area']}>
             {exercises.map((exercise) => (
-              <ExerciseCard key={exercise.id} exercise={exercise} />
+              <Link
+                to={configureString(AppPath.EXERCISE, {
+                  exerciseId: exercise.id,
+                })}
+                className={styles.exercise}
+                key={exercise.id}
+              >
+                <ExerciseCard exercise={exercise} />
+              </Link>
             ))}
 
             <Pagination
@@ -224,6 +234,7 @@ const Exercises = (): JSX.Element => {
         isOpened={isMobileFiltersOpen}
         onClose={handleCloseFilters}
         title="Filters"
+        isBig={false}
       >
         <Filters control={control} errors={errors} />
       </Modal>

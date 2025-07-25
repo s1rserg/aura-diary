@@ -6,7 +6,7 @@ import { AppPath } from '../../common/enums/enums';
 
 type Properties = {
   children: React.ReactNode;
-  to: ValueOf<typeof AppPath>;
+  to: ValueOf<typeof AppPath> | string;
 };
 
 const Link = ({ children, to }: Properties): JSX.Element => (

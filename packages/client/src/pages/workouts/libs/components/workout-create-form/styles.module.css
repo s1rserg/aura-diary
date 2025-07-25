@@ -38,5 +38,7 @@
 }
 
 .button-wrapper {
-  min-width: 150px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
 }

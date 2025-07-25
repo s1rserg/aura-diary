@@ -8,6 +8,7 @@ type Properties = {
   isOpened: boolean;
   onClose: () => void;
   title: string;
+  isBig?: boolean;
 };
 
 const Modal = ({
@@ -15,6 +16,7 @@ const Modal = ({
   isOpened,
   onClose,
   title,
+  isBig = true,
 }: Properties): JSX.Element => {
   const dialogReference = useRef<HTMLDialogElement>(null);
 
@@ -31,6 +33,7 @@ const Modal = ({
       <dialog
         aria-label={title}
         className={styles['modal-container']}
+        style={isBig ? { minWidth: '800px' } : {}}
         ref={dialogReference}
       >
         <div className={styles['modal-content']}>
