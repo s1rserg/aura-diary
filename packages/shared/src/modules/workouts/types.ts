@@ -10,7 +10,6 @@ export type WorkoutSetDto = {
 export type WorkoutExerciseDto = {
   id: string;
   exerciseId: string;
-  name: string;
   order: number;
   sets: WorkoutSetDto[];
 };

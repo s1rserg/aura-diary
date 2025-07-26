@@ -48,7 +48,7 @@
   margin: 0 auto 1.5rem;
   height: 4rem;
   width: 4rem;
-  color: #818cf8; /* was: text-indigo-400 */
+  filter: brightness(0) invert(1);
 }
 
 .heroTitle {

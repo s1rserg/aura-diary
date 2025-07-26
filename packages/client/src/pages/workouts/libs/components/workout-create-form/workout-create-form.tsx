@@ -2,20 +2,28 @@ import { useFieldArray } from 'react-hook-form';
 import { Input, Button } from '~/components/components';
 import { useAppForm } from '~/hooks/hooks';
 import { DEFAULT_WORKOUT_CREATE_PAYLOAD } from './libs/constants/constants';
-import { WorkoutCreateRequestDto } from '~/common/types/types';
+import {
+  createWorkoutSchema,
+  ExerciseDto,
+  WorkoutCreateRequestDto,
+} from '~/common/types/types';
 import styles from './styles.module.css';
 import { WorkoutExerciseField } from '../workout-exercise-field/workout-exercise-field';
+import { useState } from 'react';
 
 type Props = {
   onSubmit: (payload: WorkoutCreateRequestDto) => void;
 };
 
 const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
-  const { control, errors, handleSubmit } = useAppForm<WorkoutCreateRequestDto>(
-    {
+  const [selectedExercises, setSelectedExercises] = useState<
+    Record<number, ExerciseDto>
+  >({});
+
+  const { control, errors, handleSubmit, handleErrorSet, handleValueSet } =
+    useAppForm<WorkoutCreateRequestDto>({
       defaultValues: DEFAULT_WORKOUT_CREATE_PAYLOAD,
-    },
-  );
+    });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -24,7 +32,24 @@ const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
 
   const handleFormSubmit = (event_: React.BaseSyntheticEvent): void => {
     void handleSubmit((formData: WorkoutCreateRequestDto) => {
-      onSubmit(formData);
+      console.log('formData', formData);
+
+      const schema = createWorkoutSchema(Object.values(selectedExercises));
+      const result = schema.safeParse(formData);
+
+      if (!result.success) {
+        console.error(result.error.format());
+        return;
+      }
+
+      for (const key in result.error.flatten().fieldErrors) {
+        const message = result.error.flatten().fieldErrors[key]?.[0];
+        if (message) {
+          handleErrorSet(key as any, { message });
+        }
+      }
+
+      onSubmit(result.data);
     })(event_);
   };
 
@@ -50,6 +75,8 @@ const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
           control={control}
           errors={errors}
           index={index}
+          setValue={handleValueSet}
+          handleSelectedExercises={setSelectedExercises}
           onRemove={() => remove(index)}
         />
       ))}

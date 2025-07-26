@@ -1,4 +1,4 @@
-import { useFieldArray, useWatch } from 'react-hook-form';
+import { useFieldArray, UseFormSetValue, useWatch } from 'react-hook-form';
 import { Button, Search, Loader } from '~/components/components';
 import { WorkoutSetField } from '../workout-set-field/workout-set-field';
 import styles from './styles.module.css';
@@ -8,16 +8,22 @@ import {
   useAppSelector,
   useSearchFilters,
 } from '../../../../../hooks/hooks';
-import { Fragment, useCallback, useState } from 'react';
-import { DataStatus } from '../../../../../common/enums/enums';
+import { useCallback, useState } from 'react';
+import { AppPath, DataStatus } from '../../../../../common/enums/enums';
 import { ExerciseCard } from '../../../../exercises/components/exercise-card/exercise-card';
 import { actions } from '../../../../../store/exercises/exercises';
+import { configureString } from '../../../../../helpers/helpers';
+import { ExerciseDto } from '../../../../../common/types/types';
 
 type Props = {
   index: number;
   control: any;
   errors: any;
   onRemove: () => void;
+  handleSelectedExercises: React.Dispatch<
+    React.SetStateAction<Record<number, ExerciseDto>>
+  >;
+  setValue: UseFormSetValue<any>;
 };
 
 const WorkoutExerciseField = ({
@@ -25,6 +31,8 @@ const WorkoutExerciseField = ({
   control,
   errors,
   onRemove,
+  handleSelectedExercises,
+  setValue,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const { exercises, status, totalItems, exercise, exerciseStatus } =
@@ -65,12 +73,33 @@ const WorkoutExerciseField = ({
 
   const [exerciseId, setExerciseId] = useState(0);
 
-  const handleCardClick = (event: any) => {
+  const addSet = () => {
+    append({
+      id: '',
+      reps: 0,
+      weight: null,
+      duration: null,
+      distance: null,
+      order: fields.length,
+    });
+  };
+
+  const handleCardClick = async (event: any) => {
     const card = event.target.closest('[data-id]');
     if (card) {
       const exerciseId = card.getAttribute('data-id');
       setExerciseId(exerciseId);
-      void dispatch(actions.getById(exerciseId));
+      await dispatch(actions.getById(exerciseId));
+      setValue(`exercises.${index}.exerciseId`, exerciseId);
+
+      if (exercise) {
+        handleSelectedExercises((prev) => ({
+          ...prev,
+          [index]: exercise,
+        }));
+      }
+
+      addSet();
     }
   };
 
@@ -106,39 +135,44 @@ const WorkoutExerciseField = ({
         <p>{itemsPlaceholder}</p>
       )}
       {exercise && (
-        <ExerciseCard
-          key={exerciseId}
-          exercise={exercise}
-          narrow
-          data-id={exerciseId}
-        />
+        <div
+          onClick={() => {
+            window.open(
+              configureString(AppPath.EXERCISE, {
+                exerciseId: '' + exerciseId,
+              }),
+              '_blank',
+            );
+          }}
+        >
+          <ExerciseCard
+            key={exerciseId}
+            exercise={exercise}
+            narrow
+            data-id={exerciseId}
+          />
+        </div>
       )}
-      {fields.map((set, setIndex) => (
-        <WorkoutSetField
-          key={set.id}
-          control={control}
-          errors={errors}
-          exerciseIndex={index}
-          setIndex={setIndex}
-          onRemove={() => remove(setIndex)}
-        />
-      ))}
+      {exercise &&
+        fields.map((set, setIndex) => (
+          <WorkoutSetField
+            key={set.id}
+            exercise={exercise}
+            isOnlySet={fields.length === 1}
+            control={control}
+            errors={errors}
+            exerciseIndex={index}
+            setIndex={setIndex}
+            onRemove={() => remove(setIndex)}
+          />
+        ))}
 
       <div className={styles['button-group']}>
         <Button
           type="button"
           variant="outlined"
           label="Add Set"
-          onClick={() =>
-            append({
-              id: '',
-              reps: 0,
-              weight: null,
-              duration: null,
-              distance: null,
-              order: fields.length,
-            })
-          }
+          onClick={addSet}
         />
         <Button
           type="button"

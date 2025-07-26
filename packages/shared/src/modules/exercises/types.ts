@@ -35,3 +35,5 @@ export type ExerciseQueryOptions = {
   page?: number;
   perPage?: number;
 };
+
+export type SetField = 'reps' | 'weight' | 'duration' | 'distance';
