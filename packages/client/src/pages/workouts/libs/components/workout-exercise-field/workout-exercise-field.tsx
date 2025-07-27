@@ -8,21 +8,18 @@ import {
   useAppSelector,
   useSearchFilters,
 } from '../../../../../hooks/hooks';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AppPath, DataStatus } from '../../../../../common/enums/enums';
 import { ExerciseCard } from '../../../../exercises/components/exercise-card/exercise-card';
 import { actions } from '../../../../../store/exercises/exercises';
 import { configureString } from '../../../../../helpers/helpers';
-import { ExerciseDto } from '../../../../../common/types/types';
+import { getApplicableFields } from '../../../../../common/types/types';
 
 type Props = {
   index: number;
   control: any;
   errors: any;
   onRemove: () => void;
-  handleSelectedExercises: React.Dispatch<
-    React.SetStateAction<Record<number, ExerciseDto>>
-  >;
   setValue: UseFormSetValue<any>;
 };
 
@@ -31,7 +28,6 @@ const WorkoutExerciseField = ({
   control,
   errors,
   onRemove,
-  handleSelectedExercises,
   setValue,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -74,14 +70,22 @@ const WorkoutExerciseField = ({
   const [exerciseId, setExerciseId] = useState(0);
 
   const addSet = () => {
-    append({
+    if (!exercise) {
+      return;
+    }
+
+    const applicableFields = getApplicableFields(exercise);
+
+    const newSet = {
       id: '',
-      reps: 0,
-      weight: null,
-      duration: null,
-      distance: null,
       order: fields.length,
-    });
+      ...(applicableFields.includes('reps') && { reps: 0 }),
+      ...(applicableFields.includes('weight') && { weight: 0 }),
+      ...(applicableFields.includes('duration') && { duration: 0 }),
+      ...(applicableFields.includes('distance') && { distance: 0 }),
+    };
+
+    append(newSet);
   };
 
   const handleCardClick = async (event: any) => {
@@ -91,17 +95,14 @@ const WorkoutExerciseField = ({
       setExerciseId(exerciseId);
       await dispatch(actions.getById(exerciseId));
       setValue(`exercises.${index}.exerciseId`, exerciseId);
-
-      if (exercise) {
-        handleSelectedExercises((prev) => ({
-          ...prev,
-          [index]: exercise,
-        }));
-      }
-
-      addSet();
     }
   };
+
+  useEffect(() => {
+    if (exercise && exerciseId && fields.length === 0) {
+      addSet();
+    }
+  }, [exercise]);
 
   return (
     <div className={styles['exercise-wrapper']}>
@@ -167,20 +168,22 @@ const WorkoutExerciseField = ({
           />
         ))}
 
-      <div className={styles['button-group']}>
-        <Button
-          type="button"
-          variant="outlined"
-          label="Add Set"
-          onClick={addSet}
-        />
-        <Button
-          type="button"
-          variant="danger"
-          label="Remove Exercise"
-          onClick={onRemove}
-        />
-      </div>
+      {!!exerciseId && exercise && (
+        <div className={styles['button-group']}>
+          <Button
+            type="button"
+            variant="outlined"
+            label="Add Set"
+            onClick={addSet}
+          />
+          <Button
+            type="button"
+            variant="danger"
+            label="Remove Exercise"
+            onClick={onRemove}
+          />
+        </div>
+      )}
     </div>
   );
 };

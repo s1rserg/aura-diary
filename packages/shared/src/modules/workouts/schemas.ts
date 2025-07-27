@@ -1,62 +1,68 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from 'zod';
-import { ExerciseDto } from '../exercises/types';
-import { getApplicableFields } from '../exercises/helpers';
 
-export const createWorkoutSchema = (exercisesMeta: ExerciseDto[]) => {
-  return z.object({
-    name: z.string().min(1, 'Workout name is required'),
+export const CreateWorkoutSchema = z
+  .object({
+    name: z.string().min(1, 'Workout name is required'), // ✅ handled by Zod directly
     notes: z.string().nullable(),
-    exercises: z
-      .array(z.any())
-      .min(1, 'At least one exercise is required')
-      .superRefine((exercises, ctx) => {
-        exercises.forEach((exercise: any, exerciseIndex: number) => {
-          const matchingExercise = exercisesMeta.find(
-            (e) => e.id === exercise.exerciseId,
-          );
-          if (!matchingExercise) {
-            ctx.addIssue({
-              path: [exerciseIndex],
-              code: z.ZodIssueCode.custom,
-              message: `Exercise metadata not found for exerciseId: ${exercise.exerciseId}`,
-            });
-            return;
-          }
-
-          if (
-            !exercise.sets ||
-            !Array.isArray(exercise.sets) ||
-            exercise.sets.length === 0
-          ) {
-            ctx.addIssue({
-              path: [exerciseIndex, 'sets'],
-              code: z.ZodIssueCode.too_small,
-              minimum: 1,
-              type: 'array',
-              inclusive: true,
-              message: 'Each exercise must have at least one set',
-              input: exercise.sets,
-              origin: 'array',
-            });
-            return;
-          }
-
-          const applicableFields = getApplicableFields(matchingExercise);
-
-          exercise.sets.forEach((set: any, setIndex: number) => {
-            applicableFields.forEach((field) => {
-              const value = set[field];
-              if (typeof value !== 'number' || value <= 0) {
-                ctx.addIssue({
-                  path: [exerciseIndex, 'sets', setIndex, field],
-                  code: z.ZodIssueCode.custom,
-                  message: `${field} must be a number greater than 0`,
-                });
-              }
-            });
-          });
-        });
+    exercises: z.array(
+      z.object({
+        exerciseId: z.string(), // optional validation, handled in .superRefine if needed
+        sets: z.array(
+          z.object({
+            reps: z.union([z.number(), z.undefined(), z.null()]),
+            weight: z.union([z.number(), z.undefined(), z.null()]),
+            duration: z.union([z.number(), z.undefined(), z.null()]),
+            distance: z.union([z.number(), z.undefined(), z.null()]),
+          }),
+        ),
       }),
+    ),
+  })
+  .superRefine((data, ctx) => {
+    const notesErrors: string[] = [];
+
+    if (!data.exercises || data.exercises.length === 0) {
+      notesErrors.push('At least one exercise is required.');
+    } else {
+      data.exercises.forEach((exercise, i) => {
+        const label = `Exercise ${i + 1}`;
+
+        if (!exercise.sets || exercise.sets.length === 0) {
+          notesErrors.push(`${label}: At least one set is required.`);
+          return;
+        }
+
+        exercise.sets.forEach((set, j) => {
+          const setLabel = `${label}, Set ${j + 1}`;
+
+          const checkIfPresentAndPositive = (
+            value: unknown,
+            fieldLabel: string,
+          ) => {
+            if (value !== undefined && value !== null) {
+              if (typeof value !== 'number' || value <= 0) {
+                notesErrors.push(
+                  `${setLabel}: ${fieldLabel} must be a positive number.`,
+                );
+              }
+            }
+          };
+
+          checkIfPresentAndPositive(set.reps, 'Reps');
+          checkIfPresentAndPositive(set.weight, 'Weight');
+          checkIfPresentAndPositive(set.duration, 'Duration');
+          checkIfPresentAndPositive(set.distance, 'Distance');
+        });
+      });
+    }
+
+    if (notesErrors.length > 0) {
+      console.warn('Workout validation errors:', notesErrors);
+
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['notes'],
+        message: notesErrors.join(' '),
+      });
+    }
   });
-};

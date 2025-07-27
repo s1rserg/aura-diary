@@ -42,3 +42,10 @@
   display: flex;
   gap: 20px;
 }
+
+.input-error {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--color-danger);
+}

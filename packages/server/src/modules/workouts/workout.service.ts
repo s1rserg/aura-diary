@@ -73,7 +73,6 @@ class WorkoutService {
 
   public async create(data: {
     name: string;
-    date: string;
     notes?: string;
     exercises: {
       exerciseId: string;

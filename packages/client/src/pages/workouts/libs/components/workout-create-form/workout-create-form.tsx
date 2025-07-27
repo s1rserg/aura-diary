@@ -3,26 +3,21 @@ import { Input, Button } from '~/components/components';
 import { useAppForm } from '~/hooks/hooks';
 import { DEFAULT_WORKOUT_CREATE_PAYLOAD } from './libs/constants/constants';
 import {
-  createWorkoutSchema,
-  ExerciseDto,
+  CreateWorkoutSchema,
   WorkoutCreateRequestDto,
 } from '~/common/types/types';
 import styles from './styles.module.css';
 import { WorkoutExerciseField } from '../workout-exercise-field/workout-exercise-field';
-import { useState } from 'react';
 
 type Props = {
   onSubmit: (payload: WorkoutCreateRequestDto) => void;
 };
 
 const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
-  const [selectedExercises, setSelectedExercises] = useState<
-    Record<number, ExerciseDto>
-  >({});
-
-  const { control, errors, handleSubmit, handleErrorSet, handleValueSet } =
+  const { control, errors, handleSubmit, handleValueSet } =
     useAppForm<WorkoutCreateRequestDto>({
       defaultValues: DEFAULT_WORKOUT_CREATE_PAYLOAD,
+      validationSchema: CreateWorkoutSchema,
     });
 
   const { fields, append, remove } = useFieldArray({
@@ -32,26 +27,11 @@ const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
 
   const handleFormSubmit = (event_: React.BaseSyntheticEvent): void => {
     void handleSubmit((formData: WorkoutCreateRequestDto) => {
-      console.log('formData', formData);
-
-      const schema = createWorkoutSchema(Object.values(selectedExercises));
-      const result = schema.safeParse(formData);
-
-      if (!result.success) {
-        console.error(result.error.format());
-        return;
-      }
-
-      for (const key in result.error.flatten().fieldErrors) {
-        const message = result.error.flatten().fieldErrors[key]?.[0];
-        if (message) {
-          handleErrorSet(key as any, { message });
-        }
-      }
-
-      onSubmit(result.data);
+      onSubmit(formData);
     })(event_);
   };
+
+  const notesErrorMessage = errors.notes?.message;
 
   return (
     <form className={styles['form-wrapper']} onSubmit={handleFormSubmit}>
@@ -61,13 +41,7 @@ const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
         control={control}
         errors={errors}
       />
-      <Input
-        label="Notes"
-        name="notes"
-        control={control}
-        errors={errors}
-        rowsCount={3}
-      />
+      <Input label="Notes" name="notes" control={control} rowsCount={3} />
 
       {fields.map((exercise, index) => (
         <WorkoutExerciseField
@@ -76,10 +50,13 @@ const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
           errors={errors}
           index={index}
           setValue={handleValueSet}
-          handleSelectedExercises={setSelectedExercises}
           onRemove={() => remove(index)}
         />
       ))}
+
+      {notesErrorMessage && (
+        <span className={styles['input-error']}>{notesErrorMessage}</span>
+      )}
 
       <div className={styles['button-wrapper']}>
         <Button
@@ -90,7 +67,6 @@ const WorkoutCreateForm = ({ onSubmit }: Props): JSX.Element => {
             append({
               id: '',
               exerciseId: '',
-              name: '',
               order: fields.length,
               sets: [],
             })

@@ -5,7 +5,7 @@ import { configureQueryString } from '~/helpers/helpers';
 type HttpOptions = {
   method: HttpMethod;
   contentType: ValueOf<typeof ContentType>;
-  payload: BodyInit | null;
+  payload: any;
   token?: string | null;
   query?: Record<string, string>;
 };
@@ -13,7 +13,7 @@ type HttpOptions = {
 class Http {
   public load<T = unknown>(
     path: string,
-    options: Partial<HttpOptions> = {}
+    options: Partial<HttpOptions> = {},
   ): Promise<T> {
     const {
       method = 'GET',
@@ -38,7 +38,7 @@ class Http {
 
   private getHeaders(
     contentType?: ValueOf<typeof ContentType>,
-    token?: string | null
+    token?: string | null,
   ): Headers {
     const headers = new Headers();
 

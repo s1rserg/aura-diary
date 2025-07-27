@@ -24,6 +24,7 @@ class WorkoutController extends BaseController {
 
   public create = (req: Request, res: Response, next: NextFunction) =>
     this.handleRequest(req, res, next, async () => {
+      console.log(req);
       const workout = await this.workoutService.create(req.body);
       this.sendResponse(res, workout, 201);
     });

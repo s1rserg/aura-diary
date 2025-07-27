@@ -55,7 +55,7 @@ const Input = <T extends FieldValues>({
     styles['input-field'],
     isTextArea && styles['input-textarea'],
     hasLeftIcon && styles['with-left-icon'],
-    hasRightIcon && styles['with-right-icon']
+    hasRightIcon && styles['with-right-icon'],
   );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +65,7 @@ const Input = <T extends FieldValues>({
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     if (isNumberInput) {
       field.onChange(e.target.value ? Number(e.target.value) : '');
@@ -79,7 +79,7 @@ const Input = <T extends FieldValues>({
       <span
         className={getValidClassNames(
           styles['input-label-text'],
-          isLabelHidden && 'visually-hidden'
+          isLabelHidden && 'visually-hidden',
         )}
       >
         {label}
@@ -89,7 +89,7 @@ const Input = <T extends FieldValues>({
           <div
             className={getValidClassNames(
               styles['input-icon'],
-              styles['input-icon-left']
+              styles['input-icon-left'],
             )}
           >
             {leftIcon}
@@ -117,7 +117,13 @@ const Input = <T extends FieldValues>({
             placeholder={placeholder}
             readOnly={isReadOnly}
             type={type}
-            value={isFileInput ? undefined : field.value}
+            value={
+              isFileInput
+                ? undefined
+                : isNumberInput
+                  ? (field.value ?? 0)
+                  : (field.value ?? '')
+            }
           />
         )}
 
@@ -125,7 +131,7 @@ const Input = <T extends FieldValues>({
           <div
             className={getValidClassNames(
               styles['input-icon'],
-              styles['input-icon-right']
+              styles['input-icon-right'],
             )}
           >
             {rightIcon}

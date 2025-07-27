@@ -1,4 +1,4 @@
-import { ApiPath } from '~/common/enums/enums';
+import { ApiPath, ContentType } from '~/common/enums/enums';
 import { Http } from '../http/http.service';
 import { getToken } from '~/utils/auth';
 import {
@@ -52,15 +52,12 @@ class Workouts {
 
   public create(data: WorkoutCreateRequestDto): Promise<WorkoutDto> {
     const token = getToken();
-
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value as string);
-    });
+    console.log(data);
 
     return this.http.load(this.getUrl(), {
       method: 'POST',
-      payload: formData,
+      contentType: ContentType.JSON,
+      payload: JSON.stringify(data),
       token,
     });
   }
