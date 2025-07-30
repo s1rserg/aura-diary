@@ -28,6 +28,7 @@ import {
   WorkoutCard,
   WorkoutCreateForm,
   WorkoutSearch,
+  WorkoutUpdateForm,
 } from './libs/components/components';
 
 const Workouts = (): JSX.Element => {
@@ -218,13 +219,12 @@ const Workouts = (): JSX.Element => {
         onClose={handleEditModalClose}
         title="Update workout"
       >
-        {isUpdateFormShown &&
-          123
-          // <WorkoutUpdateForm
-          //   onSubmit={handleWorkoutEditSubmit}
-          //   workout={workout}
-          // />
-        }
+        {isUpdateFormShown && (
+          <WorkoutUpdateForm
+            onSubmit={handleWorkoutEditSubmit}
+            workout={workout}
+          />
+        )}
       </Modal>
       <ConfirmationModal
         content="The workout will be deleted. This action cannot be undone. Click 'Confirm' to proceed."

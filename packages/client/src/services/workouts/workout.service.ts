@@ -52,7 +52,6 @@ class Workouts {
 
   public create(data: WorkoutCreateRequestDto): Promise<WorkoutDto> {
     const token = getToken();
-    console.log(data);
 
     return this.http.load(this.getUrl(), {
       method: 'POST',
@@ -68,13 +67,10 @@ class Workouts {
   ): Promise<WorkoutDto> {
     const token = getToken();
 
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value as string);
-    });
     return this.http.load(this.getUrl(`/${id}`), {
-      method: 'PATCH',
-      payload: formData,
+      method: 'PUT',
+      contentType: ContentType.JSON,
+      payload: JSON.stringify(data),
       token,
     });
   }

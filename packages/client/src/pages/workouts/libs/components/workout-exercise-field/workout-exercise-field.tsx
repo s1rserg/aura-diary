@@ -39,6 +39,11 @@ const WorkoutExerciseField = ({
     name: `exercises.${index}.sets`,
   });
 
+  const { fields: exerciseFields } = useFieldArray({
+    control,
+    name: 'exercises',
+  });
+
   const { onSearch, search } = useSearchFilters();
 
   const { control: searchControl, errors: searchErrors } = useAppForm({
@@ -58,16 +63,19 @@ const WorkoutExerciseField = ({
 
   const hasSearch = searchValue;
 
+  const [exerciseId, setExerciseId] = useState(
+    exerciseFields[index]?.exerciseId || 0,
+  );
+
   const itemsPlaceholder =
     totalItems === 0 &&
+    !exerciseId &&
     (hasSearch
       ? 'There are no exercises that suit applied filters.'
       : 'Please choose an exercise.');
 
   const areExercisesLoading = status === DataStatus.PENDING;
   const isExerciseLoading = exerciseStatus === DataStatus.PENDING;
-
-  const [exerciseId, setExerciseId] = useState(0);
 
   const addSet = () => {
     if (!exercise) {
@@ -93,10 +101,15 @@ const WorkoutExerciseField = ({
     if (card) {
       const exerciseId = card.getAttribute('data-id');
       setExerciseId(exerciseId);
-      await dispatch(actions.getById(exerciseId));
       setValue(`exercises.${index}.exerciseId`, exerciseId);
     }
   };
+
+  useEffect(() => {
+    if (exerciseId) {
+      void dispatch(actions.getById(exerciseId));
+    }
+  }, [exerciseId]);
 
   useEffect(() => {
     if (exercise && exerciseId && fields.length === 0) {
