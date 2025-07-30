@@ -64,7 +64,7 @@ const WorkoutExerciseField = ({
   const hasSearch = searchValue;
 
   const [exerciseId, setExerciseId] = useState(
-    exerciseFields[index]?.exerciseId || 0,
+    (exerciseFields[index] as any)?.exerciseId || 0,
   );
 
   const itemsPlaceholder =

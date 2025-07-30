@@ -10,7 +10,7 @@
     "dev:s": "npm run dev -w @aura-diary/server",
     "dev:c": "npm run dev -w @aura-diary/client",
     "predeploy": "npm run build -w @aura-diary/client",
-    "deploy": "gh-pages -d packages/client/dist"
+    "deploy": "gh-pages -d packages/client/dist --add"
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ import { DataStatus } from '~/common/enums/enums';
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const { user, status: authStatus } = useAppSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
   const [authChecked, setAuthChecked] = useState<boolean>(false);
 
@@ -33,7 +33,7 @@ const App: React.FC = () => {
     authChecked,
   });
 
-  const router = createBrowserRouter(routes);
+  const router = createHashRouter(routes);
 
   if (isLoading) {
     return <Loader />;

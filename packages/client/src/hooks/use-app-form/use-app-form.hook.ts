@@ -1,4 +1,3 @@
-import { ValidationSchema } from '~/common/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   type Control,
@@ -16,6 +15,14 @@ import {
   type UseFormTrigger,
   type ValidationMode,
 } from 'react-hook-form';
+
+import { ZodType } from 'zod';
+
+type ValidationSchema<T extends FieldValues = FieldValues> = ZodType<
+  T,
+  any,
+  any
+>;
 
 type Parameters<T extends FieldValues = FieldValues> = {
   defaultValues: DefaultValues<T>;
