@@ -75,7 +75,7 @@ const WorkoutUpdateForm = ({ onSubmit, workout }: Properties): JSX.Element => {
             })
           }
         />
-        <Button type="submit" label="Create Workout" />
+        <Button type="submit" label="Update Workout" />
       </div>
     </form>
   );

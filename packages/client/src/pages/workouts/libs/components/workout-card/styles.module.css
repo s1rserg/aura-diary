@@ -1,34 +1,62 @@
-.listing-container {
-  position: relative;
+.workout-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  min-height: 81px;
-  padding: 16px 24px;
+  align-items: flex-start;
   background-color: var(--color-background-secondary);
-  border: 1px solid var(--color-border-secondary);
-  border-radius: 8px;
-}
-
-.listing {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  width: 100%;
-  height: 100%;
+  border: 1px solid var(--color-border-primary);
+  border-radius: 12px;
   padding: 16px 24px;
-  font-size: 16px;
-  color: var(--color-text-primary);
-  text-decoration: none;
-  background: transparent;
+  box-shadow: var(--box-shadow);
+  margin-bottom: 16px;
+  transition: background-color 0.2s ease;
 }
 
-.listing-name {
-  flex-basis: min(300px, 30%);
-  min-width: 150px;
-  font-size: 16px;
-  line-height: 120%;
+.workout-link {
+  flex-grow: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.workout-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.workout-date {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.exercises {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exercise {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.exercise-name {
+  color: var(--color-text-primary);
+}
+
+.sets {
+  color: var(--color-text-secondary);
+}
+
+.more {
+  font-size: 0.85rem;
+  color: var(--color-brand-primary);
 }

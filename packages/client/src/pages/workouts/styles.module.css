@@ -5,12 +5,15 @@
   line-height: 120%;
 }
 
-.listings-header {
+.header {
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.listings-list {
+.list {
+  width: 100%;
   display: flex;
   flex: 1;
   flex-direction: column;

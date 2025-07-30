@@ -221,6 +221,7 @@ class WorkoutService {
       id: workout.id,
       name: workout.name,
       notes: workout.notes,
+      date: workout.createdAt,
       userId: workout.userId,
       exercises: (workout.WorkoutExercises ?? []).map(
         (we): WorkoutExerciseDto => ({

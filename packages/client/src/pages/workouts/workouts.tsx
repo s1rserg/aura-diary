@@ -174,23 +174,22 @@ const Workouts = (): JSX.Element => {
 
   return (
     <PageLayout>
-      <header className={styles['workouts-header']}>
+      <header className={styles['header']}>
         <h1 className={styles['title']}>My Workouts</h1>
+        <WorkoutSearch
+          control={control}
+          errors={errors}
+          name="search"
+          onChange={handleSearchChange}
+        />
         <div>
           <Button label="Create New" onClick={handleCreateModalOpen} />
         </div>
       </header>
-      <WorkoutSearch
-        control={control}
-        errors={errors}
-        name="search"
-        onChange={handleSearchChange}
-      />
-
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={styles['workouts-list']}>
+        <div className={styles['list']}>
           {hasWorkouts ? (
             workouts.map((workout) => (
               <WorkoutCard

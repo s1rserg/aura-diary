@@ -37,7 +37,7 @@ WorkoutSet.init(
     },
     reps: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     weight: {
       type: DataTypes.FLOAT,
