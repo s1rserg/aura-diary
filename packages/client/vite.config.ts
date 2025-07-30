@@ -11,6 +11,7 @@ export default defineConfig({
       include: '**/*.svg?react',
     }),
   ],
+  base: '/aura-diary/',
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src'),
