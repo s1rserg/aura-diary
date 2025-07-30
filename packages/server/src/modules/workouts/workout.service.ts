@@ -59,7 +59,6 @@ class WorkoutService {
               },
               {
                 model: Exercise,
-                attributes: ['id', 'name'],
               },
             ],
           },
@@ -239,6 +238,7 @@ class WorkoutService {
               order: set.order,
             }),
           ),
+          exercise: we.Exercise ?? undefined,
         }),
       ),
     };

@@ -8,6 +8,8 @@ import {
 } from 'sequelize';
 import sequelize from '../../libs/database/database';
 import { WorkoutExercise } from './workout-exercise.model';
+import { Exercise } from '../exercises/exercise.model';
+import { Workout } from './workout.model';
 
 class WorkoutSet extends Model<
   InferAttributes<WorkoutSet>,
@@ -61,5 +63,14 @@ WorkoutSet.init(
     timestamps: false,
   },
 );
+
+Exercise.hasMany(WorkoutExercise, { foreignKey: 'exercise_id' });
+WorkoutExercise.belongsTo(Exercise, { foreignKey: 'exercise_id' });
+
+Workout.hasMany(WorkoutExercise, { foreignKey: 'workout_id' });
+WorkoutExercise.belongsTo(Workout, { foreignKey: 'workout_id' });
+
+WorkoutExercise.hasMany(WorkoutSet, { foreignKey: 'workout_exercise_id' });
+WorkoutSet.belongsTo(WorkoutExercise, { foreignKey: 'workout_exercise_id' });
 
 export { WorkoutSet };

@@ -1,3 +1,4 @@
+import { ExerciseDto } from '../exercises/types';
 import { UserDto } from '../users/types';
 
 export type WorkoutSetDto = {
@@ -14,6 +15,7 @@ export type WorkoutExerciseDto = {
   exerciseId: string;
   order: number;
   sets: WorkoutSetDto[];
+  exercise?: ExerciseDto;
 };
 
 export type WorkoutDto = {
