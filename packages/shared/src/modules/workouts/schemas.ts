@@ -2,13 +2,15 @@ import { z } from 'zod';
 
 export const CreateWorkoutSchema = z
   .object({
-    name: z.string().min(1, 'Workout name is required'), // ✅ handled by Zod directly
+    name: z.string().min(1, 'Workout name is required'),
     notes: z.string().nullable(),
     exercises: z.array(
       z.object({
-        exerciseId: z.string(), // optional validation, handled in .superRefine if needed
+        exerciseId: z.string(),
+        order: z.number(),
         sets: z.array(
           z.object({
+            order: z.number(),
             reps: z.union([z.number(), z.undefined(), z.null()]),
             weight: z.union([z.number(), z.undefined(), z.null()]),
             duration: z.union([z.number(), z.undefined(), z.null()]),

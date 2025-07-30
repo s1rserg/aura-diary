@@ -3,6 +3,7 @@ import { WorkoutExercise } from './workout-exercise.model';
 import { WorkoutSet } from './workout-set.model';
 import { WorkoutRepository } from './workout.repository';
 import {
+  UserDto,
   WorkoutDto,
   WorkoutExerciseDto,
   WorkoutSetDto,
@@ -37,6 +38,7 @@ class WorkoutService {
   }
 
   public async getAll(
+    userId: UserDto['id'],
     page = 1,
     perPage = 10,
   ): Promise<{ data: WorkoutDto[]; total: number }> {
@@ -44,6 +46,7 @@ class WorkoutService {
 
     const [workouts, total] = await Promise.all([
       Workout.findAll({
+        where: { userId },
         offset: skip,
         limit: perPage,
         order: [['createdAt', 'DESC']],
@@ -71,23 +74,27 @@ class WorkoutService {
     };
   }
 
-  public async create(data: {
-    name: string;
-    notes?: string;
-    exercises: {
-      exerciseId: string;
-      order: number;
-      sets: {
-        reps: number;
-        weight?: number | null;
-        duration?: number | null;
-        distance?: number | null;
+  public async create(
+    userId: UserDto['id'],
+    data: {
+      name: string;
+      notes?: string;
+      exercises: {
+        exerciseId: string;
         order: number;
+        sets: {
+          reps: number;
+          weight?: number | null;
+          duration?: number | null;
+          distance?: number | null;
+          order: number;
+        }[];
       }[];
-    }[];
-  }): Promise<WorkoutDto> {
+    },
+  ): Promise<WorkoutDto> {
     const workout = await Workout.create(
       {
+        userId,
         name: data.name,
         notes: data.notes ?? null,
       },
@@ -113,20 +120,101 @@ class WorkoutService {
   }
 
   public async update(
+    userId: UserDto['id'],
     id: string,
-    updates: Partial<Omit<WorkoutDto, 'exercises'>>,
+    updates: Partial<Omit<WorkoutDto, 'id'>>,
   ): Promise<WorkoutDto | null> {
-    const updated = await this.workoutRepository.update(id, {
-      name: updates.name,
-      notes: updates.notes,
-    });
+    const existingWorkout = await this.getById(id);
+    if (!existingWorkout || existingWorkout.userId !== userId) {
+      throw { status: 403, errors: 'Operation is forbidden.' };
+    }
 
-    return updated ? this.getById(id) : null;
+    const trx = await Workout.sequelize!.transaction();
+
+    try {
+      await this.workoutRepository.update(id, {
+        name: updates.name,
+        notes: updates.notes,
+      });
+
+      if (updates.exercises) {
+        const workoutExercises = await WorkoutExercise.findAll({
+          where: { workout_id: id },
+        });
+
+        for (const we of workoutExercises) {
+          await WorkoutSet.destroy({
+            where: { workout_exercise_id: we.id },
+            transaction: trx,
+          });
+        }
+
+        await WorkoutExercise.destroy({
+          where: { workout_id: id },
+          transaction: trx,
+        });
+
+        for (const exercise of updates.exercises) {
+          const newWorkoutExercise = await WorkoutExercise.create(
+            {
+              workout_id: id,
+              exercise_id: exercise.exerciseId,
+              order: exercise.order,
+            },
+            { transaction: trx },
+          );
+
+          for (const set of exercise.sets) {
+            await WorkoutSet.create(
+              {
+                workout_exercise_id: newWorkoutExercise.id,
+                ...set,
+              },
+              { transaction: trx },
+            );
+          }
+        }
+      }
+
+      await trx.commit();
+      return await this.getById(id);
+    } catch (err) {
+      await trx.rollback();
+      throw err;
+    }
   }
 
-  public async delete(id: string): Promise<void> {
-    await this.workoutRepository.delete(id);
-    return;
+  public async delete(userId: UserDto['id'], id: string): Promise<void> {
+    const workout = await this.getById(id);
+    if (!workout || workout.userId !== userId) {
+      throw { status: 403, errors: 'Operation is forbidden.' };
+    }
+
+    const trx = await Workout.sequelize!.transaction();
+
+    try {
+      const workoutExercises = await WorkoutExercise.findAll({
+        where: { workout_id: id },
+      });
+
+      for (const we of workoutExercises) {
+        await WorkoutSet.destroy({
+          where: { workout_exercise_id: we.id },
+          transaction: trx,
+        });
+      }
+
+      await WorkoutExercise.destroy({
+        where: { workout_id: id },
+        transaction: trx,
+      });
+      await Workout.destroy({ where: { id }, transaction: trx });
+
+      await trx.commit();
+    } catch (error) {
+      await trx.rollback();
+      throw error;
+    }
   }
 
   private toDto(workout: Workout): WorkoutDto {
@@ -134,13 +222,14 @@ class WorkoutService {
       id: workout.id,
       name: workout.name,
       notes: workout.notes,
-      exercises: (workout.workout_exercises ?? []).map(
+      userId: workout.userId,
+      exercises: (workout.WorkoutExercises ?? []).map(
         (we): WorkoutExerciseDto => ({
           id: we.id,
           exerciseId: we.exercise?.id ?? we.exercise_id,
           name: we.exercise?.name ?? 'Unknown',
           order: we.order,
-          sets: (we.workout_sets ?? []).map(
+          sets: (we.WorkoutSets ?? []).map(
             (set): WorkoutSetDto => ({
               id: set.id,
               reps: set.reps,

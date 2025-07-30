@@ -1,3 +1,5 @@
+import { UserDto } from '../users/types';
+
 export type WorkoutSetDto = {
   id: string;
   reps: number;
@@ -20,6 +22,7 @@ export type WorkoutDto = {
   date: string;
   notes: string | null;
   exercises: WorkoutExerciseDto[];
+  userId: UserDto['id'];
 };
 
 export type GetAllWorkoutsDto = {
