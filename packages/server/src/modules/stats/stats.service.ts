@@ -52,8 +52,8 @@ class StatsService {
       const dateKey = workout.createdAt.toISOString().split('T')[0];
       workoutsPerDay[dateKey] = (workoutsPerDay[dateKey] || 0) + 1;
 
-      for (const workoutExercise of workout.workout_exercises || []) {
-        const exercise = workoutExercise.exercise;
+      for (const workoutExercise of workout.WorkoutExercises || []) {
+        const exercise = workoutExercise.Exercise;
         if (!exercise) continue;
 
         // Count primary muscles
@@ -65,7 +65,7 @@ class StatsService {
         const category = exercise.category;
         categoryMap[category] = (categoryMap[category] || 0) + 1;
 
-        for (const set of workoutExercise.workout_sets || []) {
+        for (const set of workoutExercise.WorkoutSets || []) {
           if (set.reps && set.weight) {
             totalVolume += set.reps * set.weight;
           }
