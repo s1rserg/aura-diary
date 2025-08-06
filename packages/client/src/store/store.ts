@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { auth as authService } from '../services/services';
 import { workouts as workoutsService } from '../services/services';
 import { exercises as exercisesService } from '../services/services';
+import { stats as statsService } from '../services/services';
 import { rootReducer } from './root-reducer';
 import { listenerMiddleware } from './middleware/401';
 
@@ -9,6 +10,7 @@ const extraArgument = {
   authService,
   workoutsService,
   exercisesService,
+  statsService,
 };
 
 const store = configureStore({

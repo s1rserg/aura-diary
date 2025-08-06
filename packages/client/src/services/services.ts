@@ -3,6 +3,7 @@ import { Auth } from './auth/auth.service';
 import { ApiPath } from '~/common/enums/enums';
 import { Exercises } from './exercises/exercise.service';
 import { Workouts } from './workouts/workout.service';
+import { Stats } from './stats/stats.service';
 
 const http = new Http();
 
@@ -21,4 +22,9 @@ const workouts = new Workouts({
   http,
 });
 
-export { http, auth, exercises, workouts };
+const stats = new Stats({
+  baseUrl: ApiPath.API_URL,
+  http,
+});
+
+export { http, auth, exercises, workouts, stats };
