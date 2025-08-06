@@ -52,6 +52,9 @@ const Header = (): JSX.Element => {
         {currentPath != AppPath.WORKOUTS && (
           <HeaderLink label="My Workouts" link={AppPath.WORKOUTS} />
         )}
+        {currentPath != AppPath.STATS && (
+          <HeaderLink label="My Stats" link={AppPath.STATS} />
+        )}
         <UserPopover
           email={email}
           isOpened={isUserOpened}
