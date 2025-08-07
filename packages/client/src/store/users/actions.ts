@@ -5,17 +5,14 @@ import { actions as authActions } from '~/store/auth/auth';
 
 const update = createAsyncThunk<
   void,
-  { id: string; data: Partial<UserDto> },
+  { data: Partial<UserDto> },
   AsyncThunkConfig
->(
-  `${name}/update`,
-  async ({ id, data }, { dispatch, extra: { usersService } }) => {
-    await usersService.update(id, data);
-    setTimeout(async () => {
-      await dispatch(authActions.fetchAuthenticatedUser());
-    }, 1000);
-  },
-);
+>(`${name}/update`, async ({ data }, { dispatch, extra: { usersService } }) => {
+  await usersService.update(data);
+  setTimeout(async () => {
+    await dispatch(authActions.fetchAuthenticatedUser());
+  }, 1000);
+});
 
 const deleteCurrentUser = createAsyncThunk<void, undefined, AsyncThunkConfig>(
   `${name}/delete-current-user`,

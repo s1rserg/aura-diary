@@ -21,10 +21,10 @@ class Users {
     this.basePath = ApiPath.USERS;
   }
 
-  public update(id: string, data: Partial<UserDto>): Promise<UserDto> {
+  public update(data: Partial<UserDto>): Promise<UserDto> {
     const token = getToken();
 
-    return this.http.load(this.getUrl(`/${id}`), {
+    return this.http.load(this.getUrl(), {
       method: 'PATCH',
       contentType: ContentType.JSON,
       payload: JSON.stringify(data),

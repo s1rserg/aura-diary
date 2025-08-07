@@ -10,6 +10,7 @@ import { Exercises } from '~/pages/exercises/exercises';
 import { Exercise } from '../../../../pages/exercise/exercise';
 import { Workouts } from '../../../../pages/workouts/workouts';
 import StatsPage from '../../../../pages/stats/stats';
+import { Profile } from '../../../../pages/profile/profile';
 
 interface RouterConfigProps {
   user: UserDto | null;
@@ -73,6 +74,16 @@ export const createRoutes = ({
             user={user}
             authChecked={authChecked}
             element={<StatsPage userId={user?.id} />}
+          />
+        ),
+      },
+      {
+        path: AppPath.PROFILE,
+        element: (
+          <ProtectedRoute
+            user={user}
+            authChecked={authChecked}
+            element={<Profile />}
           />
         ),
       },

@@ -24,3 +24,11 @@ export const signInRequestSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters long'),
 });
+
+export const UserPatchRequestSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: 'Name is required' })
+    .max(100, { message: 'Name must be at most 100 characters' })
+    .optional(),
+});
