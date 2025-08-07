@@ -67,6 +67,33 @@ class UserController extends BaseController {
         this.sendResponse(res, { user }, 200);
       },
     );
+
+  public patch = (req: Request, res: Response, next: NextFunction) =>
+    this.handleRequest(
+      req,
+      res,
+      next,
+      async (req: AuthRequest, res: Response) => {
+        const userId = req.user?.id as string;
+
+        const updatedUser = this.userService.update(req.body, userId);
+
+        this.sendResponse(res, { updatedUser }, 200);
+      },
+    );
+
+  public delete = (req: Request, res: Response, next: NextFunction) =>
+    this.handleRequest(
+      req,
+      res,
+      next,
+      async (req: AuthRequest, res: Response) => {
+        const userId = req.user?.id as string;
+        const result = this.userService.delete(userId);
+
+        this.sendResponse(res, result, 200);
+      },
+    );
 }
 
 export { UserController };

@@ -8,4 +8,7 @@ const userController = new UserController();
 
 router.get('/toggle-privacy', authMiddleware, userController.togglePrivacy);
 
+router.patch('/', authMiddleware, userController.patch);
+router.delete('/', authMiddleware, userController.delete);
+
 export default router;

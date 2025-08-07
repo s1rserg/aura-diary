@@ -55,6 +55,24 @@ class UserService {
     return this.selectUserFields(user);
   }
 
+  public async update(userPayload: Partial<UserDto>, id: string) {
+    const updatedUser = await this.userRepository.update(id, userPayload);
+    if (!updatedUser) {
+      throw { status: 500, errors: 'Error happened while updating the user.' };
+    }
+
+    return this.selectUserFields(updatedUser);
+  }
+
+  public async delete(id: string) {
+    const deletedUser = await this.userRepository.delete(id);
+    if (!deletedUser) {
+      throw { status: 500, errors: 'Error happened while deleting the user.' };
+    }
+
+    return true;
+  }
+
   private selectUserFields(user: UserModel): UserDto {
     return {
       id: user.id,
