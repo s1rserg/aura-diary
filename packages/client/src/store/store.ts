@@ -3,6 +3,7 @@ import { auth as authService } from '../services/services';
 import { workouts as workoutsService } from '../services/services';
 import { exercises as exercisesService } from '../services/services';
 import { stats as statsService } from '../services/services';
+import { users as usersService } from '../services/services';
 import { rootReducer } from './root-reducer';
 import { listenerMiddleware } from './middleware/401';
 
@@ -11,6 +12,7 @@ const extraArgument = {
   workoutsService,
   exercisesService,
   statsService,
+  usersService,
 };
 
 const store = configureStore({

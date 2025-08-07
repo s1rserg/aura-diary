@@ -7,6 +7,9 @@ const ApiPath = {
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
 
+  // Users routes
+  USERS: '/users',
+
   // Exercises routes
   EXERCISES: '/exercises',
 
