@@ -1,34 +1,92 @@
-# Aura Diary
+# 💪 Aura Diary
 
-Welcome to the Aura Diary! This app is designed to help you track your biceps workouts, record your progress, and stay motivated. Whether you're a fitness enthusiast or just starting out, this app provides a simple and effective way to journal your workouts and see your improvement over time.
+*A modern workout tracker web application*
 
-## Project Overview
+Aura Diary helps you track, plan, and reflect on your workouts. With detailed exercise data, custom workout creation, progress history, and stats visualization, it's your all-in-one fitness companion.
 
-This repository contains the full frontend and backend code for the Aura Diary app. The project is written in TypeScript to ensure type safety and improve code maintainability.
+---
 
-## How to start
+## ✨ Features
 
-1. npm i
-2. fill .env files in server and client directories
-3. npm run dev:s
-4. npm run dev:c
+- **🔐 Authentication**
+  - Sign up, sign in
+  - Update profile name
+  - Delete account
 
-## Features
+- **📚 Exercise Library**
+  - Browse exercises with filters
+  - View photos and step-by-step instructions
+  - See primary muscles, mechanics, category, equipment, force, and level
 
-- #### Workout Tracking: Log your biceps workouts with details like duration, rating, location, trigger, energy levels before and after, and the number of times performed.
-- #### Manipulating workout entries: Edit, and delete workout entries. View all your entries in a calendar format.
-- #### User Authentication: Securely sign in and manage your workout journal.
-- #### Notifications: Get feedback on successful operations or errors while managing your workouts.
-- #### Statistics: Visualize your progress and workout trends with detailed statistics.
-- #### Friends: Connect with friends, share your progress, and stay motivated together.
-- #### Leaderboards: Compete with others and see how you rank in various challenges.
+- **📝 Workout Builder**
+  - Create workouts with name and notes
+  - Add exercises and sets (reps, duration, weight, distance)
+  - Edit or delete workouts and sets
 
-## Future Features
+- **📅 Workout History**
+  - View your full workout history
 
-All the necessary features have been implemented. However, we welcome suggestions for new features to enhance the app further.
+- **📊 Statistics Dashboard**
+  - Track activity by week, month, and year
+  - Visual breakdown by muscle groups, categories, total weight lifted, and time spent
 
-## Technologies Used
+- **🧑‍🤝‍🧑 Coming Soon**
+  - Add friends
+  - Compare and view each other's progress
 
-- #### Frontend: React, React Router, Redux Toolkit, TypeScript
-- #### Backend: Node.js + TypeScript, Express, Sequelize, PostgreSQL
-- #### Styling: CSS
+---
+
+## 🚀 Getting Started
+
+```bash
+npm i                   # Install dependencies
+# Fill out the .env files in /server and /client
+npm run db:seed         # Seed the database
+npm run dev:s           # Start backend server
+npm run dev:c           # Start frontend React app
+```
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**:  
+  React, React Router, Redux Toolkit, TypeScript, React Hook Form
+
+- **Backend**:  
+  Node.js, TypeScript, Express, Sequelize, PostgreSQL
+
+- **Styling**:  
+  CSS Modules
+
+---
+
+## 🌐 Deployment
+
+- **Frontend**: GitHub Pages  
+- **Backend**: Render
+
+---
+
+## 🗺️ Future Plans
+
+- Social features (friendship system)
+- Progress comparison
+- Leaderboards
+- Custom analytics and insights
+
+---
+
+## 📸 Screenshots
+
+*Coming soon...*
+
+---
+
+## 🧠 Contribute
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
+
+---
+
+**Built with love and discipline. Stay consistent! 🏆**
